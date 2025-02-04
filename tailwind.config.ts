@@ -58,6 +58,40 @@ export default {
                     "4": "hsl(var(--chart-4))",
                     "5": "hsl(var(--chart-5))",
                 },
+                nord: {
+                    polar: {
+                        "1": "var(--polar-night-1)",
+                        "2": "var(--polar-night-2)",
+                        "3": "var(--polar-night-3)",
+                        "4": "var(--polar-night-4)",
+                    },
+                    snow: {
+                        "1": "var(--snow-storm-1)",
+                        "2": "var(--snow-storm-2)",
+                        "3": "var(--snow-storm-3)",
+                    },
+                    frost: {
+                        "1": "var(--frost-1)",
+                        "2": "var(--frost-2)",
+                        "3": "var(--frost-3)",
+                        "4": "var(--frost-4)",
+                    },
+                    red: {
+                        DEFAULT: "var(--aurora-red)",
+                    },
+                    orange: {
+                        DEFAULT: "var(--aurora-orange)",
+                    },
+                    yellow: {
+                        DEFAULT: "var(--aurora-yellow)",
+                    },
+                    green: {
+                        DEFAULT: "var(--aurora-green)",
+                    },
+                    purple: {
+                        DEFAULT: "var(--aurora-purple)",
+                    },
+                },
             },
         },
     },

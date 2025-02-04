@@ -7,7 +7,7 @@ export function ThemeToggle() {
     const { toggleTheme } = useTheme();
 
     return (
-        <Button variant="outline" onClick={toggleTheme} className="mt-8">
+        <Button variant="destructive" onClick={toggleTheme} className="mt-8">
             Toggle theme
         </Button>
     );

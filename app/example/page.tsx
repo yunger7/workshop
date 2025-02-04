@@ -27,6 +27,9 @@ export default function EaxmplePage() {
             <p className="text-sm text-muted-foreground">
                 This is an example page.
             </p>
+            <div className="mt-4">
+                <Input placeholder="Search..." />
+            </div>
             <Card className="mt-8 w-[350px]">
                 <CardHeader>
                     <CardTitle>Create project</CardTitle>
