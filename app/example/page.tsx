@@ -18,6 +18,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { ThemeToggle } from "@/app/example/theme-toggle";
 
 export default function EaxmplePage() {
     return (
@@ -73,6 +74,7 @@ export default function EaxmplePage() {
                     <Button>Deploy</Button>
                 </CardFooter>
             </Card>
+            <ThemeToggle />
         </main>
     );
 }

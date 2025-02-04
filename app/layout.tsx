@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { cn } from "@/lib/utils";
 import { jetBrainsMono } from "@/app/fonts";
+import { ThemeProvider } from "@/contexts/theme";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -15,12 +15,16 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body
-                className={cn(
-                    jetBrainsMono.variable,
-                    "min-h-screen p-4 font-mono text-sm",
-                )}
+                className={`${jetBrainsMono.variable} min-h-screen p-4 font-mono text-sm`}
             >
-                {children}
+                <ThemeProvider
+                    disableTransitionOnChange
+                    enableSystem={false}
+                    attribute="class"
+                    defaultTheme="dark"
+                >
+                    {children}
+                </ThemeProvider>
             </body>
         </html>
     );
