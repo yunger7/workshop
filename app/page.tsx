@@ -64,7 +64,7 @@ export default function Home() {
             </ul>
             <div className="flex flex-col items-center gap-2 text-center">
                 <span>yunger.dev</span>
-                <span className="text-sm">v0.1.0-2ba1f6b</span>
+                <span className="text-xs">v0.1.0-2ba1f6b</span>
             </div>
         </main>
     );

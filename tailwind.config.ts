@@ -2,6 +2,12 @@ import type { Config } from "tailwindcss";
 
 export default {
     content: ["./app/**/*.{js,ts,jsx,tsx,mdx}"],
-    theme: {},
+    theme: {
+        extend: {
+            fontFamily: {
+                mono: ["var(--font-jet-brains-mono)"],
+            },
+        },
+    },
     plugins: [],
 } satisfies Config;

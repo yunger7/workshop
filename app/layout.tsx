@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { jetBrainsMono } from "@/app/fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -12,7 +13,9 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className="min-h-screen bg-zinc-800 p-4 text-zinc-200">
+            <body
+                className={`${jetBrainsMono.variable} min-h-screen bg-zinc-800 p-4 font-mono text-sm text-zinc-200`}
+            >
                 {children}
             </body>
         </html>
