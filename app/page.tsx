@@ -1,4 +1,13 @@
-import { IconSettings, IconSearch, IconX, IconTool, IconPackage, IconMail, IconPencil, IconHelp } from "@tabler/icons-react";
+import {
+    IconSettings,
+    IconSearch,
+    IconX,
+    IconTool,
+    IconPackage,
+    IconMail,
+    IconPencil,
+    IconHelp,
+} from "@tabler/icons-react";
 
 const options = [
     { name: "Find", icon: IconSearch, shortcut: "f" },
@@ -12,7 +21,7 @@ const options = [
 
 export default function Home() {
     return (
-        <main className="flex flex-col justify-center items-center gap-8">
+        <main className="flex flex-col items-center justify-center gap-8">
             <pre className="text-xs">
                 {`
                                           
@@ -39,26 +48,23 @@ export default function Home() {
                  ++++++++                 
                 `}
             </pre>
-            <ul className="flex flex-col gap-5 items-center w-full max-w-lg">
+            <ul className="flex w-full max-w-lg flex-col items-center gap-5">
                 {options.map(({ name, icon: Icon, shortcut }) => (
-                    <li key={name} className="flex items-center justify-between w-full">
-                        <span className="flex items-center gap-2 w-full">
+                    <li
+                        key={name}
+                        className="flex w-full items-center justify-between"
+                    >
+                        <span className="flex w-full items-center gap-2">
                             <Icon className="size-4" />
                             {name}
                         </span>
-                        <span className="ml-4">
-                            {shortcut}
-                        </span>
+                        <span className="ml-4">{shortcut}</span>
                     </li>
                 ))}
             </ul>
-            <div className="text-center flex flex-col items-center gap-2">
-                <span>
-                    yunger.dev
-                </span>
-                <span className="text-sm">
-                    v0.1.0-2ba1f6b
-                </span>
+            <div className="flex flex-col items-center gap-2 text-center">
+                <span>yunger.dev</span>
+                <span className="text-sm">v0.1.0-2ba1f6b</span>
             </div>
         </main>
     );
