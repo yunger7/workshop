@@ -4,7 +4,6 @@ import {
     IconX,
     IconTool,
     IconPackage,
-    IconMail,
     IconPencil,
     IconHelp,
 } from "@tabler/icons-react";

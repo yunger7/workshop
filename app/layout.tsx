@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { cn } from "@/lib/utils";
 import { jetBrainsMono } from "@/app/fonts";
 import "./globals.css";
 
@@ -14,7 +15,10 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body
-                className={`${jetBrainsMono.variable} min-h-screen bg-zinc-800 p-4 font-mono text-sm text-zinc-200`}
+                className={cn(
+                    jetBrainsMono.variable,
+                    "min-h-screen p-4 font-mono text-sm",
+                )}
             >
                 {children}
             </body>
