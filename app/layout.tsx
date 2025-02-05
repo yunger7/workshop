@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { jetBrainsMono } from "@/app/fonts";
 import { ThemeProvider } from "@/contexts/theme";
+import { TopLoader } from "@/components/top-loader";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -23,6 +24,7 @@ export default function RootLayout({
                     attribute="class"
                     defaultTheme="dark"
                 >
+                    <TopLoader />
                     {children}
                 </ThemeProvider>
             </body>

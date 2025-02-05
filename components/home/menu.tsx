@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "nextjs-toploader/app";
 import {
     Icon,
     IconProps,
@@ -21,20 +22,48 @@ type Option = {
         IconProps & React.RefAttributes<Icon>
     >;
     shortcut: string;
+    action: () => void;
 };
 
-const options: Option[] = [
-    { name: "Find", icon: IconSearch, shortcut: "f" },
-    { name: "Writing", icon: IconPencil, shortcut: "w" },
-    { name: "Projects", icon: IconPackage, shortcut: "p" },
-    { name: "Tools", icon: IconTool, shortcut: "t" },
-    { name: "About", icon: IconUser, shortcut: "a" },
-    { name: "Settings", icon: IconSettings, shortcut: "s" },
-    { name: "Quit", icon: IconX, shortcut: "q" },
-];
-
 export function Menu() {
+    const router = useRouter();
+
     const [selectedIndex, setSelectedIndex] = useState(0);
+
+    const actions = {
+        find: () => console.log("find"),
+        writing: () => router.push("/writing"),
+        projects: () => router.push("/projects"),
+        tools: () => router.push("/tools"),
+        about: () => router.push("/about"),
+        settings: () => router.push("/settings"),
+        quit: () => window.close(),
+    };
+
+    const options: Option[] = [
+        { name: "Find", icon: IconSearch, shortcut: "f", action: actions.find },
+        {
+            name: "Writing",
+            icon: IconPencil,
+            shortcut: "w",
+            action: actions.writing,
+        },
+        {
+            name: "Projects",
+            icon: IconPackage,
+            shortcut: "p",
+            action: actions.projects,
+        },
+        { name: "Tools", icon: IconTool, shortcut: "t", action: actions.tools },
+        { name: "About", icon: IconUser, shortcut: "a", action: actions.about },
+        {
+            name: "Settings",
+            icon: IconSettings,
+            shortcut: "s",
+            action: actions.settings,
+        },
+        { name: "Quit", icon: IconX, shortcut: "q", action: actions.quit },
+    ];
 
     function next() {
         setSelectedIndex((prevIndex) => (prevIndex + 1) % options.length);
@@ -48,8 +77,21 @@ export function Menu() {
 
     useKeyboardShortcut(["j"], next);
     useKeyboardShortcut(["ArrowDown"], next);
+
     useKeyboardShortcut(["k"], prev);
     useKeyboardShortcut(["ArrowUp"], prev);
+
+    useKeyboardShortcut(["Enter"], () => options[selectedIndex].action());
+    useKeyboardShortcut(["ArrowRight"], () => options[selectedIndex].action());
+    useKeyboardShortcut(["l"], () => options[selectedIndex].action());
+
+    useKeyboardShortcut(["f"], () => actions.find());
+    useKeyboardShortcut(["w"], () => actions.writing());
+    useKeyboardShortcut(["p"], () => actions.projects());
+    useKeyboardShortcut(["t"], () => actions.tools());
+    useKeyboardShortcut(["a"], () => actions.about());
+    useKeyboardShortcut(["s"], () => actions.settings());
+    useKeyboardShortcut(["q"], () => actions.quit());
 
     return (
         <div className="flex w-full max-w-lg flex-col items-center">
@@ -58,6 +100,8 @@ export function Menu() {
                     key={name}
                     className="relative flex w-full cursor-pointer items-center justify-between px-2 py-2.5"
                     onMouseEnter={() => setSelectedIndex(index)}
+                    onClick={() => options[index].action()}
+                    tabIndex={-1}
                 >
                     {selectedIndex === index && (
                         <span className="absolute left-0 -ml-2 -translate-x-full animate-bounce-right">
