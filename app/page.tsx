@@ -1,14 +1,19 @@
+import { getVersion } from "@/lib/version";
 import { AsciiLogo } from "@/components/ascii-logo";
 import { Menu } from "@/components/home/menu";
 
-export default function HomePage() {
+export const dynamic = "force-static";
+
+export default async function HomePage() {
+    const version = await getVersion();
+
     return (
         <main className="flex flex-col items-center justify-center gap-8">
             <AsciiLogo />
             <Menu />
             <div className="flex flex-col items-center gap-2 text-center">
                 <span>yunger.dev</span>
-                <span className="text-xs">v0.1.0-2ba1f6b</span>
+                <span className="text-xs">{version}</span>
             </div>
         </main>
     );
