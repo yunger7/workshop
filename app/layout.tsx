@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { jetBrainsMono } from "@/app/fonts";
 import { ThemeProvider } from "@/contexts/theme";
 import { TopLoader } from "@/components/top-loader";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { GlobalKeyboardShortcutsProvider } from "@/contexts/global-keyboard-shortcuts";
 import "./globals.css";
 
@@ -27,7 +28,7 @@ export default function RootLayout({
                 >
                     <TopLoader />
                     <GlobalKeyboardShortcutsProvider>
-                        {children}
+                        <TooltipProvider>{children}</TooltipProvider>
                     </GlobalKeyboardShortcutsProvider>
                 </ThemeProvider>
             </body>
