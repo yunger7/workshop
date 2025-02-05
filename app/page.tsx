@@ -13,7 +13,12 @@ export default async function HomePage() {
             <Menu />
             <div className="flex flex-col items-center gap-2 text-center">
                 <span>yunger.dev</span>
-                <span className="text-xs">{version}</span>
+                <a
+                    href="https://github.com/yunger7/workshop"
+                    className="text-xs hover:underline"
+                >
+                    {version}
+                </a>
             </div>
         </main>
     );
