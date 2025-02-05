@@ -21,6 +21,7 @@ export function GlobalKeyboardShortcutsProvider({
     useKeyboardShortcut(["Escape"], () => router.back());
     useKeyboardShortcut(["Backspace"], () => router.back());
     useKeyboardShortcut(["h"], () => router.back());
+    useKeyboardShortcut(["ArrowLeft"], () => router.back());
 
     return (
         <GlobalKeyboardShortcutsContext.Provider value={null}>
