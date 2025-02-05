@@ -1,6 +1,6 @@
 export function AsciiLogo() {
     return (
-        <pre className="text-xs">
+        <pre className="text-xs text-nord-frost-3">
             {`
                                           
                  ++++++++                 
