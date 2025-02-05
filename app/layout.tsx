@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { jetBrainsMono } from "@/app/fonts";
 import { ThemeProvider } from "@/contexts/theme";
 import { TopLoader } from "@/components/top-loader";
+import { GlobalKeyboardShortcutsProvider } from "@/contexts/global-keyboard-shortcuts";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -25,7 +26,9 @@ export default function RootLayout({
                     defaultTheme="dark"
                 >
                     <TopLoader />
-                    {children}
+                    <GlobalKeyboardShortcutsProvider>
+                        {children}
+                    </GlobalKeyboardShortcutsProvider>
                 </ThemeProvider>
             </body>
         </html>
