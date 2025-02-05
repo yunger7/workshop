@@ -18,7 +18,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body
-                className={`${jetBrainsMono.variable} antialiased min-h-screen p-4 font-mono text-sm`}
+                className={`${jetBrainsMono.variable} min-h-screen p-4 font-mono text-sm antialiased`}
             >
                 <ThemeProvider
                     disableTransitionOnChange
