@@ -12,19 +12,19 @@ const shortcuts = new Map<
 >();
 
 function handleGlobalKeyPress(event: KeyboardEvent) {
+    const matches: Array<{ callback: ShortcutHandler; specificity: number }> =
+        [];
+    const pathname = window.location.pathname;
+    const os = navigator.platform?.toLowerCase().includes("mac")
+        ? "macos"
+        : "windows";
+    const modKey = os === "macos" ? event.metaKey : event.ctrlKey;
+
     shortcuts.forEach(({ callback, options }, keyCombination) => {
-        const pathname = window.location.pathname;
-        const os = navigator.platform?.toLowerCase().includes("mac")
-            ? "macos"
-            : "windows";
+        if (options?.routesBlacklist?.includes(pathname)) return;
 
-        if (options?.routesBlacklist?.includes(pathname)) {
-            return;
-        }
-
-        const modKey = os === "macos" ? event.metaKey : event.ctrlKey;
-
-        const isShortcutPressed = keyCombination.split("+").every((key) => {
+        const keys = keyCombination.split("+");
+        const isShortcutPressed = keys.every((key) => {
             switch (key.toLowerCase()) {
                 case "mod":
                     return modKey;
@@ -42,10 +42,21 @@ function handleGlobalKeyPress(event: KeyboardEvent) {
         });
 
         if (isShortcutPressed) {
-            event.preventDefault();
-            callback();
+            matches.push({ callback, specificity: keys.length });
         }
     });
+
+    if (matches.length) {
+        const maxSpecificity = Math.max(
+            ...matches.map((match) => match.specificity),
+        );
+        const mostSpecific = matches.filter(
+            (match) => match.specificity === maxSpecificity,
+        );
+
+        event.preventDefault();
+        mostSpecific.forEach((match) => match.callback());
+    }
 }
 
 export function useKeyboardShortcut(
