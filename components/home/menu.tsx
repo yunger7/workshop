@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { useRouter } from "nextjs-toploader/app";
 import {
     Icon,
@@ -12,9 +12,9 @@ import {
     IconPackage,
     IconPencil,
     IconUser,
-    IconChevronRight,
 } from "@tabler/icons-react";
 import { useKeyboardShortcut } from "@/hooks/use-keyboard-shortcut";
+import { MenuList, MenuItem } from "@/components/menu";
 
 type Option = {
     name: string;
@@ -27,8 +27,6 @@ type Option = {
 
 export function Menu() {
     const router = useRouter();
-
-    const [selectedIndex, setSelectedIndex] = useState(0);
 
     const actions = {
         find: () => console.log("find"),
@@ -65,26 +63,6 @@ export function Menu() {
         { name: "Quit", icon: IconX, shortcut: "q", action: actions.quit },
     ];
 
-    function next() {
-        setSelectedIndex((prevIndex) => (prevIndex + 1) % options.length);
-    }
-
-    function prev() {
-        setSelectedIndex(
-            (prevIndex) => (prevIndex + options.length - 1) % options.length,
-        );
-    }
-
-    useKeyboardShortcut(["j"], next);
-    useKeyboardShortcut(["ArrowDown"], next);
-
-    useKeyboardShortcut(["k"], prev);
-    useKeyboardShortcut(["ArrowUp"], prev);
-
-    useKeyboardShortcut(["Enter"], () => options[selectedIndex].action());
-    useKeyboardShortcut(["ArrowRight"], () => options[selectedIndex].action());
-    useKeyboardShortcut(["l"], () => options[selectedIndex].action());
-
     useKeyboardShortcut(["f"], () => actions.find());
     useKeyboardShortcut(["w"], () => actions.writing());
     useKeyboardShortcut(["p"], () => actions.projects());
@@ -94,27 +72,21 @@ export function Menu() {
     useKeyboardShortcut(["q"], () => actions.quit());
 
     return (
-        <div className="flex w-full max-w-lg flex-col items-center">
+        <MenuList className="flex w-full max-w-lg flex-col items-center">
             {options.map(({ name, icon: Icon, shortcut }, index) => (
-                <button
+                <MenuItem
                     key={name}
-                    className="relative flex w-full cursor-pointer items-center justify-between px-2 py-2.5"
-                    onMouseEnter={() => setSelectedIndex(index)}
-                    onClick={() => options[index].action()}
-                    tabIndex={-1}
+                    index={index}
+                    action={() => options[index].action()}
+                    className="py-2.5"
                 >
-                    {selectedIndex === index && (
-                        <span className="absolute left-0 -ml-2 -translate-x-full animate-bounce-right">
-                            <IconChevronRight className="size-4" />
-                        </span>
-                    )}
                     <span className="flex w-full items-center gap-2">
                         <Icon className="size-4" />
                         {name}
                     </span>
                     <span className="ml-4">{shortcut}</span>
-                </button>
+                </MenuItem>
             ))}
-        </div>
+        </MenuList>
     );
 }
