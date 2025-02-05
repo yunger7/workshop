@@ -14,9 +14,15 @@ export async function getVersion() {
 
     const baseVersion = `v${version}-${shortCommitHash}`;
 
-    if (process.env.NODE_ENV === "development") {
+    if (
+        process.env.NODE_ENV === "development" ||
+        process.env.VERCEL_ENV === "development"
+    ) {
         return `${baseVersion}-dev`;
-    } else if (process.env.NODE_ENV === "test") {
+    } else if (
+        process.env.NODE_ENV === "test" ||
+        process.env.VERCEL_ENV === "preview"
+    ) {
         return `${baseVersion}-preview`;
     }
 
