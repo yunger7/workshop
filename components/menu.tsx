@@ -93,6 +93,7 @@ type MenuItemProps = Omit<
     index: number;
     children: React.ReactNode;
     action: () => void;
+    disableClick?: boolean;
 };
 
 export function MenuItem({
@@ -100,6 +101,7 @@ export function MenuItem({
     index,
     action,
     className,
+    disableClick,
     ...props
 }: MenuItemProps) {
     const context = useContext(MenuContext);
@@ -126,11 +128,12 @@ export function MenuItem({
     return (
         <button
             className={cn(
-                "relative flex w-full cursor-pointer items-center justify-between focus:outline-none",
+                "relative flex w-full items-center justify-between focus:outline-none",
+                disableClick ? "cursor-default" : "cursor-pointer",
                 className,
             )}
             onMouseEnter={() => setSelectedIndex(index)}
-            onClick={action}
+            onClick={disableClick ? undefined : action}
             tabIndex={-1}
             {...props}
         >
