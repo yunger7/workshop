@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext } from "react";
+import { usePathname } from "next/navigation";
 import { useRouter } from "nextjs-toploader/app";
 
 import { useKeyboardShortcut } from "@/hooks/use-keyboard-shortcut";
@@ -14,14 +15,30 @@ export function GlobalKeyboardShortcutsProvider({
     children: React.ReactNode;
 }) {
     const router = useRouter();
+    const pathname = usePathname();
     const { toggleTheme } = useTheme();
 
     useKeyboardShortcut(["mod", "j"], toggleTheme);
 
-    useKeyboardShortcut(["Escape"], () => router.back());
-    useKeyboardShortcut(["Backspace"], () => router.back());
-    useKeyboardShortcut(["h"], () => router.back());
-    useKeyboardShortcut(["ArrowLeft"], () => router.back());
+    const goBack = () => {
+        if (pathname === "/" || pathname === "") return;
+
+        const cleanPath =
+            pathname.endsWith("/") && pathname !== "/"
+                ? pathname.slice(0, -1)
+                : pathname;
+
+        const segments = cleanPath.split("/");
+        segments.pop();
+        const parentPath = segments.join("/") || "/";
+
+        router.push(parentPath);
+    };
+
+    useKeyboardShortcut(["Escape"], goBack);
+    useKeyboardShortcut(["Backspace"], goBack);
+    useKeyboardShortcut(["h"], goBack);
+    useKeyboardShortcut(["ArrowLeft"], goBack);
 
     return (
         <GlobalKeyboardShortcutsContext.Provider value={null}>
