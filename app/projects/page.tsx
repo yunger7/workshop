@@ -1,4 +1,4 @@
-import { Project } from "@/types/projects";
+import { Project } from "@/types/project";
 import { Layout } from "@/components/layout";
 import { Menu } from "@/components/projects/menu";
 

@@ -9,7 +9,7 @@ import {
     IconBrandNpm,
     IconWorld,
 } from "@tabler/icons-react";
-import { Project, Link } from "@/types/projects";
+import { Project, Link } from "@/types/project";
 import { Separator } from "@/components/ui/separator";
 import { MenuList, MenuItem } from "@/components/menu";
 import { Stars } from "@/components/projects/stars";
