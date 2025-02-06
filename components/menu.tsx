@@ -57,11 +57,20 @@ export function MenuList({
     useKeyboardShortcut(["k"], prev);
     useKeyboardShortcut(["ArrowUp"], prev);
 
-    const action = getMenuItemOnSelect(selectedIndex);
+    useKeyboardShortcut(["Enter"], () => {
+        const action = getMenuItemOnSelect(selectedIndex);
+        if (action) action();
+    });
 
-    useKeyboardShortcut(["Enter"], () => action && action());
-    useKeyboardShortcut(["ArrowRight"], () => action && action());
-    useKeyboardShortcut(["l"], () => action && action());
+    useKeyboardShortcut(["ArrowRight"], () => {
+        const action = getMenuItemOnSelect(selectedIndex);
+        if (action) action();
+    });
+
+    useKeyboardShortcut(["l"], () => {
+        const action = getMenuItemOnSelect(selectedIndex);
+        if (action) action();
+    });
 
     return (
         <MenuContext.Provider
