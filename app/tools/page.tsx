@@ -1,12 +1,10 @@
 import { Layout } from "@/components/layout";
+import { Menu } from "@/components/tools/menu";
 
 export default function ToolsPage() {
     return (
         <Layout title="Tools">
-            <p>
-                Lorem ipsum dolor sit amet, qui minim labore adipisicing minim
-                sint cillum sint consectetur cupidatat.
-            </p>
+            <Menu />
         </Layout>
     );
 }
