@@ -46,7 +46,7 @@ export function Menu({ projects }: MenuProps) {
                         <MenuItem
                             disableClick
                             index={index}
-                            className="flex-col items-start gap-2 py-4"
+                            className="flex-col items-start gap-1 py-4"
                             action={() =>
                                 window.open(primaryLink.url, "_blank")
                             }
