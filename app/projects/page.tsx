@@ -1,6 +1,5 @@
-import Link from "next/link";
-import { IconArrowLeft } from "@tabler/icons-react";
 import { Project } from "@/types/projects";
+import { Layout } from "@/components/layout";
 import { Menu } from "@/components/projects/menu";
 
 async function getProjects() {
@@ -107,18 +106,8 @@ export default async function ProjectsPage() {
     const projects = await getProjects();
 
     return (
-        <main className="mx-auto my-16 max-w-screen-md px-6">
-            <div className="mb-4">
-                <Link href="/">
-                    <div className="group relative flex items-center">
-                        <IconArrowLeft className="absolute left-0 top-1/2 -ml-7 size-5 -translate-y-1/2 opacity-40 transition-transform duration-200 group-hover:-translate-x-1" />
-                        <h1 className="text-2xl font-bold group-hover:cursor-pointer">
-                            Projects
-                        </h1>
-                    </div>
-                </Link>
-            </div>
+        <Layout title="Projects">
             <Menu projects={projects} />
-        </main>
+        </Layout>
     );
 }

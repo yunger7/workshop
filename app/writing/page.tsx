@@ -1,11 +1,5 @@
-import Link from "next/link";
-import { IconRss, IconArrowLeft } from "@tabler/icons-react";
-import { Button } from "@/components/ui/button";
-import {
-    Tooltip,
-    TooltipTrigger,
-    TooltipContent,
-} from "@/components/ui/tooltip";
+import { IconRss } from "@tabler/icons-react";
+import { Layout } from "@/components/layout";
 import { Menu } from "@/components/writing/menu";
 
 async function getPosts() {
@@ -41,29 +35,16 @@ export default async function WritingPage() {
     const posts = await getPosts();
 
     return (
-        <main className="mx-auto my-16 max-w-screen-md px-6">
-            <div className="mb-4 flex items-center justify-between">
-                <Link href="/">
-                    <div className="group relative flex items-center">
-                        <IconArrowLeft className="absolute left-0 top-1/2 -ml-7 size-5 -translate-y-1/2 opacity-40 transition-transform duration-200 group-hover:-translate-x-1" />
-                        <h1 className="text-2xl font-bold group-hover:cursor-pointer">
-                            Writing
-                        </h1>
-                    </div>
-                </Link>
-                <Tooltip>
-                    <TooltipTrigger asChild>
-                        <Button size="icon" variant="outline">
-                            <span className="sr-only">RSS Feed</span>
-                            <IconRss className="size-6" />
-                        </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                        <p>RSS Feed</p>
-                    </TooltipContent>
-                </Tooltip>
-            </div>
+        <Layout
+            title="Writing"
+            actions={[
+                {
+                    label: "RSS Feed",
+                    icon: IconRss,
+                },
+            ]}
+        >
             <Menu posts={posts} />
-        </main>
+        </Layout>
     );
 }
