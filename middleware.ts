@@ -8,8 +8,6 @@ export function middleware(request: NextRequest) {
         | Source
         | undefined;
 
-    console.log("middleware referer: ", referer);
-
     if (!referer) {
         return NextResponse.next();
     }
