@@ -4,6 +4,7 @@ type ShortcutHandler = () => void;
 
 type Options = {
     routesBlacklist?: Array<string>;
+    allowInInput?: boolean;
 };
 
 const shortcuts = new Map<
@@ -12,6 +13,12 @@ const shortcuts = new Map<
 >();
 
 function handleGlobalKeyPress(event: KeyboardEvent) {
+    const target = event.target as HTMLElement;
+    const inInput =
+        target.tagName === "INPUT" ||
+        target.tagName === "TEXTAREA" ||
+        target.isContentEditable;
+
     const matches: Array<{ callback: ShortcutHandler; specificity: number }> =
         [];
     const pathname = window.location.pathname;
@@ -22,6 +29,7 @@ function handleGlobalKeyPress(event: KeyboardEvent) {
 
     shortcuts.forEach(({ callback, options }, keyCombination) => {
         if (options?.routesBlacklist?.includes(pathname)) return;
+        if (inInput && !options?.allowInInput) return;
 
         const keys = keyCombination.split("+");
         const isShortcutPressed = keys.every((key) => {
