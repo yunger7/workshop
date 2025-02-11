@@ -19,10 +19,12 @@ export default async function AboutPage() {
                 {
                     label: "GitHub",
                     icon: IconBrandGithub,
+                    href: "https://github.com/yunger7",
                 },
                 {
                     label: "LinkedIn",
                     icon: IconBrandLinkedin,
+                    href: "https://www.linkedin.com/in/luisgalete",
                 },
             ]}
         >

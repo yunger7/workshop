@@ -41,6 +41,7 @@ export default async function WritingPage() {
                 {
                     label: "RSS Feed",
                     icon: IconRss,
+                    href: "/rss",
                 },
             ]}
         >

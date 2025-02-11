@@ -13,6 +13,7 @@ type Action = {
     icon: React.ForwardRefExoticComponent<
         IconProps & React.RefAttributes<Icon>
     >;
+    href: string;
 };
 
 type LayoutProps = Omit<React.ComponentPropsWithoutRef<"main">, "children"> & {
@@ -34,19 +35,39 @@ export function Layout({ children, title, actions = [] }: LayoutProps) {
                     </div>
                 </Link>
                 <div className="flex items-center gap-2">
-                    {actions.map(({ label, icon: Icon }) => (
-                        <Tooltip key={label}>
-                            <TooltipTrigger asChild>
-                                <Button size="icon" variant="outline">
-                                    <span className="sr-only">{label}</span>
-                                    <Icon className="size-6" />
-                                </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                                <p>{label}</p>
-                            </TooltipContent>
-                        </Tooltip>
-                    ))}
+                    {actions.map(({ label, icon: Icon, href }) => {
+                        const isExternal = href.startsWith("http");
+
+                        const content = (
+                            <>
+                                <span className="sr-only">{label}</span>
+                                <Icon className="size-6" />
+                            </>
+                        );
+
+                        return (
+                            <Tooltip key={label}>
+                                <TooltipTrigger asChild>
+                                    <Button
+                                        asChild
+                                        size="icon"
+                                        variant="outline"
+                                    >
+                                        {isExternal ? (
+                                            <a href={href} target="_blank">
+                                                {content}
+                                            </a>
+                                        ) : (
+                                            <Link href={href}>{content}</Link>
+                                        )}
+                                    </Button>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>{label}</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        );
+                    })}
                 </div>
             </div>
             {children}
