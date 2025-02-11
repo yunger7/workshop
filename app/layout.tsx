@@ -3,6 +3,7 @@ import { jetBrainsMono } from "@/app/fonts";
 import { ThemeProvider } from "@/contexts/theme";
 import { TopLoader } from "@/components/top-loader";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster } from "@/components/ui/toaster";
 import { GlobalKeyboardShortcutsProvider } from "@/contexts/global-keyboard-shortcuts";
 import "./globals.css";
 
@@ -30,6 +31,7 @@ export default function RootLayout({
                     <GlobalKeyboardShortcutsProvider>
                         <TooltipProvider>{children}</TooltipProvider>
                     </GlobalKeyboardShortcutsProvider>
+                    <Toaster />
                 </ThemeProvider>
             </body>
         </html>

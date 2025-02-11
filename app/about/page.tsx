@@ -1,15 +1,9 @@
 import Link from "next/link";
-import {
-    IconBrandGithub,
-    IconBrandLinkedin,
-    IconPencil,
-} from "@tabler/icons-react";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
+import { IconBrandGithub, IconBrandLinkedin } from "@tabler/icons-react";
 import { Layout } from "@/components/layout";
 import { RefererSentence } from "@/components/about/referer-sentence";
 import { GreetingSentence } from "@/components/about/greeting-sentence";
+import { Note } from "@/components/about/note";
 
 export default async function AboutPage() {
     return (
@@ -49,19 +43,7 @@ export default async function AboutPage() {
                     you&apos;d like to stay in touch.
                 </p>
             </article>
-            <div className="flex flex-col gap-2">
-                <Label htmlFor="note">Leave a note</Label>
-                <Textarea id="note" className="min-h-48" />
-                <p className="text-xs text-muted-foreground">
-                    Don&apos;t forget to add an address or something
-                </p>
-                <div>
-                    <Button className="mt-2">
-                        <IconPencil />
-                        Write down
-                    </Button>
-                </div>
-            </div>
+            <Note />
         </Layout>
     );
 }
