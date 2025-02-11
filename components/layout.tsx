@@ -33,19 +33,21 @@ export function Layout({ children, title, actions = [] }: LayoutProps) {
                         </h1>
                     </div>
                 </Link>
-                {actions.map(({ label, icon: Icon }) => (
-                    <Tooltip key={label}>
-                        <TooltipTrigger asChild>
-                            <Button size="icon" variant="outline">
-                                <span className="sr-only">{label}</span>
-                                <Icon className="size-6" />
-                            </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                            <p>{label}</p>
-                        </TooltipContent>
-                    </Tooltip>
-                ))}
+                <div className="flex items-center gap-2">
+                    {actions.map(({ label, icon: Icon }) => (
+                        <Tooltip key={label}>
+                            <TooltipTrigger asChild>
+                                <Button size="icon" variant="outline">
+                                    <span className="sr-only">{label}</span>
+                                    <Icon className="size-6" />
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>{label}</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    ))}
+                </div>
             </div>
             {children}
         </main>
