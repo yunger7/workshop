@@ -2,9 +2,13 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { Source } from "@/types/source";
 
-export function middleware(req: NextRequest) {
-    const referer = req.headers.get("referer");
-    const cookieSource = req.cookies.get("source")?.value as Source | undefined;
+export function middleware(request: NextRequest) {
+    const referer = request.headers.get("referer");
+    const cookieSource = request.cookies.get("social-referer")?.value as
+        | Source
+        | undefined;
+
+    console.log("middleware referer: ", referer);
 
     if (!referer) {
         return NextResponse.next();
@@ -39,13 +43,24 @@ export function middleware(req: NextRequest) {
     }
 
     if (source !== cookieSource) {
-        const response = NextResponse.next();
+        const url = request.nextUrl.clone();
 
-        response.cookies.set("social-referer", source, {
+        const response = NextResponse.redirect(url);
+
+        response.cookies.set({
+            name: "social-referer",
+            value: source,
             path: "/",
             maxAge: 60 * 60, // 1 hour expiration
-            httpOnly: false,
+            httpOnly: process.env.NODE_ENV !== "development",
+            sameSite: "lax",
         });
+
+        // This has caused me great pain and suffering
+        response.headers.set(
+            "Cache-Control",
+            "no-cache, no-store, must-revalidate",
+        );
 
         return response;
     }
