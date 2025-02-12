@@ -1,38 +1,27 @@
 import { IconRss } from "@tabler/icons-react";
 import { Layout } from "@/components/layout";
 import { Menu } from "@/components/writing/menu";
+import { getAllPosts } from "@/lib/mdx";
+import { formatDate } from "@/lib/dates";
 
-async function getPosts() {
-    return [
-        {
-            title: "Excepteur quis cillum est.",
-            date: "Feb 02, 2025",
-        },
-        {
-            title: "Tempor voluptate anim duis id ut proident.",
-            date: "Jan 08, 2025",
-        },
-        {
-            title: "Dolore cupidatat nulla nulla officia quis id.",
-            date: "Dec 08, 2024",
-        },
-        {
-            title: "Fugiat cupidatat ea reprehenderit.",
-            date: "Oct 02, 2024",
-        },
-        {
-            title: "Ipsum proident labore sit.",
-            date: "Aug 16, 2022",
-        },
-        {
-            title: "Hello World!",
-            date: "Aug 10, 2022",
-        },
-    ];
+function getPosts() {
+    const posts = getAllPosts();
+
+    const sortedPosts = posts.sort(
+        (a, b) =>
+            new Date(b.metadata.publishedAt).getTime() -
+            new Date(a.metadata.publishedAt).getTime(),
+    );
+
+    return sortedPosts.map((post) => ({
+        title: post.metadata.title,
+        date: formatDate(post.metadata.publishedAt),
+        slug: post.slug,
+    }));
 }
 
-export default async function WritingPage() {
-    const posts = await getPosts();
+export default function WritingPage() {
+    const posts = getPosts();
 
     return (
         <Layout

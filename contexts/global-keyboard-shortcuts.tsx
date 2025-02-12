@@ -1,13 +1,30 @@
 "use client";
 
-import { createContext } from "react";
+import { createContext, useContext } from "react";
 import { usePathname } from "next/navigation";
 import { useRouter } from "nextjs-toploader/app";
 
 import { useKeyboardShortcut } from "@/hooks/use-keyboard-shortcut";
 import { useTheme } from "@/hooks/use-theme";
 
-export const GlobalKeyboardShortcutsContext = createContext<null>(null);
+type GlobalKeyboardShortcutsContextType = {
+    goBack: () => void;
+};
+
+export const GlobalKeyboardShortcutsContext =
+    createContext<GlobalKeyboardShortcutsContextType | null>(null);
+
+export function useGlobalKeyboardShortcuts() {
+    const context = useContext(GlobalKeyboardShortcutsContext);
+
+    if (!context) {
+        throw new Error(
+            "useGlobalKeyboardShortcuts must be used within a GlobalKeyboardShortcutsProvider",
+        );
+    }
+
+    return context;
+}
 
 export function GlobalKeyboardShortcutsProvider({
     children,
@@ -45,7 +62,11 @@ export function GlobalKeyboardShortcutsProvider({
     });
 
     return (
-        <GlobalKeyboardShortcutsContext.Provider value={null}>
+        <GlobalKeyboardShortcutsContext.Provider
+            value={{
+                goBack,
+            }}
+        >
             {children}
         </GlobalKeyboardShortcutsContext.Provider>
     );
