@@ -63,9 +63,7 @@ export function GlobalKeyboardShortcutsProvider({
     useKeyboardShortcut(["Backspace"], goBack);
     useKeyboardShortcut(["h"], goBack);
     useKeyboardShortcut(["ArrowLeft"], goBack);
-    useKeyboardShortcut(["Escape"], goBack, {
-        allowInInput: true,
-    });
+    useKeyboardShortcut(["Escape"], goBack);
 
     return (
         <GlobalKeyboardShortcutsContext.Provider
