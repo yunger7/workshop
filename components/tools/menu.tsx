@@ -11,46 +11,14 @@ import {
     IconPalette,
     IconTransform,
 } from "@tabler/icons-react";
+import { getTools } from "@/lib/data/tools";
 import { Tool } from "@/types/tool";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { MenuList, MenuItem } from "@/components/menu";
 
-const tools: Tool[] = [
-    {
-        name: "Lorem Ipsum",
-        description: "Generate dummy text to use as a placeholder",
-        icon: IconTypography,
-    },
-    {
-        name: "Strong Password",
-        description: "Create a secure, randomly generated password",
-        icon: IconKey,
-    },
-    {
-        name: "UUID",
-        description: "Generate a unique identifier (v4)",
-        icon: IconHash,
-    },
-    {
-        name: "Color converter",
-        description: "Convert colors between different formats",
-        icon: IconPalette,
-    },
-    {
-        name: "Base64",
-        description: "Encode and decode data in Base64 format",
-        icon: IconTransform,
-    },
-    {
-        name: "SVG preview",
-        description: "Preview SVG files",
-        icon: IconPhotoScan,
-        unreleased: true,
-    },
-];
-
 export function Menu() {
+    const tools = getTools();
     const router = useRouter();
 
     function openTool(tool: Tool) {

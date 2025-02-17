@@ -10,7 +10,7 @@ import {
     IconTool,
     IconPackage,
 } from "@tabler/icons-react";
-import { useSearchContext } from "@/contexts/search";
+import { useSearchContext, Path, PathType } from "@/contexts/search";
 import {
     Command,
     CommandDialog,
@@ -19,30 +19,6 @@ import {
     CommandItem,
     CommandList,
 } from "@/components/ui/command";
-
-type PathType = "writing" | "tool" | "project";
-
-type Path = {
-    type: PathType;
-    slug: string;
-};
-
-const paths: Path[] = [
-    { type: "writing", slug: "hello-world" },
-    { type: "writing", slug: "thoughts-on-productivity" },
-    { type: "writing", slug: "a-cozy-place-to-call-home" },
-    { type: "writing", slug: "the-art-of-googling" },
-    { type: "writing", slug: "why-digital-craftsman" },
-    { type: "tool", slug: "lorem-ipsum" },
-    { type: "tool", slug: "strong-password" },
-    { type: "tool", slug: "uuid" },
-    { type: "tool", slug: "color-converter" },
-    { type: "tool", slug: "base64" },
-    { type: "project", slug: "enem.dev" },
-    { type: "project", slug: "yunger.dev" },
-    { type: "project", slug: "portfolio" },
-    { type: "project", slug: "zicott" },
-];
 
 function FilterState({ total }: { total: number }) {
     const filteredCount = useCommandState((state) => state.filtered.count || 0);
@@ -54,7 +30,7 @@ function FilterState({ total }: { total: number }) {
     );
 }
 
-export function SearchDialog() {
+export function SearchDialog({ paths }: { paths: Path[] }) {
     const { isSearchDialogOpen, setIsSearchDialogOpen } = useSearchContext();
 
     const [value, setValue] = useState("");
@@ -63,9 +39,9 @@ export function SearchDialog() {
         PathType,
         React.ForwardRefExoticComponent<IconProps & React.RefAttributes<Icon>>
     > = {
-        writing: IconPencil,
-        tool: IconTool,
-        project: IconPackage,
+        [PathType.Writing]: IconPencil,
+        [PathType.Tool]: IconTool,
+        [PathType.Project]: IconPackage,
     };
 
     function handleOpenChange(isOpen: boolean) {
@@ -90,7 +66,7 @@ export function SearchDialog() {
                 </div>
                 <CommandList>
                     <CommandEmpty>No results found</CommandEmpty>
-                    {paths.map(({ type, slug }) => {
+                    {paths.map(({ type, alt: slug }) => {
                         const Icon = IconMap[type];
 
                         return (
@@ -106,7 +82,7 @@ export function SearchDialog() {
                                     <Highlighter
                                         autoEscape
                                         searchWords={value?.trim()?.split(" ")}
-                                        textToHighlight={`/home/${type}`}
+                                        textToHighlight={`/home/${type === "writing" ? type : `${type}s`}`}
                                         highlightClassName="bg-primary"
                                     />
                                 </span>

@@ -1,11 +1,11 @@
 import { IconRss } from "@tabler/icons-react";
 import { Layout } from "@/components/layout";
 import { Menu } from "@/components/writing/menu";
-import { getAllPosts } from "@/lib/mdx";
+import { listPosts } from "@/lib/data/writing";
 import { formatDate } from "@/lib/dates";
 
 function getPosts() {
-    const posts = getAllPosts();
+    const posts = listPosts();
 
     const sortedPosts = posts.sort(
         (a, b) =>

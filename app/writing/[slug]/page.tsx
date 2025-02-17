@@ -4,13 +4,13 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import { Separator } from "@/components/ui/separator";
 import { Layout } from "@/components/layout";
 import { Article } from "@/components/article";
-import { getAllPosts, getPostBySlug } from "@/lib/mdx";
+import { listPosts, getPostBySlug } from "@/lib/data/writing";
 import { formatDate } from "@/lib/dates";
 
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-    const posts = getAllPosts();
+    const posts = listPosts();
 
     return posts.map((post) => ({
         slug: post.slug,
@@ -25,7 +25,7 @@ export default async function PostPage({
     const slug = (await params).slug;
     const post = getPostBySlug(slug);
 
-    if (!post) {
+    if (!post || !post.content) {
         notFound();
     }
 

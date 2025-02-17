@@ -23,7 +23,24 @@ export function useSearchContext() {
     return context;
 }
 
-export function SearchProvider({ children }: { children: React.ReactNode }) {
+export enum PathType {
+    Writing = "writing",
+    Tool = "tool",
+    Project = "project",
+}
+
+export type Path = {
+    type: PathType;
+    alt: string;
+    href: string;
+};
+
+type SearchProviderProps = {
+    children: React.ReactNode;
+    paths: Path[];
+};
+
+export function SearchProvider({ children, paths }: SearchProviderProps) {
     const [isSearchDialogOpen, setIsSearchDialogOpen] = useState(false);
 
     function toggleSearchDialogOpen() {
@@ -38,7 +55,7 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
                 toggleSearchDialogOpen,
             }}
         >
-            <SearchDialog />
+            <SearchDialog paths={paths} />
             {children}
         </SearchContext.Provider>
     );
