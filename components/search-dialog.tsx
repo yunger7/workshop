@@ -68,11 +68,16 @@ export function SearchDialog() {
         project: IconPackage,
     };
 
+    function handleOpenChange(isOpen: boolean) {
+        setIsSearchDialogOpen(isOpen);
+        setValue("");
+    }
+
     return (
         <CommandDialog
             title="Find"
             open={isSearchDialogOpen}
-            onOpenChange={setIsSearchDialogOpen}
+            onOpenChange={handleOpenChange}
         >
             <Command loop>
                 <div className="relative border-b-2 border-nord-polar-1 pr-12 dark:border-nord-snow-3">
