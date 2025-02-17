@@ -3,6 +3,7 @@
 import Highlighter from "react-highlight-words";
 import React, { useState } from "react";
 import { useCommandState } from "cmdk";
+import { useRouter } from "nextjs-toploader/app";
 import {
     Icon,
     IconProps,
@@ -31,6 +32,7 @@ function FilterState({ total }: { total: number }) {
 }
 
 export function SearchDialog({ paths }: { paths: Path[] }) {
+    const router = useRouter();
     const { isSearchDialogOpen, setIsSearchDialogOpen } = useSearchContext();
 
     const [value, setValue] = useState("");
@@ -43,6 +45,16 @@ export function SearchDialog({ paths }: { paths: Path[] }) {
         [PathType.Tool]: IconTool,
         [PathType.Project]: IconPackage,
     };
+
+    function openPath(path: string) {
+        if (path.startsWith("http")) {
+            window.open(path, "_blank");
+        } else {
+            router.push(path);
+        }
+
+        handleOpenChange(false);
+    }
 
     function handleOpenChange(isOpen: boolean) {
         setIsSearchDialogOpen(isOpen);
@@ -66,16 +78,19 @@ export function SearchDialog({ paths }: { paths: Path[] }) {
                 </div>
                 <CommandList>
                     <CommandEmpty>No results found</CommandEmpty>
-                    {paths.map(({ type, alt: slug }) => {
+                    {paths.map(({ type, alt, href }) => {
                         const Icon = IconMap[type];
 
                         return (
-                            <CommandItem key={slug}>
+                            <CommandItem
+                                key={alt}
+                                onSelect={() => openPath(href)}
+                            >
                                 <Icon className="!size-4" />
                                 <Highlighter
                                     autoEscape
                                     searchWords={value?.trim()?.split(" ")}
-                                    textToHighlight={slug}
+                                    textToHighlight={alt}
                                     highlightClassName="bg-nord-frost-2"
                                 />
                                 <span className="ml-auto text-xs text-muted-foreground">
