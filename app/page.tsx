@@ -8,7 +8,7 @@ export default async function HomePage() {
     const version = await getVersion();
 
     return (
-        <main className="flex flex-col items-center justify-center gap-8">
+        <main className="flex flex-col items-center justify-center gap-8 px-10">
             <AsciiLogo />
             <Menu />
             <div className="flex flex-col items-center gap-2 text-center text-nord-polar-2 dark:text-nord-snow-2">

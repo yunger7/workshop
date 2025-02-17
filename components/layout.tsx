@@ -31,7 +31,7 @@ export function Layout({
     actions = [],
 }: LayoutProps) {
     return (
-        <main className="mx-auto my-16 max-w-screen-md px-6">
+        <main className="mx-auto my-16 max-w-screen-md px-10">
             <div className="mb-4">
                 <div className="flex items-center justify-between">
                     <BackButton>

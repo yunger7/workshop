@@ -5,6 +5,7 @@ import { TopLoader } from "@/components/top-loader";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/toaster";
 import { GlobalKeyboardShortcutsProvider } from "@/contexts/global-keyboard-shortcuts";
+import { SearchProvider } from "@/contexts/search";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -19,7 +20,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body
-                className={`${jetBrainsMono.variable} min-h-screen p-4 font-mono text-sm antialiased`}
+                className={`${jetBrainsMono.variable} min-h-screen font-mono text-sm antialiased`}
             >
                 <ThemeProvider
                     disableTransitionOnChange
@@ -28,9 +29,11 @@ export default function RootLayout({
                     defaultTheme="dark"
                 >
                     <TopLoader />
-                    <GlobalKeyboardShortcutsProvider>
-                        <TooltipProvider>{children}</TooltipProvider>
-                    </GlobalKeyboardShortcutsProvider>
+                    <SearchProvider>
+                        <GlobalKeyboardShortcutsProvider>
+                            <TooltipProvider>{children}</TooltipProvider>
+                        </GlobalKeyboardShortcutsProvider>
+                    </SearchProvider>
                     <Toaster />
                 </ThemeProvider>
             </body>
