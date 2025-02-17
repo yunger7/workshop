@@ -2,6 +2,7 @@
 
 import Highlighter from "react-highlight-words";
 import React, { useState } from "react";
+import { useCommandState } from "cmdk";
 import {
     Icon,
     IconProps,
@@ -43,6 +44,16 @@ const paths: Path[] = [
     { type: "project", slug: "zicott" },
 ];
 
+function FilterState({ total }: { total: number }) {
+    const filteredCount = useCommandState((state) => state.filtered.count || 0);
+
+    return (
+        <span className="absolute right-2 top-1/2 mr-1 -translate-y-1/2 text-xs text-muted-foreground">
+            {filteredCount}/{total}
+        </span>
+    );
+}
+
 export function SearchDialog() {
     const { isSearchDialogOpen, setIsSearchDialogOpen } = useSearchContext();
 
@@ -64,11 +75,14 @@ export function SearchDialog() {
             onOpenChange={setIsSearchDialogOpen}
         >
             <Command loop>
-                <CommandInput
-                    placeholder="Find"
-                    value={value}
-                    onValueChange={setValue}
-                />
+                <div className="relative border-b-2 border-nord-polar-1 pr-12 dark:border-nord-snow-3">
+                    <CommandInput
+                        placeholder="Find"
+                        value={value}
+                        onValueChange={setValue}
+                    />
+                    <FilterState total={paths.length} />
+                </div>
                 <CommandList>
                     <CommandEmpty>No results found</CommandEmpty>
                     {paths.map(({ type, slug }) => {
