@@ -1,6 +1,7 @@
 "use client";
 
-import React from "react";
+import Highlighter from "react-highlight-words";
+import React, { useState } from "react";
 import {
     Icon,
     IconProps,
@@ -45,6 +46,8 @@ const paths: Path[] = [
 export function SearchDialog() {
     const { isSearchDialogOpen, setIsSearchDialogOpen } = useSearchContext();
 
+    const [value, setValue] = useState("");
+
     const IconMap: Record<
         PathType,
         React.ForwardRefExoticComponent<IconProps & React.RefAttributes<Icon>>
@@ -60,8 +63,12 @@ export function SearchDialog() {
             open={isSearchDialogOpen}
             onOpenChange={setIsSearchDialogOpen}
         >
-            <Command>
-                <CommandInput placeholder="Find" />
+            <Command loop>
+                <CommandInput
+                    placeholder="Find"
+                    value={value}
+                    onValueChange={setValue}
+                />
                 <CommandList>
                     <CommandEmpty>No results found</CommandEmpty>
                     {paths.map(({ type, slug }) => {
@@ -70,9 +77,19 @@ export function SearchDialog() {
                         return (
                             <CommandItem key={slug}>
                                 <Icon className="!size-4" />
-                                {slug}
+                                <Highlighter
+                                    autoEscape
+                                    searchWords={value?.trim()?.split(" ")}
+                                    textToHighlight={slug}
+                                    highlightClassName="bg-nord-frost-2"
+                                />
                                 <span className="ml-auto text-xs text-muted-foreground">
-                                    /home/{type}
+                                    <Highlighter
+                                        autoEscape
+                                        searchWords={value?.trim()?.split(" ")}
+                                        textToHighlight={`/home/${type}`}
+                                        highlightClassName="bg-primary"
+                                    />
                                 </span>
                             </CommandItem>
                         );
