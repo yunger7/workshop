@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useRouter } from "nextjs-toploader/app";
 
 import { useKeyboardShortcut } from "@/hooks/use-keyboard-shortcut";
+import { useSearchContext } from "@/contexts/search";
 import { useTheme } from "@/hooks/use-theme";
 
 type GlobalKeyboardShortcutsContextType = {
@@ -33,7 +34,12 @@ export function GlobalKeyboardShortcutsProvider({
 }) {
     const router = useRouter();
     const pathname = usePathname();
+    const { toggleSearchDialogOpen } = useSearchContext();
     const { toggleTheme } = useTheme();
+
+    useKeyboardShortcut(["mod", "k"], toggleSearchDialogOpen, {
+        allowInInput: true,
+    });
 
     useKeyboardShortcut(["mod", "j"], toggleTheme, {
         allowInInput: true,
