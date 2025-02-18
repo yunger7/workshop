@@ -53,3 +53,8 @@ export function getTools(): Tool[] {
         slug: getSlug(tool.name),
     }));
 }
+
+export function getToolBySlug(slug: string): Tool | null {
+    const tools = getTools();
+    return tools.find((tool) => tool.slug === slug) ?? null;
+}
