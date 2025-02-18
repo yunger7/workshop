@@ -3,8 +3,6 @@
 import React from "react";
 import { useRouter } from "nextjs-toploader/app";
 import {
-    Icon,
-    IconProps,
     IconSettings,
     IconSearch,
     IconX,
@@ -13,15 +11,14 @@ import {
     IconPencil,
     IconUser,
 } from "@tabler/icons-react";
+import { Icon } from "@/types/icon";
 import { useKeyboardShortcut } from "@/hooks/use-keyboard-shortcut";
 import { useSearchContext } from "@/contexts/search";
 import { MenuList, MenuItem } from "@/components/menu";
 
 type Option = {
     name: string;
-    icon: React.ForwardRefExoticComponent<
-        IconProps & React.RefAttributes<Icon>
-    >;
+    icon: Icon;
     shortcut: string;
     action: () => void;
 };
@@ -75,7 +72,7 @@ export function Menu() {
 
     return (
         <MenuList className="flex w-full max-w-lg flex-col items-center">
-            {options.map(({ name, icon: Icon, shortcut }, index) => (
+            {options.map(({ name, icon: IconComponent, shortcut }, index) => (
                 <MenuItem
                     key={name}
                     index={index}
@@ -83,7 +80,7 @@ export function Menu() {
                     className="py-2.5"
                 >
                     <span className="flex w-full items-center gap-2">
-                        <Icon className="size-4" />
+                        <IconComponent className="size-4" />
                         {name}
                     </span>
                     <span className="ml-4">{shortcut}</span>

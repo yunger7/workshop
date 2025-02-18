@@ -4,13 +4,8 @@ import Highlighter from "react-highlight-words";
 import React, { useState } from "react";
 import { useCommandState } from "cmdk";
 import { useRouter } from "nextjs-toploader/app";
-import {
-    Icon,
-    IconProps,
-    IconPencil,
-    IconTool,
-    IconPackage,
-} from "@tabler/icons-react";
+import { IconPencil, IconTool, IconPackage } from "@tabler/icons-react";
+import { Icon } from "@/types/icon";
 import { useSearchContext, Path, PathType } from "@/contexts/search";
 import {
     Command,
@@ -37,10 +32,7 @@ export function SearchDialog({ paths }: { paths: Path[] }) {
 
     const [value, setValue] = useState("");
 
-    const IconMap: Record<
-        PathType,
-        React.ForwardRefExoticComponent<IconProps & React.RefAttributes<Icon>>
-    > = {
+    const IconMap: Record<PathType, Icon> = {
         [PathType.Writing]: IconPencil,
         [PathType.Tool]: IconTool,
         [PathType.Project]: IconPackage,

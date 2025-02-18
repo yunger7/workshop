@@ -1,11 +1,9 @@
-import { Icon, IconProps } from "@tabler/icons-react";
+import { Icon } from "@/types/icon";
 
 export type Tool = {
     name: string;
     description: string;
     slug: string;
-    icon: React.ForwardRefExoticComponent<
-        IconProps & React.RefAttributes<Icon>
-    >;
+    icon: Icon;
     unreleased?: boolean;
 };

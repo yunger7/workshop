@@ -2,14 +2,13 @@
 
 import React, { useState, useEffect } from "react";
 import {
-    Icon,
-    IconProps,
     IconCoffee,
     IconSun,
     IconMoon,
     IconSunset2,
     IconDoor,
 } from "@tabler/icons-react";
+import { Icon } from "@/types/icon";
 
 enum TimeOfDay {
     MORNING = "morning",
@@ -46,16 +45,9 @@ export function GreetingSentence() {
     }
 
     function getIcon(timeOfDay: TimeOfDay | null) {
-        let Icon: React.ForwardRefExoticComponent<
-            IconProps & React.RefAttributes<Icon>
-        > = IconDoor;
+        let IconComponent: Icon = IconDoor;
 
-        const IconMap: Record<
-            TimeOfDay,
-            React.ForwardRefExoticComponent<
-                IconProps & React.RefAttributes<Icon>
-            >
-        > = {
+        const IconMap: Record<TimeOfDay, Icon> = {
             [TimeOfDay.MORNING]: IconCoffee,
             [TimeOfDay.AFTERNOON]: IconSun,
             [TimeOfDay.EVENING]: IconSunset2,
@@ -63,10 +55,10 @@ export function GreetingSentence() {
         };
 
         if (timeOfDay) {
-            Icon = IconMap[timeOfDay];
+            IconComponent = IconMap[timeOfDay];
         }
 
-        return <Icon className="-mt-1 ml-1 inline-flex size-5" />;
+        return <IconComponent className="-mt-1 ml-1 inline-flex size-5" />;
     }
 
     useEffect(() => {

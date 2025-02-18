@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React from "react";
-import { Icon, IconProps, IconArrowLeft } from "@tabler/icons-react";
+import { IconArrowLeft } from "@tabler/icons-react";
+import { Icon } from "@/types/icon";
 import {
     Tooltip,
     TooltipTrigger,
@@ -11,9 +12,7 @@ import { BackButton } from "@/components/back-button";
 
 type Action = {
     label: string;
-    icon: React.ForwardRefExoticComponent<
-        IconProps & React.RefAttributes<Icon>
-    >;
+    icon: Icon;
     href: string;
 };
 
@@ -43,13 +42,13 @@ export function Layout({
                         </div>
                     </BackButton>
                     <div className="flex items-center gap-2">
-                        {actions.map(({ label, icon: Icon, href }) => {
+                        {actions.map(({ label, icon: IconComponent, href }) => {
                             const isExternal = href.startsWith("http");
 
                             const content = (
                                 <>
                                     <span className="sr-only">{label}</span>
-                                    <Icon className="size-6" />
+                                    <IconComponent className="size-6" />
                                 </>
                             );
 

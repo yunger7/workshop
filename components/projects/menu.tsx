@@ -2,13 +2,8 @@
 
 import React, { Fragment } from "react";
 import { motion } from "framer-motion";
-import {
-    Icon,
-    IconProps,
-    IconBrandGithub,
-    IconBrandNpm,
-    IconWorld,
-} from "@tabler/icons-react";
+import { IconBrandGithub, IconBrandNpm, IconWorld } from "@tabler/icons-react";
+import { Icon } from "@/types/icon";
 import { Project, Link } from "@/types/project";
 import { Separator } from "@/components/ui/separator";
 import { MenuList, MenuItem } from "@/components/menu";
@@ -19,10 +14,7 @@ type MenuProps = {
 };
 
 export function Menu({ projects }: MenuProps) {
-    const LinkIconMap: Record<
-        Link["type"],
-        React.ForwardRefExoticComponent<IconProps & React.RefAttributes<Icon>>
-    > = {
+    const LinkIconMap: Record<Link["type"], Icon> = {
         github: IconBrandGithub,
         npm: IconBrandNpm,
         website: IconWorld,
@@ -71,7 +63,8 @@ export function Menu({ projects }: MenuProps) {
                                         </>
                                     )}
                                     {project.links.map((link) => {
-                                        const Icon = LinkIconMap[link.type];
+                                        const IconComponent =
+                                            LinkIconMap[link.type];
                                         const label = LinkLabelMap[link.type];
 
                                         return (
@@ -88,7 +81,7 @@ export function Menu({ projects }: MenuProps) {
                                                 <span className="sr-only">
                                                     {label}
                                                 </span>
-                                                <Icon className="size-4" />
+                                                <IconComponent className="size-4" />
                                             </motion.a>
                                         );
                                     })}
