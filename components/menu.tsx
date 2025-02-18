@@ -10,11 +10,17 @@ import React, {
 import { IconChevronRight } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 import { useKeyboardShortcut } from "@/hooks/use-keyboard-shortcut";
+import { useGlobalKeyboardShortcuts } from "@/contexts/global-keyboard-shortcuts";
+
+type MenuItemActions = {
+    action: () => void;
+    prevAction?: () => void;
+};
 
 type MenuContextType = {
     selectedIndex: number;
     setSelectedIndex: React.Dispatch<React.SetStateAction<number>>;
-    registerMenuItem: (index: number, action: () => void) => void;
+    registerMenuItem: (index: number, actions: MenuItemActions) => void;
     unregisterMenuItem: (index: number) => void;
 };
 
@@ -25,12 +31,13 @@ export function MenuList({
     ...props
 }: React.ComponentPropsWithoutRef<"div">) {
     const totalChildren = React.Children.count(children);
+    const { goBack } = useGlobalKeyboardShortcuts();
     const [selectedIndex, setSelectedIndex] = useState(0);
 
-    const menuRegistryRef = useRef(new Map<number, () => void>());
+    const menuRegistryRef = useRef(new Map<number, MenuItemActions>());
 
-    function registerMenuItem(index: number, action: () => void) {
-        menuRegistryRef.current.set(index, action);
+    function registerMenuItem(index: number, actions: MenuItemActions) {
+        menuRegistryRef.current.set(index, actions);
     }
 
     function unregisterMenuItem(index: number) {
@@ -51,26 +58,34 @@ export function MenuList({
         );
     }
 
+    function runAction() {
+        const actions = getMenuItemOnSelect(selectedIndex);
+        if (actions?.action) actions.action();
+    }
+
+    function runPrevAction() {
+        const actions = getMenuItemOnSelect(selectedIndex);
+
+        if (actions?.prevAction) {
+            actions.prevAction();
+            return;
+        }
+
+        goBack();
+    }
+
     useKeyboardShortcut(["j"], next);
     useKeyboardShortcut(["ArrowDown"], next);
 
     useKeyboardShortcut(["k"], prev);
     useKeyboardShortcut(["ArrowUp"], prev);
 
-    useKeyboardShortcut(["Enter"], () => {
-        const action = getMenuItemOnSelect(selectedIndex);
-        if (action) action();
-    });
+    useKeyboardShortcut(["Enter"], runAction);
+    useKeyboardShortcut(["ArrowRight"], runAction);
+    useKeyboardShortcut(["l"], runAction);
 
-    useKeyboardShortcut(["ArrowRight"], () => {
-        const action = getMenuItemOnSelect(selectedIndex);
-        if (action) action();
-    });
-
-    useKeyboardShortcut(["l"], () => {
-        const action = getMenuItemOnSelect(selectedIndex);
-        if (action) action();
-    });
+    useKeyboardShortcut(["ArrowLeft"], runPrevAction);
+    useKeyboardShortcut(["h"], runPrevAction);
 
     return (
         <MenuContext.Provider
@@ -86,13 +101,11 @@ export function MenuList({
     );
 }
 
-type MenuItemProps = Omit<
-    React.ComponentPropsWithoutRef<"button">,
-    "children"
-> & {
+type MenuItemProps = Omit<React.ComponentPropsWithoutRef<"div">, "children"> & {
     index: number;
     children: React.ReactNode;
     action: () => void;
+    prevAction?: () => void;
     disableClick?: boolean;
 };
 
@@ -100,6 +113,7 @@ export function MenuItem({
     children,
     index,
     action,
+    prevAction,
     className,
     disableClick,
     ...props
@@ -118,15 +132,15 @@ export function MenuItem({
     } = context;
 
     useEffect(() => {
-        registerMenuItem(index, action);
+        registerMenuItem(index, { action, prevAction });
 
         return () => {
             unregisterMenuItem(index);
         };
-    }, [index, action, registerMenuItem, unregisterMenuItem]);
+    }, [index, action, prevAction, registerMenuItem, unregisterMenuItem]);
 
     return (
-        <button
+        <div
             className={cn(
                 "relative flex w-full items-center justify-between focus:outline-none",
                 disableClick ? "cursor-default" : "cursor-pointer",
@@ -143,6 +157,6 @@ export function MenuItem({
                 </span>
             )}
             {children}
-        </button>
+        </div>
     );
 }
