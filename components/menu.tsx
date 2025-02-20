@@ -15,6 +15,8 @@ import { useGlobalKeyboardShortcuts } from "@/contexts/global-keyboard-shortcuts
 type MenuItemActions = {
     action: () => void;
     prevAction?: () => void;
+    selectAction?: () => void;
+    unselectAction?: () => void;
 };
 
 type MenuContextType = {
@@ -33,6 +35,7 @@ export function MenuList({
     const totalChildren = React.Children.count(children);
     const { goBack } = useGlobalKeyboardShortcuts();
     const [selectedIndex, setSelectedIndex] = useState(0);
+    const previousSelectedIndexRef = useRef(selectedIndex);
 
     const menuRegistryRef = useRef(new Map<number, MenuItemActions>());
 
@@ -74,6 +77,24 @@ export function MenuList({
         goBack();
     }
 
+    useEffect(() => {
+        const actions = getMenuItemOnSelect(selectedIndex);
+
+        if (actions?.selectAction) {
+            actions.selectAction();
+        }
+
+        const previousActions = getMenuItemOnSelect(
+            previousSelectedIndexRef.current,
+        );
+
+        if (previousActions?.unselectAction) {
+            previousActions.unselectAction();
+        }
+
+        previousSelectedIndexRef.current = selectedIndex;
+    }, [selectedIndex]);
+
     useKeyboardShortcut(["j"], next);
     useKeyboardShortcut(["ArrowDown"], next);
 
@@ -106,6 +127,8 @@ type MenuItemProps = Omit<React.ComponentPropsWithoutRef<"div">, "children"> & {
     children: React.ReactNode;
     action: () => void;
     prevAction?: () => void;
+    selectAction?: () => void;
+    unselectAction?: () => void;
     disableClick?: boolean;
 };
 
@@ -114,6 +137,8 @@ export function MenuItem({
     index,
     action,
     prevAction,
+    selectAction,
+    unselectAction,
     className,
     disableClick,
     ...props
@@ -132,12 +157,25 @@ export function MenuItem({
     } = context;
 
     useEffect(() => {
-        registerMenuItem(index, { action, prevAction });
+        registerMenuItem(index, {
+            action,
+            prevAction,
+            selectAction,
+            unselectAction,
+        });
 
         return () => {
             unregisterMenuItem(index);
         };
-    }, [index, action, prevAction, registerMenuItem, unregisterMenuItem]);
+    }, [
+        index,
+        action,
+        prevAction,
+        selectAction,
+        unselectAction,
+        registerMenuItem,
+        unregisterMenuItem,
+    ]);
 
     return (
         <div
