@@ -6,6 +6,7 @@ import {
     IconPhotoScan,
     IconPalette,
     IconTransform,
+    IconMoon,
 } from "@tabler/icons-react";
 import { Tool } from "@/types/tool";
 
@@ -44,6 +45,12 @@ export function getTools(): Tool[] {
             name: "SVG preview",
             description: "Preview SVG files",
             icon: IconPhotoScan,
+            unreleased: true,
+        },
+        {
+            name: "Sleep calculator",
+            description: "Check the optimal time to wake up tomorrow",
+            icon: IconMoon,
             unreleased: true,
         },
     ];
