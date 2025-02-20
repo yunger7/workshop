@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useMemo, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { faker } from "@faker-js/faker";
 import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
 import { CopyButton, CopyButtonHandle } from "@/components/copy-button";
 import { MenuList, MenuItem } from "@/components/menu";
+import { ViewBox, ViewBoxHandle } from "@/components/view-box";
 
 const MIN_LINES = 1;
 const DEFAULT_LINES = 5;
@@ -17,15 +18,23 @@ const MAX_PARAGRAPHS = 10;
 
 export default function LoremIpsum() {
     const copyButtonRef = useRef<CopyButtonHandle>(null);
+    const viewBoxRef = useRef<ViewBoxHandle>(null);
 
     const [linesCount, setLinesCount] = useState(DEFAULT_LINES);
     const [paragraphsCount, setParagraphsCount] = useState(DEFAULT_PARAGRAPHS);
 
-    const text = useMemo(() => {
+    const generateText = useCallback(() => {
         return Array.from({ length: paragraphsCount })
             .map(() => faker.lorem.sentences(linesCount))
             .join("\n\n");
-    }, [linesCount, paragraphsCount]);
+    }, [paragraphsCount, linesCount]);
+
+    const regenerate = useCallback(() => {
+        setText(generateText());
+    }, [generateText]);
+
+    const [text, setText] = useState(generateText());
+    const [firstLoad, setFirstLoad] = useState(true);
 
     function increaseParagraphsCount() {
         setParagraphsCount((prevCount) =>
@@ -47,15 +56,55 @@ export default function LoremIpsum() {
         setLinesCount((prevCount) => Math.max(prevCount - 1, MIN_LINES));
     }
 
+    useEffect(() => {
+        const controls = viewBoxRef?.current?.controls;
+
+        if (firstLoad) {
+            setFirstLoad(false);
+
+            if (controls) {
+                controls.start("hover");
+            }
+        }
+    }, [firstLoad]);
+
+    useEffect(() => {
+        regenerate();
+    }, [regenerate]);
+
     return (
         <div>
-            <pre className="mb-6 max-h-[225px] overflow-auto text-wrap rounded-md border bg-card p-4 text-justify">
-                {text}
-            </pre>
             <MenuList className="flex flex-col gap-8">
                 <MenuItem
                     index={0}
+                    action={() => {
+                        regenerate();
+
+                        viewBoxRef?.current?.controls
+                            .start("rotate")
+                            .then(() => {
+                                viewBoxRef?.current?.controls.set({
+                                    rotate: 90,
+                                });
+                            });
+                    }}
+                    selectAction={() => {
+                        viewBoxRef?.current?.controls.start("hover");
+                    }}
+                    unselectAction={() => {
+                        viewBoxRef?.current?.controls.start("initial");
+                    }}
+                >
+                    <ViewBox ref={viewBoxRef} className="p-0">
+                        <pre className="max-h-[250px] overflow-hidden overflow-y-auto text-wrap p-4 text-justify">
+                            {text}
+                        </pre>
+                    </ViewBox>
+                </MenuItem>
+                <MenuItem
+                    index={1}
                     action={() => copyButtonRef.current?.copy()}
+                    className="-mt-2"
                 >
                     <CopyButton
                         ref={copyButtonRef}
@@ -65,7 +114,7 @@ export default function LoremIpsum() {
                 </MenuItem>
                 <MenuItem
                     disableClick
-                    index={1}
+                    index={2}
                     action={increaseParagraphsCount}
                     prevAction={decreaseParagraphsCount}
                     className="mb-2"
@@ -91,7 +140,7 @@ export default function LoremIpsum() {
                 </MenuItem>
                 <MenuItem
                     disableClick
-                    index={2}
+                    index={3}
                     action={increaseLinesCount}
                     prevAction={decreaseLinesCount}
                     className="mb-4"

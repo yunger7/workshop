@@ -53,7 +53,7 @@ export const ViewBox = forwardRef<ViewBoxHandle, ViewBoxProps>(
                 <Tooltip>
                     <TooltipTrigger asChild>
                         <motion.div
-                            className="absolute right-2 top-2"
+                            className="absolute -right-7 top-[calc(50%-0.75rem)] -translate-y-1/2"
                             animate={controls}
                             variants={iconVariants}
                         >

@@ -40,7 +40,7 @@ export default function UUID() {
         };
     }, [uuid, firstLoad]);
 
-    async function regenerate() {
+    function regenerate() {
         setUuid(uuidv4());
     }
 
