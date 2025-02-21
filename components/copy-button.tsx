@@ -12,9 +12,9 @@ import { IconCopy, IconCheck, IconX } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { useClipboard } from "@/hooks/use-clipboard";
-import { Button } from "@/components/ui/button";
+import { Button, ButtonProps } from "@/components/ui/button";
 
-export type CopyButtonProps = React.ComponentPropsWithoutRef<"button"> & {
+export type CopyButtonProps = ButtonProps & {
     value: string;
 };
 
