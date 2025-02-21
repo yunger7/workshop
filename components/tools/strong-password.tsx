@@ -2,6 +2,7 @@
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { useKeyboardShortcut } from "@/hooks/use-keyboard-shortcut";
 import { MenuList, MenuItem } from "@/components/menu";
 import { ViewBox, ViewBoxHandle } from "@/components/view-box";
 import { CopyButton, CopyButtonHandle } from "@/components/copy-button";
@@ -106,6 +107,8 @@ export default function StrongPassword() {
     function decreaseLength() {
         setLength((prev) => Math.max(prev - 1, MIN_LENGTH));
     }
+
+    useKeyboardShortcut(["mod", "enter"], () => copyButtonRef.current?.copy());
 
     useEffect(() => {
         const controls = viewBoxRef?.current?.controls;

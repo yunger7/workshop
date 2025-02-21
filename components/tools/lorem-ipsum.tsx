@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { faker } from "@faker-js/faker";
+import { useKeyboardShortcut } from "@/hooks/use-keyboard-shortcut";
 import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
 import { CopyButton, CopyButtonHandle } from "@/components/copy-button";
@@ -55,6 +56,8 @@ export default function LoremIpsum() {
     function decreaseLinesCount() {
         setLinesCount((prevCount) => Math.max(prevCount - 1, MIN_LINES));
     }
+
+    useKeyboardShortcut(["mod", "enter"], () => copyButtonRef.current?.copy());
 
     useEffect(() => {
         const controls = viewBoxRef?.current?.controls;

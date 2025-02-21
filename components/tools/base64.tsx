@@ -5,7 +5,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { motion, AnimatePresence } from "framer-motion";
-import { cn } from "@/lib/utils";
+import { useKeyboardShortcut } from "@/hooks/use-keyboard-shortcut";
 import { MenuList, MenuItem } from "@/components/menu";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -65,6 +65,10 @@ export default function Base64() {
             });
         });
     }
+
+    useKeyboardShortcut(["mod", "enter"], () => convert(), {
+        allowInInput: true,
+    });
 
     useEffect(() => {
         textareaRef?.current?.focus();

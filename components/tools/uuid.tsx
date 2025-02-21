@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { useKeyboardShortcut } from "@/hooks/use-keyboard-shortcut";
 import { MenuList, MenuItem } from "@/components/menu";
 import { CopyButton, CopyButtonHandle } from "@/components/copy-button";
 import { ViewBox, ViewBoxHandle } from "@/components/view-box";
@@ -24,6 +25,8 @@ export default function UUID() {
             }
         }
     }, [firstLoad]);
+
+    useKeyboardShortcut(["mod", "enter"], () => copyButtonRef.current?.copy());
 
     function regenerate() {
         setUuid(uuidv4());
