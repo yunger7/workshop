@@ -52,7 +52,11 @@ export default function UUID() {
                         viewBoxRef?.current?.controls.start("initial")
                     }
                 >
-                    <ViewBox ref={viewBoxRef}>{uuid}</ViewBox>
+                    <ViewBox ref={viewBoxRef} className="p-0">
+                        <pre className="overflow-hidden overflow-x-auto p-4">
+                            {uuid}
+                        </pre>
+                    </ViewBox>
                 </MenuItem>
                 <MenuItem
                     index={1}
