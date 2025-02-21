@@ -1,12 +1,7 @@
 "use client";
 
 import React, { forwardRef, useImperativeHandle } from "react";
-import {
-    motion,
-    useAnimation,
-    AnimationControls,
-    Variants,
-} from "framer-motion";
+import { motion, useAnimation, Variants } from "framer-motion";
 import { IconRefresh } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 import {
@@ -26,7 +21,7 @@ export type ViewBoxProps = React.ComponentPropsWithoutRef<"button"> & {
 };
 
 export type ViewBoxHandle = {
-    controls: AnimationControls;
+    controls: ReturnType<typeof useAnimation>;
 };
 
 export const ViewBox = forwardRef<ViewBoxHandle, ViewBoxProps>(

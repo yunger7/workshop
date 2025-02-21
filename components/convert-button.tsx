@@ -1,17 +1,12 @@
 "use client";
 
-import {
-    motion,
-    useAnimation,
-    AnimationControls,
-    Variants,
-} from "framer-motion";
+import { motion, useAnimation, Variants } from "framer-motion";
 import React, { forwardRef, useImperativeHandle } from "react";
 import { IconRefresh } from "@tabler/icons-react";
 import { Button, ButtonProps } from "@/components/ui/button";
 
 export type ConvertButtonHandle = {
-    controls: AnimationControls;
+    controls: ReturnType<typeof useAnimation>;
 };
 
 const iconVariants: Variants = {
