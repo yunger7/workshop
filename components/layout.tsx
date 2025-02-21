@@ -32,13 +32,13 @@ export function Layout({
     actions = [],
 }: LayoutProps) {
     return (
-        <main className="mx-auto my-16 max-w-screen-md px-10">
+        <main className="mx-auto my-16 max-w-screen-md px-8">
             <div className="mb-4">
                 <div className="flex items-center justify-between">
                     <BackButton>
                         <div className="group relative flex items-center">
                             <IconArrowLeft className="absolute left-0 top-1/2 -ml-7 size-5 -translate-y-1/2 opacity-40 transition-transform duration-200 group-hover:-translate-x-1" />
-                            <h1 className="flex items-center gap-2 text-2xl font-bold group-hover:cursor-pointer">
+                            <h1 className="flex items-center gap-2 text-left text-2xl font-bold group-hover:cursor-pointer">
                                 {IconComponent && (
                                     <IconComponent className="size-6" />
                                 )}
