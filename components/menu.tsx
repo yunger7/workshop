@@ -13,7 +13,7 @@ import { useKeyboardShortcut } from "@/hooks/use-keyboard-shortcut";
 import { useGlobalKeyboardShortcuts } from "@/contexts/global-keyboard-shortcuts";
 
 type MenuItemActions = {
-    action: () => void;
+    action?: () => void;
     prevAction?: () => void;
     selectAction?: () => void;
     unselectAction?: () => void;
@@ -125,7 +125,7 @@ export function MenuList({
 type MenuItemProps = Omit<React.ComponentPropsWithoutRef<"div">, "children"> & {
     index: number;
     children: React.ReactNode;
-    action: () => void;
+    action?: () => void;
     prevAction?: () => void;
     selectAction?: () => void;
     unselectAction?: () => void;
