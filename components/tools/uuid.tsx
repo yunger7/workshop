@@ -14,17 +14,7 @@ export default function UUID() {
     const [firstLoad, setFirstLoad] = useState(true);
 
     useEffect(() => {
-        let isMounted = true;
-
         const controls = viewBoxRef?.current?.controls;
-
-        if (!firstLoad && controls) {
-            controls.start("rotate").then(() => {
-                if (isMounted) {
-                    controls.set({ rotate: 90 });
-                }
-            });
-        }
 
         if (firstLoad) {
             setFirstLoad(false);
@@ -33,12 +23,7 @@ export default function UUID() {
                 controls.start("hover");
             }
         }
-
-        return () => {
-            isMounted = false;
-            controls?.stop();
-        };
-    }, [uuid, firstLoad]);
+    }, [firstLoad]);
 
     function regenerate() {
         setUuid(uuidv4());
@@ -49,7 +34,17 @@ export default function UUID() {
             <MenuList className="flex flex-col gap-6">
                 <MenuItem
                     index={0}
-                    action={regenerate}
+                    action={() => {
+                        regenerate();
+
+                        viewBoxRef?.current?.controls
+                            .start("rotate")
+                            .then(() => {
+                                viewBoxRef?.current?.controls.set({
+                                    rotate: 90,
+                                });
+                            });
+                    }}
                     selectAction={() =>
                         viewBoxRef?.current?.controls.start("hover")
                     }
