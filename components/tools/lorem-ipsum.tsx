@@ -129,8 +129,8 @@ export default function LoremIpsum() {
                             className="-mb-4"
                             defaultValue={[DEFAULT_PARAGRAPHS]}
                             value={[paragraphsCount]}
-                            max={10}
-                            min={1}
+                            max={MAX_PARAGRAPHS}
+                            min={MIN_PARAGRAPHS}
                             step={1}
                             onValueChange={(value) =>
                                 setParagraphsCount(value[0])
@@ -155,8 +155,8 @@ export default function LoremIpsum() {
                             className="-mb-4"
                             defaultValue={[DEFAULT_LINES]}
                             value={[linesCount]}
-                            max={10}
-                            min={1}
+                            max={MAX_LINES}
+                            min={MIN_LINES}
                             step={1}
                             onValueChange={(value) => setLinesCount(value[0])}
                         />
