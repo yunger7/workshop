@@ -20,6 +20,7 @@ import {
     ConvertButton,
     ConvertButtonHandle,
 } from "@/components/convert-button";
+import { CopyButton } from "@/components/copy-button";
 
 const base64Schema = z.object({
     content: z.string(),
@@ -91,14 +92,24 @@ export default function Base64() {
                                 <FormItem className="w-full">
                                     <FormLabel>Your text</FormLabel>
                                     <FormControl>
-                                        <Textarea
-                                            className="min-h-[250px]"
-                                            ref={(e) => {
-                                                ref(e);
-                                                textareaRef.current = e;
-                                            }}
-                                            {...field}
-                                        />
+                                        <div className="relative">
+                                            <Textarea
+                                                className="min-h-[250px]"
+                                                ref={(e) => {
+                                                    ref(e);
+                                                    textareaRef.current = e;
+                                                }}
+                                                {...field}
+                                            />
+                                            <CopyButton
+                                                type="button"
+                                                size="icon"
+                                                variant="outline"
+                                                tooltipSide="top"
+                                                className="absolute -right-7 top-[calc(50%-1.13rem)] aspect-square translate-x-1/2"
+                                                value={form.getValues().content}
+                                            />
+                                        </div>
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
