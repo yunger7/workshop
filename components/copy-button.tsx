@@ -110,8 +110,8 @@ export const CopyButton = forwardRef<CopyButtonHandle, CopyButtonProps>(
                             className,
                         )}
                         onClick={handleCopy}
-                        onMouseEnter={() => setTooltipOpen(true)}
-                        onMouseLeave={() => setTooltipOpen(false)}
+                        onMouseEnter={() => handleTooltipOpen(true)}
+                        onMouseLeave={() => handleTooltipOpen(false)}
                         variant={variant}
                         {...props}
                     >
