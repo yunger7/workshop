@@ -7,9 +7,11 @@ export const dynamicParams = false;
 export function generateStaticParams() {
     const tools = getTools();
 
-    return tools.map((tool) => ({
-        slug: tool.slug,
-    }));
+    return tools
+        .filter((tool) => !tool.unreleased)
+        .map((tool) => ({
+            slug: tool.slug,
+        }));
 }
 
 export default async function ToolPage({
