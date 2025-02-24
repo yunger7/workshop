@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/contexts/theme";
 import { TopLoader } from "@/components/top-loader";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/toaster";
+import { StatusBar } from "@/components/status-bar";
 import { GlobalKeyboardShortcutsProvider } from "@/contexts/global-keyboard-shortcuts";
 import { SearchProvider, Path, PathType } from "@/contexts/search";
 import { listPosts } from "@/lib/data/writing";
@@ -71,7 +72,10 @@ export default async function RootLayout({
                     <TopLoader />
                     <SearchProvider paths={searchPaths}>
                         <GlobalKeyboardShortcutsProvider>
-                            <TooltipProvider>{children}</TooltipProvider>
+                            <TooltipProvider>
+                                {children}
+                                <StatusBar />
+                            </TooltipProvider>
                         </GlobalKeyboardShortcutsProvider>
                     </SearchProvider>
                     <Toaster />

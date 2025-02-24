@@ -1,6 +1,7 @@
 import { promises as fs } from "node:fs";
 import { exec } from "node:child_process";
 import { promisify } from "node:util";
+import { getEnvironment } from "@/lib/environment";
 
 const execAsync = promisify(exec);
 
@@ -13,18 +14,7 @@ export async function getVersion() {
     const shortCommitHash = commitHash.slice(0, 7);
 
     const baseVersion = `v${version}-${shortCommitHash}`;
+    const environment = getEnvironment();
 
-    if (
-        process.env.NODE_ENV === "development" ||
-        process.env.VERCEL_ENV === "development"
-    ) {
-        return `${baseVersion}-dev`;
-    } else if (
-        process.env.NODE_ENV === "test" ||
-        process.env.VERCEL_ENV === "preview"
-    ) {
-        return `${baseVersion}-preview`;
-    }
-
-    return baseVersion;
+    return `${baseVersion}-${environment}`;
 }
