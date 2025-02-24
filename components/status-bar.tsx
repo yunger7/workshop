@@ -33,7 +33,12 @@ type StatusBarItemProps = {
 
 function StatusBarItem({ children, className }: StatusBarItemProps) {
     return (
-        <span className={cn("flex h-full items-center gap-2 px-2", className)}>
+        <span
+            className={cn(
+                "flex h-full select-none items-center gap-2 px-2",
+                className,
+            )}
+        >
             {children}
         </span>
     );
