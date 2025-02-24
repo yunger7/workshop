@@ -32,11 +32,6 @@ export function getTools(): Tool[] {
             icon: IconHash,
         },
         {
-            name: "Color converter",
-            description: "Convert colors between different formats",
-            icon: IconPalette,
-        },
-        {
             name: "Base64",
             description: "Encode and decode data in Base64 format",
             icon: IconTransform,
@@ -45,12 +40,16 @@ export function getTools(): Tool[] {
             name: "SVG preview",
             description: "Preview SVG files",
             icon: IconPhotoScan,
-            unreleased: true,
         },
         {
             name: "Sleep calculator",
             description: "Check the optimal time to wake up tomorrow",
             icon: IconMoon,
+        },
+        {
+            name: "Color converter",
+            description: "Convert colors between different formats",
+            icon: IconPalette,
             unreleased: true,
         },
     ];
