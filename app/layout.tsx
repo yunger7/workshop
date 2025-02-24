@@ -7,7 +7,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/toaster";
 import { StatusBar } from "@/components/status-bar";
 import { GlobalKeyboardShortcutsProvider } from "@/contexts/global-keyboard-shortcuts";
-import { SearchProvider, Path, PathType } from "@/contexts/search";
+import { ViewsProvider } from "@/contexts/views";
+import { Path, PathType } from "@/types/path";
 import { listPosts } from "@/lib/data/writing";
 import { getProjects } from "@/lib/data/projects";
 import { getTools } from "@/lib/data/tools";
@@ -70,14 +71,14 @@ export default async function RootLayout({
                     defaultTheme="dark"
                 >
                     <TopLoader />
-                    <SearchProvider paths={searchPaths}>
+                    <ViewsProvider paths={searchPaths}>
                         <GlobalKeyboardShortcutsProvider>
                             <TooltipProvider>
                                 {children}
                                 <StatusBar />
                             </TooltipProvider>
                         </GlobalKeyboardShortcutsProvider>
-                    </SearchProvider>
+                    </ViewsProvider>
                     <Toaster />
                 </ThemeProvider>
             </body>

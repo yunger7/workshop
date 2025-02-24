@@ -13,7 +13,7 @@ import {
 } from "@tabler/icons-react";
 import { Icon } from "@/types/icon";
 import { useKeyboardShortcut } from "@/hooks/use-keyboard-shortcut";
-import { useSearchContext } from "@/contexts/search";
+import { useViewsContext } from "@/contexts/views";
 import { MenuList, MenuItem } from "@/components/menu";
 
 type Option = {
@@ -25,7 +25,7 @@ type Option = {
 
 export function Menu() {
     const router = useRouter();
-    const { setIsSearchDialogOpen } = useSearchContext();
+    const { setIsSearchDialogOpen } = useViewsContext();
 
     const actions = {
         find: () => setIsSearchDialogOpen(true),

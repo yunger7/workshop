@@ -12,13 +12,13 @@ import {
 import { cn } from "@/lib/utils";
 import { getEnvironment } from "@/lib/environment";
 import { useScrollPercentage } from "@/hooks/use-scroll-percentage";
+import { useViewsContext } from "@/contexts/views";
 import { Button } from "@/components/ui/button";
 import {
     Breadcrumb,
     BreadcrumbItem,
     BreadcrumbLink,
     BreadcrumbList,
-    BreadcrumbPage,
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 
@@ -43,6 +43,7 @@ export function StatusBar() {
     const pathname = usePathname();
     const router = useRouter();
     const scrollPercentage = useScrollPercentage();
+    const { setIsHelpDialogOpen } = useViewsContext();
 
     const paths = pathname === "/" ? [""] : pathname.split("/");
 
@@ -107,9 +108,13 @@ export function StatusBar() {
                     <IconGitBranch className="size-4" />
                     {getEnvironment()}
                 </StatusBarItem>
-                <StatusBarItem>
+                <Button
+                    variant="ghost"
+                    className="h-full rounded-none px-2 py-0"
+                    onClick={() => setIsHelpDialogOpen(true)}
+                >
                     <IconHelp className="size-4" />
-                </StatusBarItem>
+                </Button>
             </StatusBarSection>
         </div>
     );

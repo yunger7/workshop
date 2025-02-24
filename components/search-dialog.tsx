@@ -6,7 +6,8 @@ import { useCommandState } from "cmdk";
 import { useRouter } from "nextjs-toploader/app";
 import { IconPencil, IconTool, IconPackage } from "@tabler/icons-react";
 import { Icon } from "@/types/icon";
-import { useSearchContext, Path, PathType } from "@/contexts/search";
+import { Path, PathType } from "@/types/path";
+import { useViewsContext } from "@/contexts/views";
 import {
     Command,
     CommandDialog,
@@ -28,7 +29,7 @@ function FilterState({ total }: { total: number }) {
 
 export function SearchDialog({ paths }: { paths: Path[] }) {
     const router = useRouter();
-    const { isSearchDialogOpen, setIsSearchDialogOpen } = useSearchContext();
+    const { isSearchDialogOpen, setIsSearchDialogOpen } = useViewsContext();
 
     const [value, setValue] = useState("");
 
@@ -55,7 +56,7 @@ export function SearchDialog({ paths }: { paths: Path[] }) {
 
     return (
         <CommandDialog
-            title="Find"
+            label="Find"
             open={isSearchDialogOpen}
             onOpenChange={handleOpenChange}
         >

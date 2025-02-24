@@ -25,16 +25,16 @@ const Command = React.forwardRef<
 Command.displayName = CommandPrimitive.displayName;
 
 type CommandDialogProps = DialogProps & {
-    title: string;
+    label?: string;
 };
 
-const CommandDialog = ({ children, title, ...props }: CommandDialogProps) => {
+const CommandDialog = ({ children, label, ...props }: CommandDialogProps) => {
     return (
         <Dialog {...props}>
-            <DialogContent className="-mt-[0.5rem] max-w-screen-md border-none bg-background p-0 pt-2.5">
-                <VisuallyHidden.Root>
-                    <DialogTitle className="hidden">{title}</DialogTitle>
-                </VisuallyHidden.Root>
+            <DialogContent
+                label={label}
+                className="-mt-[0.5rem] max-w-screen-md border-none bg-background p-0 pt-2.5"
+            >
                 <Command className="border-2 border-nord-polar-2 dark:border-nord-snow-3 [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-group]]:px-2 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5">
                     {children}
                 </Command>
