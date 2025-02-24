@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { CodeEditor } from "@/components/code-editor";
 
 export default function SvgPreview() {
     const [content, setContent] = useState("");
@@ -40,11 +41,10 @@ export default function SvgPreview() {
         <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-2">
                 <Label htmlFor="content">SVG content</Label>
-                <Textarea
-                    id="content"
-                    className="min-h-[250px]"
+                <CodeEditor
                     value={content}
-                    onChange={(event) => setContent(event.target.value)}
+                    onValueChange={setContent}
+                    className="h-[250px] overflow-auto"
                 />
             </div>
             <div
