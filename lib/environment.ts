@@ -1,4 +1,4 @@
-const ENVIRONMENTS = [process.env.NODE_ENV, process.env.VERCEL_ENV];
+const ENVIRONMENTS = [process.env.NODE_ENV, process.env.NEXT_PUBLIC_VERCEL_ENV];
 
 export enum Environment {
     Dev = "dev",
