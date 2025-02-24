@@ -59,9 +59,9 @@ export default async function RootLayout({
     const searchPaths = await getSearchPaths();
 
     return (
-        <html lang="en">
+        <html lang="en" className="min-h-screen">
             <body
-                className={`${jetBrainsMono.variable} min-h-screen font-mono text-sm antialiased`}
+                className={`${jetBrainsMono.variable} font-mono text-sm antialiased`}
             >
                 <ThemeProvider
                     disableTransitionOnChange
