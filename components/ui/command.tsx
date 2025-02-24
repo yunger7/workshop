@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { type DialogProps } from "@radix-ui/react-dialog";
 import { Command as CommandPrimitive } from "cmdk";
 import { IconSearch } from "@tabler/icons-react";
@@ -25,17 +24,15 @@ const Command = React.forwardRef<
 Command.displayName = CommandPrimitive.displayName;
 
 type CommandDialogProps = DialogProps & {
-    label?: string;
+    label: string;
 };
 
 const CommandDialog = ({ children, label, ...props }: CommandDialogProps) => {
     return (
         <Dialog {...props}>
-            <DialogContent
-                label={label}
-                className="-mt-[0.5rem] max-w-screen-md border-none bg-background p-0 pt-2.5"
-            >
-                <Command className="border-2 border-nord-polar-2 dark:border-nord-snow-3 [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-group]]:px-2 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5">
+            <DialogContent>
+                <DialogTitle>{label}</DialogTitle>
+                <Command className="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-group]]:px-2 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5">
                     {children}
                 </Command>
             </DialogContent>
@@ -46,14 +43,9 @@ const CommandDialog = ({ children, label, ...props }: CommandDialogProps) => {
 const CommandInput = React.forwardRef<
     React.ElementRef<typeof CommandPrimitive.Input>,
     React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input>
->(({ className, placeholder, ...props }, ref) => (
+>(({ className, ...props }, ref) => (
     <div className="flex items-center px-3" cmdk-input-wrapper="">
         <IconSearch className="mr-2 h-4 w-4 shrink-0 opacity-50" />
-        {placeholder && (
-            <span className="absolute -top-1/4 left-1/2 -translate-x-1/2 transform bg-background px-2">
-                {placeholder}
-            </span>
-        )}
         <CommandPrimitive.Input
             ref={ref}
             className={cn(

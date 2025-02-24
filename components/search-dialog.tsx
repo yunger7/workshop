@@ -56,17 +56,13 @@ export function SearchDialog({ paths }: { paths: Path[] }) {
 
     return (
         <CommandDialog
-            label="Find"
             open={isSearchDialogOpen}
             onOpenChange={handleOpenChange}
+            label="Find"
         >
             <Command loop>
                 <div className="relative border-b-2 border-nord-polar-1 pr-12 dark:border-nord-snow-3">
-                    <CommandInput
-                        placeholder="Find"
-                        value={value}
-                        onValueChange={setValue}
-                    />
+                    <CommandInput value={value} onValueChange={setValue} />
                     <FilterState total={paths.length} />
                 </div>
                 <CommandList>
