@@ -39,7 +39,7 @@ export function Stars({ count }: StarsProps) {
     return (
         <motion.div
             onTapStart={handleTap}
-            className="flex items-center gap-1 text-sm focus:outline-none"
+            className="flex select-none items-center gap-1 text-sm focus:outline-none"
             tabIndex={-1}
         >
             <motion.span
