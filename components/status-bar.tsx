@@ -3,9 +3,15 @@
 import React, { Fragment } from "react";
 import { usePathname } from "next/navigation";
 import { useRouter } from "nextjs-toploader/app";
-import { IconGitBranch, IconHelp, IconHome } from "@tabler/icons-react";
+import {
+    IconGitBranch,
+    IconHelp,
+    IconHome,
+    IconLoader,
+} from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 import { getEnvironment } from "@/lib/environment";
+import { useScrollPercentage } from "@/hooks/use-scroll-percentage";
 import { Button } from "@/components/ui/button";
 import {
     Breadcrumb,
@@ -36,6 +42,7 @@ function StatusBarItem({ children, className }: StatusBarItemProps) {
 export function StatusBar() {
     const pathname = usePathname();
     const router = useRouter();
+    const scrollPercentage = useScrollPercentage();
 
     const paths = pathname === "/" ? [""] : pathname.split("/");
 
@@ -90,6 +97,12 @@ export function StatusBar() {
                 </Breadcrumb>
             </StatusBarSection>
             <StatusBarSection>
+                {scrollPercentage !== null && (
+                    <StatusBarItem>
+                        <IconLoader className="size-4" />
+                        {scrollPercentage}%
+                    </StatusBarItem>
+                )}
                 <StatusBarItem>
                     <IconGitBranch className="size-4" />
                     {getEnvironment()}
