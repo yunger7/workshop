@@ -34,12 +34,20 @@ export function GlobalKeyboardShortcutsProvider({
 }) {
     const router = useRouter();
     const pathname = usePathname();
-    const { setIsSearchDialogOpen } = useViewsContext();
+    const { setIsSearchDialogOpen, setIsHelpDialogOpen } = useViewsContext();
     const { toggleTheme } = useTheme();
 
     useKeyboardShortcut(
         ["mod", "k"],
         () => setIsSearchDialogOpen((prev) => !prev),
+        {
+            allowInInput: true,
+        },
+    );
+
+    useKeyboardShortcut(
+        ["mod", "h"],
+        () => setIsHelpDialogOpen((prev) => !prev),
         {
             allowInInput: true,
         },
