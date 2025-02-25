@@ -34,8 +34,14 @@ export function GlobalKeyboardShortcutsProvider({
 }) {
     const router = useRouter();
     const pathname = usePathname();
-    const { setIsSearchDialogOpen, setIsHelpDialogOpen } = useViewsContext();
+    const {
+        setIsSearchDialogOpen,
+        setIsHelpDialogOpen,
+        setIsShortcutsDialogOpen,
+    } = useViewsContext();
     const { toggleTheme } = useTheme();
+
+    useKeyboardShortcut(["Space"], () => setIsShortcutsDialogOpen(true));
 
     useKeyboardShortcut(
         ["mod", "k"],

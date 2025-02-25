@@ -55,7 +55,7 @@ export const KeyboardShortcut: React.FC<KeyboardShortcutProps> = ({
             case "backspace":
                 return "\u232B";
             default:
-                return key.length <= 2 ? key.toUpperCase() : capitalize(key);
+                return key;
         }
     };
 

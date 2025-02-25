@@ -5,11 +5,12 @@ type ShortcutHandler = () => void;
 type Options = {
     routesBlacklist?: Array<string>;
     allowInInput?: boolean;
+    allowInDialog?: boolean;
 };
 
 const shortcuts = new Map<
     string,
-    { callback: ShortcutHandler; options?: Options }
+    Array<{ callback: ShortcutHandler; options?: Options }>
 >();
 
 function handleGlobalKeyPress(event: KeyboardEvent) {
@@ -19,6 +20,8 @@ function handleGlobalKeyPress(event: KeyboardEvent) {
         target.tagName === "TEXTAREA" ||
         target.isContentEditable;
 
+    const isDialogOpen = document.activeElement?.closest('[role="dialog"]');
+
     const matches: Array<{ callback: ShortcutHandler; specificity: number }> =
         [];
     const pathname = window.location.pathname;
@@ -27,31 +30,42 @@ function handleGlobalKeyPress(event: KeyboardEvent) {
         : "windows";
     const modKey = os === "macos" ? event.metaKey : event.ctrlKey;
 
-    shortcuts.forEach(({ callback, options }, keyCombination) => {
-        if (options?.routesBlacklist?.includes(pathname)) return;
-        if (inInput && !options?.allowInInput) return;
+    shortcuts.forEach((handlers, keyCombination) => {
+        handlers.forEach(({ callback, options }) => {
+            if (options?.routesBlacklist?.includes(pathname)) return;
+            if (inInput && !options?.allowInInput) return;
+            if (isDialogOpen && !options?.allowInDialog) return;
 
-        const keys = keyCombination.split("+");
-        const isShortcutPressed = keys.every((key) => {
-            switch (key.toLowerCase()) {
-                case "mod":
-                    return modKey;
-                case "cmd":
-                    return event.metaKey;
-                case "ctrl":
-                    return event.ctrlKey;
-                case "alt":
-                    return event.altKey;
-                case "shift":
-                    return event.shiftKey;
-                default:
-                    return event.key.toLowerCase() === key.toLowerCase();
+            const keys = keyCombination.split("+");
+            const isShortcutPressed = keys.every((key) => {
+                switch (key.toLowerCase()) {
+                    case "mod":
+                        return modKey;
+                    case "cmd":
+                        return event.metaKey;
+                    case "ctrl":
+                        return event.ctrlKey;
+                    case "alt":
+                        return event.altKey;
+                    case "shift":
+                        return event.shiftKey;
+                    default:
+                        if (key.toLowerCase() === "space") {
+                            return event.key === " ";
+                        }
+
+                        return event.key.toLowerCase() === key.toLowerCase();
+                }
+            });
+
+            if (isShortcutPressed) {
+                if (isDialogOpen && options?.allowInDialog) {
+                    matches.push({ callback, specificity: keys.length });
+                } else if (!isDialogOpen && !options?.allowInDialog) {
+                    matches.push({ callback, specificity: keys.length });
+                }
             }
         });
-
-        if (isShortcutPressed) {
-            matches.push({ callback, specificity: keys.length });
-        }
     });
 
     if (matches.length) {
@@ -79,10 +93,23 @@ export function useKeyboardShortcut(
             window.addEventListener("keydown", handleGlobalKeyPress);
         }
 
-        shortcuts.set(key, { callback, options });
+        if (!shortcuts.has(key)) {
+            shortcuts.set(key, []);
+        }
+
+        shortcuts.get(key)?.push({ callback, options });
 
         return () => {
-            shortcuts.delete(key);
+            const handlers = shortcuts.get(key) || [];
+            const filteredHandlers = handlers.filter(
+                (h) => h.callback !== callback,
+            );
+            if (filteredHandlers.length) {
+                shortcuts.set(key, filteredHandlers);
+            } else {
+                shortcuts.delete(key);
+            }
+
             if (!shortcuts.size) {
                 window.removeEventListener("keydown", handleGlobalKeyPress);
             }
