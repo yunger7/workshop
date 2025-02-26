@@ -7,7 +7,7 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "format": "prettier --write ."
+        "format": "prettier --write \"**/*.{ts,tsx,js,jsx}\""
     },
     "dependencies": {
         "@faker-js/faker": "^9.5.0",
