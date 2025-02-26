@@ -12,12 +12,16 @@ type SwitchProps = React.ComponentPropsWithoutRef<
 > & {
     id: string;
     label: string;
+    switchLabels?: {
+        on: string;
+        off: string;
+    };
 };
 
 const Switch = React.forwardRef<
     React.ElementRef<typeof SwitchPrimitives.Root>,
     SwitchProps
->(({ className, id, label, ...props }, ref) => (
+>(({ className, id, label, switchLabels, ...props }, ref) => (
     <div className="flex w-full items-center justify-between gap-2">
         <Label htmlFor={id} className="w-full">
             {label}
@@ -36,7 +40,7 @@ const Switch = React.forwardRef<
                     "text-primary underline": !props.checked,
                 })}
             >
-                No
+                {switchLabels?.on ?? "No"}
             </span>
             /
             <span
@@ -44,7 +48,7 @@ const Switch = React.forwardRef<
                     "text-primary underline": props.checked,
                 })}
             >
-                Yes
+                {switchLabels?.off ?? "Yes"}
             </span>
         </SwitchPrimitives.Root>
     </div>

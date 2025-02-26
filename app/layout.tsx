@@ -9,6 +9,7 @@ import { StatusBar } from "@/components/status-bar";
 import { Explorer } from "@/components/explorer";
 import { GlobalKeyboardShortcutsProvider } from "@/contexts/global-keyboard-shortcuts";
 import { ViewsProvider } from "@/contexts/views";
+import { SettingsProvider } from "@/contexts/settings";
 import { Path, PathType } from "@/types/path";
 import { listPosts } from "@/lib/data/writing";
 import { getProjects } from "@/lib/data/projects";
@@ -72,17 +73,19 @@ export default async function RootLayout({
                     defaultTheme="dark"
                 >
                     <TopLoader />
-                    <ViewsProvider paths={searchPaths}>
-                        <GlobalKeyboardShortcutsProvider>
-                            <TooltipProvider>
-                                <Explorer paths={searchPaths}>
-                                    {children}
-                                </Explorer>
-                                <StatusBar />
-                            </TooltipProvider>
-                        </GlobalKeyboardShortcutsProvider>
-                    </ViewsProvider>
-                    <Toaster />
+                    <SettingsProvider>
+                        <ViewsProvider paths={searchPaths}>
+                            <GlobalKeyboardShortcutsProvider>
+                                <TooltipProvider>
+                                    <Explorer paths={searchPaths}>
+                                        {children}
+                                    </Explorer>
+                                    <StatusBar />
+                                </TooltipProvider>
+                            </GlobalKeyboardShortcutsProvider>
+                        </ViewsProvider>
+                        <Toaster />
+                    </SettingsProvider>
                 </ThemeProvider>
             </body>
         </html>

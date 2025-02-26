@@ -3,17 +3,21 @@
 import React, { useRef } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { IconStar } from "@tabler/icons-react";
+import { useSettingsContext } from "@/contexts/settings";
 
 type StarsProps = {
     count: number;
 };
 
 export function Stars({ count }: StarsProps) {
+    const { enableAnimations } = useSettingsContext();
     const controls = useAnimation();
     const tapCountRef = useRef(0);
     const timerRef = useRef<NodeJS.Timeout | null>(null);
 
     const handleTap = async () => {
+        if (!enableAnimations) return;
+
         if (timerRef.current) clearTimeout(timerRef.current);
 
         tapCountRef.current += 1;

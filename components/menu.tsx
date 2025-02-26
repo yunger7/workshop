@@ -11,6 +11,7 @@ import { IconChevronRight } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 import { useKeyboardShortcut } from "@/hooks/use-keyboard-shortcut";
 import { useGlobalKeyboardShortcuts } from "@/contexts/global-keyboard-shortcuts";
+import { useSettingsContext } from "@/contexts/settings";
 import { useViewsContext } from "@/contexts/views";
 
 type MenuItemActions = {
@@ -162,6 +163,7 @@ export function MenuItem({
     ...props
 }: MenuItemProps) {
     const context = useContext(MenuContext);
+    const { enableAnimations } = useSettingsContext();
 
     if (!context) {
         throw new Error("MenuItem must be used inside a MenuList");
@@ -217,7 +219,13 @@ export function MenuItem({
             {...props}
         >
             {!isDisabled && isSelected && (
-                <span className="absolute left-0 -ml-4 -translate-x-full animate-bounce-right">
+                <span
+                    className={cn(
+                        "absolute left-0 -translate-x-full",
+                        { "-ml-4 animate-bounce-right": enableAnimations },
+                        { "-ml-1": !enableAnimations },
+                    )}
+                >
                     <IconChevronRight className="size-4" />
                 </span>
             )}

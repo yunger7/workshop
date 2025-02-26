@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { IconBrandGithub, IconBrandNpm, IconWorld } from "@tabler/icons-react";
 import { Icon } from "@/types/icon";
 import { Project, Link } from "@/types/project";
+import { useSettingsContext } from "@/contexts/settings";
 import { Separator } from "@/components/ui/separator";
 import { MenuList, MenuItem } from "@/components/menu";
 import { Stars } from "@/components/projects/stars";
@@ -14,6 +15,8 @@ type MenuProps = {
 };
 
 export function Menu({ projects }: MenuProps) {
+    const { enableAnimations } = useSettingsContext();
+
     const LinkIconMap: Record<Link["type"], Icon> = {
         github: IconBrandGithub,
         npm: IconBrandNpm,
@@ -70,11 +73,19 @@ export function Menu({ projects }: MenuProps) {
                                         return (
                                             <motion.a
                                                 key={link.url}
-                                                whileHover={{ y: -2 }}
-                                                transition={{
-                                                    type: "spring",
-                                                    stiffness: 300,
-                                                }}
+                                                whileHover={
+                                                    enableAnimations
+                                                        ? { y: -2 }
+                                                        : undefined
+                                                }
+                                                transition={
+                                                    enableAnimations
+                                                        ? {
+                                                              type: "spring",
+                                                              stiffness: 300,
+                                                          }
+                                                        : undefined
+                                                }
                                                 href={link.url}
                                                 target="_blank"
                                             >

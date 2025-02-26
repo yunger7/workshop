@@ -4,7 +4,8 @@ import { useRef, useEffect } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { useSettingsContext } from "@/contexts/settings";
 import { useKeyboardShortcut } from "@/hooks/use-keyboard-shortcut";
 import { MenuList, MenuItem } from "@/components/menu";
 import { Textarea } from "@/components/ui/textarea";
@@ -27,6 +28,7 @@ const base64Schema = z.object({
 });
 
 export default function Base64() {
+    const { enableAnimations } = useSettingsContext();
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const convertButtonRef = useRef<ConvertButtonHandle>(null);
 
@@ -124,26 +126,41 @@ export default function Base64() {
                         >
                             <span className="flex min-w-[142px] items-center gap-2">
                                 Convert to{" "}
-                                <AnimatePresence mode="wait" initial={false}>
-                                    <motion.span
-                                        key={
-                                            isBase64(form.getValues().content)
-                                                ? "text"
-                                                : "base64"
-                                        }
-                                        initial={{ opacity: 0, y: 10 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        exit={{ opacity: 0, y: -10 }}
-                                        transition={{ duration: 0.15 }}
-                                        className="relative z-10 flex items-center justify-center gap-2"
+                                {enableAnimations ? (
+                                    <AnimatePresence
+                                        mode="wait"
+                                        initial={false}
                                     >
-                                        <motion.span className="text-sm">
-                                            {isBase64(form.getValues().content)
-                                                ? "text"
-                                                : "base64"}
+                                        <motion.span
+                                            key={
+                                                isBase64(
+                                                    form.getValues().content,
+                                                )
+                                                    ? "text"
+                                                    : "base64"
+                                            }
+                                            initial={{ opacity: 0, y: 10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            exit={{ opacity: 0, y: -10 }}
+                                            transition={{ duration: 0.15 }}
+                                            className="relative z-10 flex items-center justify-center gap-2"
+                                        >
+                                            <motion.span className="text-sm">
+                                                {isBase64(
+                                                    form.getValues().content,
+                                                )
+                                                    ? "text"
+                                                    : "base64"}
+                                            </motion.span>
                                         </motion.span>
-                                    </motion.span>
-                                </AnimatePresence>
+                                    </AnimatePresence>
+                                ) : (
+                                    <span className="text-sm">
+                                        {isBase64(form.getValues().content)
+                                            ? "text"
+                                            : "base64"}
+                                    </span>
+                                )}
                             </span>
                         </ConvertButton>
                     </MenuItem>

@@ -104,9 +104,13 @@ export default {
                         animationTimingFunction: "cubic-bezier(0,0,0.2,1)",
                     },
                 },
+                "noop": {
+                    "0%, 100%": { opacity: "1" },
+                },
             },
             animation: {
                 "bounce-right": "bounce-right 1s infinite",
+                "noop-out": "noop 10ms forwards",
             },
         },
     },

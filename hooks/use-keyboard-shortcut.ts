@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useSettingsContext } from "@/contexts/settings";
 
 type ShortcutHandler = () => void;
 
@@ -88,7 +89,11 @@ export function useKeyboardShortcut(
 ) {
     const key = keyCombination.join("+");
 
+    const { enableKeyboardShortcuts } = useSettingsContext();
+
     useEffect(() => {
+        if (!enableKeyboardShortcuts) return;
+
         if (!shortcuts.size) {
             window.addEventListener("keydown", handleGlobalKeyPress);
         }
@@ -114,5 +119,5 @@ export function useKeyboardShortcut(
                 window.removeEventListener("keydown", handleGlobalKeyPress);
             }
         };
-    }, [key, callback, options]);
+    }, [key, callback, options, enableKeyboardShortcuts]);
 }

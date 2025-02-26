@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 import { getEnvironment } from "@/lib/environment";
 import { useScrollPercentage } from "@/hooks/use-scroll-percentage";
 import { useViewsContext } from "@/contexts/views";
+import { useSettingsContext } from "@/contexts/settings";
 import { Button } from "@/components/ui/button";
 import {
     Breadcrumb,
@@ -49,6 +50,9 @@ export function StatusBar() {
     const router = useRouter();
     const scrollPercentage = useScrollPercentage();
     const { setIsHelpDialogOpen } = useViewsContext();
+    const { enableStatusBar } = useSettingsContext();
+
+    if (!enableStatusBar) return null;
 
     const paths = pathname === "/" ? [""] : pathname.split("/");
 

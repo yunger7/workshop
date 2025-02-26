@@ -11,6 +11,7 @@ import React, {
 import { motion, AnimatePresence } from "framer-motion";
 import { IconCopy, IconCheck, IconX } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
+import { useSettingsContext } from "@/contexts/settings";
 import { useToast } from "@/hooks/use-toast";
 import { useClipboard } from "@/hooks/use-clipboard";
 import { Button, ButtonProps } from "@/components/ui/button";
@@ -35,6 +36,7 @@ export const CopyButton = forwardRef<CopyButtonHandle, CopyButtonProps>(
         ref,
     ) => {
         const clipboard = useClipboard();
+        const { enableAnimations } = useSettingsContext();
         const { toast } = useToast();
         const [tooltipOpen, setTooltipOpen] = useState(false);
         const resetTimer = useRef<NodeJS.Timeout | null>(null);
@@ -101,7 +103,11 @@ export const CopyButton = forwardRef<CopyButtonHandle, CopyButtonProps>(
                 <TooltipTrigger asChild>
                     <Button
                         className={cn(
-                            "relative overflow-hidden transition-colors duration-300",
+                            "relative overflow-hidden",
+                            {
+                                "transition-colors duration-300":
+                                    enableAnimations,
+                            },
                             {
                                 "bg-nord-frost-1 hover:bg-nord-frost-1":
                                     clipboard.copied && variant === "default",
@@ -115,34 +121,50 @@ export const CopyButton = forwardRef<CopyButtonHandle, CopyButtonProps>(
                         variant={variant}
                         {...props}
                     >
-                        <motion.div
-                            className={cn("absolute inset-0", {
-                                "bg-nord-frost-1": variant === "default",
-                            })}
-                            initial={{ scale: 0, opacity: 0 }}
-                            animate={
-                                clipboard.copied
-                                    ? { scale: 1, opacity: 1 }
-                                    : { scale: 0, opacity: 0 }
-                            }
-                            transition={{ duration: 0.3, ease: "easeInOut" }}
-                        />
-                        <AnimatePresence mode="wait" initial={false}>
+                        {enableAnimations && (
                             <motion.div
-                                key={clipboard.copied ? "check" : "copy"}
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -10 }}
-                                transition={{ duration: 0.15 }}
-                                className="relative z-10 flex items-center justify-center gap-2"
-                            >
-                                <motion.span>{getIcon()}</motion.span>
-                                {size !== "icon" && (
-                                    <motion.span className="text-sm">
-                                        {getText()}
-                                    </motion.span>
-                                )}
-                            </motion.div>
+                                className={cn("absolute inset-0", {
+                                    "bg-nord-frost-1": variant === "default",
+                                })}
+                                initial={{ scale: 0, opacity: 0 }}
+                                animate={
+                                    clipboard.copied
+                                        ? { scale: 1, opacity: 1 }
+                                        : { scale: 0, opacity: 0 }
+                                }
+                                transition={{
+                                    duration: 0.3,
+                                    ease: "easeInOut",
+                                }}
+                            />
+                        )}
+                        <AnimatePresence mode="wait" initial={false}>
+                            {enableAnimations ? (
+                                <motion.div
+                                    key={clipboard.copied ? "check" : "copy"}
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -10 }}
+                                    transition={{ duration: 0.15 }}
+                                    className="relative z-10 flex items-center justify-center gap-2"
+                                >
+                                    <motion.span>{getIcon()}</motion.span>
+                                    {size !== "icon" && (
+                                        <motion.span className="text-sm">
+                                            {getText()}
+                                        </motion.span>
+                                    )}
+                                </motion.div>
+                            ) : (
+                                <div className="relative z-10 flex items-center justify-center gap-2">
+                                    <span>{getIcon()}</span>
+                                    {size !== "icon" && (
+                                        <span className="text-sm">
+                                            {getText()}
+                                        </span>
+                                    )}
+                                </div>
+                            )}
                         </AnimatePresence>
                     </Button>
                 </TooltipTrigger>
