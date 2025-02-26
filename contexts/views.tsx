@@ -13,6 +13,8 @@ type ViewsContextType = {
     setIsSearchDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
     isShortcutsDialogOpen: boolean;
     setIsShortcutsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    isExplorerOpen: boolean;
+    setIsExplorerOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const ViewsContext = createContext<ViewsContextType | null>(null);
@@ -37,6 +39,7 @@ export function ViewsProvider({ children, paths }: ViewsProviderProps) {
     const [isSearchDialogOpen, setIsSearchDialogOpen] = React.useState(false);
     const [isShortcutsDialogOpen, setIsShortcutsDialogOpen] =
         React.useState(false);
+    const [isExplorerOpen, setIsExplorerOpen] = React.useState(false);
 
     return (
         <ViewsContext.Provider
@@ -47,6 +50,8 @@ export function ViewsProvider({ children, paths }: ViewsProviderProps) {
                 setIsSearchDialogOpen,
                 isShortcutsDialogOpen,
                 setIsShortcutsDialogOpen,
+                isExplorerOpen,
+                setIsExplorerOpen,
             }}
         >
             <SearchDialog paths={paths} />

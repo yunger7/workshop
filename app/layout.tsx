@@ -6,6 +6,7 @@ import { TopLoader } from "@/components/top-loader";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/toaster";
 import { StatusBar } from "@/components/status-bar";
+import { Explorer } from "@/components/explorer";
 import { GlobalKeyboardShortcutsProvider } from "@/contexts/global-keyboard-shortcuts";
 import { ViewsProvider } from "@/contexts/views";
 import { Path, PathType } from "@/types/path";
@@ -21,7 +22,7 @@ export const metadata: Metadata = {
 const getSearchPaths = unstable_cache(
     async () => {
         const paths: Path[] = [
-            ...listPosts().map((post) => ({
+            ...listPosts({ sorted: true }).map((post) => ({
                 type: "writing" as PathType,
                 alt: post.slug,
                 href: `/writing/${post.slug}`,
@@ -74,7 +75,9 @@ export default async function RootLayout({
                     <ViewsProvider paths={searchPaths}>
                         <GlobalKeyboardShortcutsProvider>
                             <TooltipProvider>
-                                {children}
+                                <Explorer paths={searchPaths}>
+                                    {children}
+                                </Explorer>
                                 <StatusBar />
                             </TooltipProvider>
                         </GlobalKeyboardShortcutsProvider>

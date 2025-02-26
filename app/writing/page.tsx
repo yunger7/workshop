@@ -5,15 +5,9 @@ import { listPosts } from "@/lib/data/writing";
 import { formatDate } from "@/lib/dates";
 
 function getPosts() {
-    const posts = listPosts();
+    const posts = listPosts({ sorted: true });
 
-    const sortedPosts = posts.sort(
-        (a, b) =>
-            new Date(b.metadata.publishedAt).getTime() -
-            new Date(a.metadata.publishedAt).getTime(),
-    );
-
-    return sortedPosts.map((post) => ({
+    return posts.map((post) => ({
         title: post.metadata.title,
         date: formatDate(post.metadata.publishedAt),
         slug: post.slug,

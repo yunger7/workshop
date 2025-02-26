@@ -4,9 +4,7 @@ import Highlighter from "react-highlight-words";
 import React, { useState } from "react";
 import { useCommandState } from "cmdk";
 import { useRouter } from "nextjs-toploader/app";
-import { IconPencil, IconTool, IconPackage } from "@tabler/icons-react";
-import { Icon } from "@/types/icon";
-import { Path, PathType } from "@/types/path";
+import { Path, PathIconMap } from "@/types/path";
 import { useViewsContext } from "@/contexts/views";
 import {
     Command,
@@ -32,12 +30,6 @@ export function SearchDialog({ paths }: { paths: Path[] }) {
     const { isSearchDialogOpen, setIsSearchDialogOpen } = useViewsContext();
 
     const [value, setValue] = useState("");
-
-    const IconMap: Record<PathType, Icon> = {
-        [PathType.Writing]: IconPencil,
-        [PathType.Tool]: IconTool,
-        [PathType.Project]: IconPackage,
-    };
 
     function openPath(path: string) {
         if (path.startsWith("http")) {
@@ -68,7 +60,7 @@ export function SearchDialog({ paths }: { paths: Path[] }) {
                 <CommandList>
                     <CommandEmpty>No results found</CommandEmpty>
                     {paths.map(({ type, alt, href }) => {
-                        const Icon = IconMap[type];
+                        const Icon = PathIconMap[type];
 
                         return (
                             <CommandItem

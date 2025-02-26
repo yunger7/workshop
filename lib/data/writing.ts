@@ -7,8 +7,22 @@ export function getAllPosts(): MDXData[] {
     });
 }
 
-export function listPosts(): MDXData[] {
-    return getMDXDataFromDir(MDX_DIR);
+type ListPostsOptions = {
+    sorted?: boolean;
+};
+
+export function listPosts(options?: ListPostsOptions): MDXData[] {
+    let posts = getMDXDataFromDir(MDX_DIR);
+
+    if (options?.sorted) {
+        posts = posts.sort(
+            (a, b) =>
+                new Date(b.metadata.publishedAt).getTime() -
+                new Date(a.metadata.publishedAt).getTime(),
+        );
+    }
+
+    return posts;
 }
 
 export function getPostBySlug(slug: string): MDXData | null {

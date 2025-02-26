@@ -22,6 +22,7 @@ export function ShortcutsDialog() {
         setIsShortcutsDialogOpen,
         setIsSearchDialogOpen,
         setIsHelpDialogOpen,
+        setIsExplorerOpen,
     } = useViewsContext();
 
     const shortcuts: Shortcut[] = [
@@ -33,7 +34,7 @@ export function ShortcutsDialog() {
         {
             key: "e",
             description: "Explorer",
-            action: () => console.log("explorer"),
+            action: () => setIsExplorerOpen((prev) => !prev),
         },
         { key: "h", description: "Home", action: () => router.push("/") },
         {

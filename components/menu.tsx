@@ -11,6 +11,7 @@ import { IconChevronRight } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 import { useKeyboardShortcut } from "@/hooks/use-keyboard-shortcut";
 import { useGlobalKeyboardShortcuts } from "@/contexts/global-keyboard-shortcuts";
+import { useViewsContext } from "@/contexts/views";
 
 type MenuItemActions = {
     action?: () => void;
@@ -24,20 +25,24 @@ type MenuContextType = {
     setSelectedIndex: React.Dispatch<React.SetStateAction<number>>;
     registerMenuItem: (index: number, actions: MenuItemActions) => void;
     unregisterMenuItem: (index: number) => void;
+    isDisabled?: boolean;
 };
 
 const MenuContext = createContext<MenuContextType | null>(null);
 
-export function MenuList({
-    children,
-    ...props
-}: React.ComponentPropsWithoutRef<"div">) {
-    const totalChildren = React.Children.count(children);
+type MenuListProps = React.ComponentPropsWithoutRef<"div"> & {
+    isExplorer?: boolean;
+};
+
+export function MenuList({ children, isExplorer, ...props }: MenuListProps) {
     const { goBack } = useGlobalKeyboardShortcuts();
+    const { isExplorerOpen } = useViewsContext();
     const [selectedIndex, setSelectedIndex] = useState(0);
     const previousSelectedIndexRef = useRef(selectedIndex);
 
     const menuRegistryRef = useRef(new Map<number, MenuItemActions>());
+    const isDisabled =
+        (isExplorer && !isExplorerOpen) || (!isExplorer && isExplorerOpen);
 
     function registerMenuItem(index: number, actions: MenuItemActions) {
         menuRegistryRef.current.set(index, actions);
@@ -52,22 +57,30 @@ export function MenuList({
     }
 
     function next() {
-        setSelectedIndex((prevIndex) => (prevIndex + 1) % totalChildren);
+        setSelectedIndex(
+            (prevIndex) => (prevIndex + 1) % menuRegistryRef.current.size,
+        );
     }
 
     function prev() {
         setSelectedIndex(
-            (prevIndex) => (prevIndex + totalChildren - 1) % totalChildren,
+            (prevIndex) =>
+                (prevIndex + menuRegistryRef.current.size - 1) %
+                menuRegistryRef.current.size,
         );
     }
 
     function runAction() {
         const actions = getMenuItemOnSelect(selectedIndex);
+
+        if (isDisabled) return;
         if (actions?.action) actions.action();
     }
 
     function runPrevAction() {
         const actions = getMenuItemOnSelect(selectedIndex);
+
+        if (isDisabled) return;
 
         if (actions?.prevAction) {
             actions.prevAction();
@@ -95,6 +108,10 @@ export function MenuList({
         previousSelectedIndexRef.current = selectedIndex;
     }, [selectedIndex]);
 
+    useEffect(() => {
+        setSelectedIndex(0);
+    }, [isExplorerOpen]);
+
     useKeyboardShortcut(["j"], next);
     useKeyboardShortcut(["ArrowDown"], next);
 
@@ -115,6 +132,7 @@ export function MenuList({
                 setSelectedIndex,
                 registerMenuItem,
                 unregisterMenuItem,
+                isDisabled,
             }}
         >
             <div {...props}>{children}</div>
@@ -154,6 +172,7 @@ export function MenuItem({
         setSelectedIndex,
         registerMenuItem,
         unregisterMenuItem,
+        isDisabled,
     } = context;
 
     useEffect(() => {
@@ -177,6 +196,14 @@ export function MenuItem({
         unregisterMenuItem,
     ]);
 
+    const isSelected = index === selectedIndex;
+
+    function handleMouseEnter() {
+        if (isDisabled) return;
+
+        setSelectedIndex(index);
+    }
+
     return (
         <div
             className={cn(
@@ -184,12 +211,12 @@ export function MenuItem({
                 disableClick ? "cursor-default" : "cursor-pointer",
                 className,
             )}
-            onMouseEnter={() => setSelectedIndex(index)}
-            onClick={disableClick ? undefined : action}
+            onMouseEnter={handleMouseEnter}
+            onClick={disableClick || isDisabled ? undefined : action}
             tabIndex={-1}
             {...props}
         >
-            {selectedIndex === index && (
+            {!isDisabled && isSelected && (
                 <span className="absolute left-0 -ml-4 -translate-x-full animate-bounce-right">
                     <IconChevronRight className="size-4" />
                 </span>
