@@ -26,9 +26,11 @@ export function parseFrontmatter(fileContent: string): ParsedMDX {
     const metadata: Partial<Metadata> = {};
 
     frontMatterLines.forEach((line) => {
-        let [key, ...valueArr] = line.split(": ");
+        const [key, ...valueArr] = line.split(": ");
+
         let value = valueArr.join(": ").trim();
         value = value.replace(/^['"](.*)['"]$/, "$1");
+
         metadata[key.trim() as keyof Metadata] = value;
     });
 
@@ -63,8 +65,8 @@ export function getMDXDataFromDir(
     const mdxFiles = getMDXFiles(dir);
 
     return mdxFiles.map((file) => {
-        let { metadata, content } = readMDXFile(path.join(dir, file));
-        let slug = path.basename(file, path.extname(file));
+        const { metadata, content } = readMDXFile(path.join(dir, file));
+        const slug = path.basename(file, path.extname(file));
 
         const result: MDXData = {
             metadata,

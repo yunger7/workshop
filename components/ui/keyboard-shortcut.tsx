@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { cn, capitalize } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { useOS } from "@/hooks/use-os";
 
 type KeyProps = {

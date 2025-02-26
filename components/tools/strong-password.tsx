@@ -32,7 +32,7 @@ export default function StrongPassword() {
         const numberChars = "0123456789";
         const symbolChars = "!@#$%^&*()_+[]{}|;:,.<>?";
 
-        let selectedGroups: string[] = [];
+        const selectedGroups: string[] = [];
 
         if (includeUppercase) selectedGroups.push(uppercaseChars);
         if (includeLowercase) selectedGroups.push(lowercaseChars);

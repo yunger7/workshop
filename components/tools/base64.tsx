@@ -42,7 +42,7 @@ export default function Base64() {
 
         try {
             return btoa(atob(text)) === text;
-        } catch (err) {
+        } catch {
             return false;
         }
     };

@@ -3,14 +3,6 @@
 import slugify from "slugify";
 import { Fragment } from "react";
 import { useRouter } from "nextjs-toploader/app";
-import {
-    IconTypography,
-    IconKey,
-    IconHash,
-    IconPhotoScan,
-    IconPalette,
-    IconTransform,
-} from "@tabler/icons-react";
 import { getTools } from "@/lib/data/tools";
 import { Tool } from "@/types/tool";
 import { Separator } from "@/components/ui/separator";
