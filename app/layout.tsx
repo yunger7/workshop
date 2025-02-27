@@ -7,6 +7,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/toaster";
 import { StatusBar } from "@/components/status-bar";
 import { Explorer } from "@/components/explorer";
+import { CommandBar } from "@/components/command-bar";
 import { GlobalKeyboardShortcutsProvider } from "@/contexts/global-keyboard-shortcuts";
 import { ViewsProvider } from "@/contexts/views";
 import { SettingsProvider } from "@/contexts/settings";
@@ -80,6 +81,7 @@ export default async function RootLayout({
                                     <Explorer paths={searchPaths}>
                                         {children}
                                     </Explorer>
+                                    <CommandBar />
                                     <StatusBar />
                                 </TooltipProvider>
                             </GlobalKeyboardShortcutsProvider>
