@@ -2,19 +2,23 @@ import type { Metadata } from "next";
 import { unstable_cache } from "next/cache";
 import { jetBrainsMono } from "@/app/fonts";
 import { ThemeProvider } from "@/contexts/theme";
+import { GlobalKeyboardShortcutsProvider } from "@/contexts/global-keyboard-shortcuts";
+import { ViewsProvider } from "@/contexts/views";
+import { SettingsProvider } from "@/contexts/settings";
+import { CommandBarProvider } from "@/contexts/command-bar";
+import { Path, PathType } from "@/types/path";
+import { listPosts } from "@/lib/data/writing";
+import { getProjects } from "@/lib/data/projects";
+import { getTools } from "@/lib/data/tools";
 import { TopLoader } from "@/components/top-loader";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/toaster";
 import { StatusBar } from "@/components/status-bar";
 import { Explorer } from "@/components/explorer";
 import { CommandBar } from "@/components/command-bar";
-import { GlobalKeyboardShortcutsProvider } from "@/contexts/global-keyboard-shortcuts";
-import { ViewsProvider } from "@/contexts/views";
-import { SettingsProvider } from "@/contexts/settings";
-import { Path, PathType } from "@/types/path";
-import { listPosts } from "@/lib/data/writing";
-import { getProjects } from "@/lib/data/projects";
-import { getTools } from "@/lib/data/tools";
+import { SearchDialog } from "@/components/search-dialog";
+import { HelpDialog } from "@/components/help-dialog";
+import { ShortcutsDialog } from "@/components/shortcuts-dialog";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -60,7 +64,7 @@ export default async function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    const searchPaths = await getSearchPaths();
+    const paths = await getSearchPaths();
 
     return (
         <html lang="en" className="min-h-screen">
@@ -75,15 +79,20 @@ export default async function RootLayout({
                 >
                     <TopLoader />
                     <SettingsProvider>
-                        <ViewsProvider paths={searchPaths}>
+                        <ViewsProvider>
                             <GlobalKeyboardShortcutsProvider>
-                                <TooltipProvider>
-                                    <Explorer paths={searchPaths}>
-                                        {children}
-                                    </Explorer>
-                                    <CommandBar />
-                                    <StatusBar />
-                                </TooltipProvider>
+                                <CommandBarProvider>
+                                    <TooltipProvider>
+                                        <Explorer paths={paths}>
+                                            {children}
+                                        </Explorer>
+                                        <CommandBar />
+                                        <StatusBar />
+                                        <SearchDialog paths={paths} />
+                                        <HelpDialog />
+                                        <ShortcutsDialog />
+                                    </TooltipProvider>
+                                </CommandBarProvider>
                             </GlobalKeyboardShortcutsProvider>
                         </ViewsProvider>
                         <Toaster />

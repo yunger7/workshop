@@ -3,6 +3,7 @@
 import { useRouter } from "nextjs-toploader/app";
 import { IconArrowRight } from "@tabler/icons-react";
 import { useViewsContext } from "@/contexts/views";
+import { useCommandBarContext } from "@/contexts/command-bar";
 import { useKeyboardShortcut } from "@/hooks/use-keyboard-shortcut";
 import { useTheme } from "@/hooks/use-theme";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
@@ -17,6 +18,7 @@ type Shortcut = {
 export function ShortcutsDialog() {
     const router = useRouter();
     const { toggleTheme } = useTheme();
+    const { clearSearchHighlights } = useCommandBarContext();
     const {
         isShortcutsDialogOpen,
         setIsShortcutsDialogOpen,
@@ -55,10 +57,9 @@ export function ShortcutsDialog() {
             action: () => router.push("/settings"),
         },
         {
-            key: "g",
-            description: "GitHub",
-            action: () =>
-                window.open("https://github.com/yunger7/workshop", "_blank"),
+            key: "/",
+            description: "No highlight",
+            action: () => clearSearchHighlights(),
         },
         { key: "T", description: "Toggle Theme", action: () => toggleTheme() },
         {
@@ -90,7 +91,7 @@ export function ShortcutsDialog() {
     useKeyboardShortcut(["t"], () => runAction("t"), { allowInDialog: true });
     useKeyboardShortcut(["a"], () => runAction("a"), { allowInDialog: true });
     useKeyboardShortcut(["s"], () => runAction("s"), { allowInDialog: true });
-    useKeyboardShortcut(["g"], () => runAction("g"), { allowInDialog: true });
+    useKeyboardShortcut(["/"], () => runAction("/"), { allowInDialog: true });
     useKeyboardShortcut(["Shift", "t"], () => runAction("T"), {
         allowInDialog: true,
     });

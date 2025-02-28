@@ -1,10 +1,6 @@
 "use client";
 
 import React, { createContext } from "react";
-import { Path } from "@/types/path";
-import { SearchDialog } from "@/components/search-dialog";
-import { HelpDialog } from "@/components/help-dialog";
-import { ShortcutsDialog } from "@/components/shortcuts-dialog";
 
 type ViewsContextType = {
     isHelpDialogOpen: boolean;
@@ -33,10 +29,9 @@ export function useViewsContext() {
 
 type ViewsProviderProps = {
     children: React.ReactNode;
-    paths: Path[];
 };
 
-export function ViewsProvider({ children, paths }: ViewsProviderProps) {
+export function ViewsProvider({ children }: ViewsProviderProps) {
     const [isHelpDialogOpen, setIsHelpDialogOpen] = React.useState(false);
     const [isSearchDialogOpen, setIsSearchDialogOpen] = React.useState(false);
     const [isShortcutsDialogOpen, setIsShortcutsDialogOpen] =
@@ -59,9 +54,6 @@ export function ViewsProvider({ children, paths }: ViewsProviderProps) {
                 setIsCommandBarOpen,
             }}
         >
-            <SearchDialog paths={paths} />
-            <HelpDialog />
-            <ShortcutsDialog />
             {children}
         </ViewsContext.Provider>
     );
