@@ -6,10 +6,15 @@ import { cn } from "@/lib/utils";
 type TerminalInputProps = React.ComponentPropsWithoutRef<"input">;
 
 export const TerminalInput = forwardRef<HTMLInputElement, TerminalInputProps>(
-    ({ className, ...props }, ref) => {
+    ({ className, value, onChange, onKeyDown, ...props }, ref) => {
         const [cursorPosition, setCursorPosition] = useState(0);
         const [isCursorVisible, setIsCursorVisible] = useState(true);
-        const [commandValue, setCommandValue] = useState("");
+        const [internalValue, setInternalValue] = useState("");
+
+        useEffect(() => {
+            setInternalValue(String(value) ?? "");
+            setCursorPosition(String(value).length);
+        }, [value]);
 
         useEffect(() => {
             const interval = setInterval(() => {
@@ -23,7 +28,7 @@ export const TerminalInput = forwardRef<HTMLInputElement, TerminalInputProps>(
             if (ref && typeof ref !== "function" && ref.current) {
                 ref.current.setSelectionRange(cursorPosition, cursorPosition);
             }
-        }, [cursorPosition, commandValue, ref]);
+        }, [cursorPosition, internalValue, ref]);
 
         const moveCursorToPreviousWord = (cursor: number, value: string) => {
             let pos = cursor;
@@ -56,7 +61,7 @@ export const TerminalInput = forwardRef<HTMLInputElement, TerminalInputProps>(
             const { key, ctrlKey } = e;
             const cursorMove = (newPosition: number) =>
                 setCursorPosition(
-                    Math.max(0, Math.min(newPosition, commandValue.length)),
+                    Math.max(0, Math.min(newPosition, internalValue.length)),
                 );
 
             const actions: Record<string, () => void> = {
@@ -65,7 +70,7 @@ export const TerminalInput = forwardRef<HTMLInputElement, TerminalInputProps>(
                         setCursorPosition(
                             moveCursorToPreviousWord(
                                 cursorPosition,
-                                commandValue,
+                                internalValue,
                             ),
                         );
                     } else {
@@ -75,7 +80,7 @@ export const TerminalInput = forwardRef<HTMLInputElement, TerminalInputProps>(
                 ArrowRight: () => {
                     if (ctrlKey) {
                         setCursorPosition(
-                            moveCursorToNextWord(cursorPosition, commandValue),
+                            moveCursorToNextWord(cursorPosition, internalValue),
                         );
                     } else {
                         cursorMove(cursorPosition + 1);
@@ -86,45 +91,72 @@ export const TerminalInput = forwardRef<HTMLInputElement, TerminalInputProps>(
                         const newPos = ctrlKey
                             ? moveCursorToPreviousWord(
                                   cursorPosition,
-                                  commandValue,
+                                  internalValue,
                               )
                             : cursorPosition - 1;
-                        setCommandValue(
-                            (prev) =>
-                                prev.slice(0, newPos) +
-                                prev.slice(cursorPosition),
-                        );
+
+                        const newValue =
+                            internalValue.slice(0, newPos) +
+                            internalValue.slice(cursorPosition);
+
+                        setInternalValue(newValue);
                         setCursorPosition(newPos);
+
+                        if (onChange) {
+                            onChange({
+                                target: { value: newValue },
+                            } as React.ChangeEvent<HTMLInputElement>);
+                        }
                     }
                 },
                 Delete: () => {
-                    if (cursorPosition < commandValue.length) {
+                    if (cursorPosition < internalValue.length) {
                         const newPos = ctrlKey
-                            ? moveCursorToNextWord(cursorPosition, commandValue)
+                            ? moveCursorToNextWord(
+                                  cursorPosition,
+                                  internalValue,
+                              )
                             : cursorPosition + 1;
-                        setCommandValue(
-                            (prev) =>
-                                prev.slice(0, cursorPosition) +
-                                prev.slice(newPos),
-                        );
+
+                        const newValue =
+                            internalValue.slice(0, cursorPosition) +
+                            internalValue.slice(newPos);
+
+                        setInternalValue(newValue);
+
+                        if (onChange) {
+                            onChange({
+                                target: { value: newValue },
+                            } as React.ChangeEvent<HTMLInputElement>);
+                        }
                     }
                 },
                 Home: () => {
                     setCursorPosition(0);
                 },
                 End: () => {
-                    setCursorPosition(commandValue.length);
+                    setCursorPosition(internalValue.length);
                 },
                 " ": () => {
-                    setCommandValue(
-                        (prev) =>
-                            prev.slice(0, cursorPosition) +
-                            " " +
-                            prev.slice(cursorPosition),
-                    );
+                    const newValue =
+                        internalValue.slice(0, cursorPosition) +
+                        " " +
+                        internalValue.slice(cursorPosition);
+
+                    setInternalValue(newValue);
                     setCursorPosition(cursorPosition + 1);
+
+                    if (onChange) {
+                        onChange({
+                            target: { value: newValue },
+                        } as React.ChangeEvent<HTMLInputElement>);
+                    }
                 },
             };
+
+            if (onKeyDown) {
+                onKeyDown(e);
+            }
 
             if (actions[key]) {
                 e.preventDefault();
@@ -132,12 +164,16 @@ export const TerminalInput = forwardRef<HTMLInputElement, TerminalInputProps>(
             }
         };
 
-        const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-            const newValue = e.target.value;
+        const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+            const newValue = event.target.value;
             const newCursorPosition =
-                e.target.selectionStart ?? newValue.length;
-            setCommandValue(newValue);
+                event.target.selectionStart ?? newValue.length;
+            setInternalValue(newValue);
             setCursorPosition(newCursorPosition);
+
+            if (onChange) {
+                onChange(event);
+            }
         };
 
         return (
@@ -145,7 +181,7 @@ export const TerminalInput = forwardRef<HTMLInputElement, TerminalInputProps>(
                 <input
                     ref={ref}
                     type="text"
-                    value={commandValue}
+                    value={internalValue}
                     onChange={handleChange}
                     onKeyDown={handleKeyDown}
                     className={cn(
@@ -162,11 +198,11 @@ export const TerminalInput = forwardRef<HTMLInputElement, TerminalInputProps>(
                 >
                     <span
                         className={cn(
-                            "-mb-1 inline-block h-[1.2em] w-[0.6em] bg-nord-snow-1 text-nord-polar-1",
+                            "-mb-1 inline-block h-[1.2em] w-[0.6em] bg-nord-polar-3 text-background dark:bg-nord-snow-1 dark:text-nord-polar-1",
                             { hidden: !isCursorVisible },
                         )}
                     >
-                        {commandValue[cursorPosition] || " "}
+                        {internalValue[cursorPosition] || " "}
                     </span>
                 </div>
             </div>

@@ -254,7 +254,7 @@ export function Explorer({ paths, children }: ExplorerProps) {
                     </div>
                 </MenuList>
             </ResizablePanel>
-            <ResizableHandle />
+            <ResizableHandle className={cn({ "hidden": !isExplorerOpen })} />
             <ResizablePanel>{children}</ResizablePanel>
         </ResizablePanelGroup>
     );
