@@ -10,7 +10,6 @@ import { useTheme } from "@/hooks/use-theme";
 import { TerminalInput } from "@/components/terminal-input";
 
 type CommandType = ":" | "/" | "?" | "";
-type HistoryDirection = "up" | "down";
 
 export function CommandBar() {
     const inputRef = useRef<HTMLInputElement>(null);
@@ -21,9 +20,6 @@ export function CommandBar() {
     const [commandValue, setCommandValue] = useState("");
     const [commandType, setCommandType] = useState<CommandType>("");
     const [commandOutput, setCommandOutput] = useState<string | null>(null);
-
-    const [history, setHistory] = useState<string[]>([]);
-    const [historyIndex, setHistoryIndex] = useState(-1);
 
     const [suggestions, setSuggestions] = useState<string[]>([]);
     const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(-1);
@@ -79,8 +75,6 @@ export function CommandBar() {
         try {
             if (!fullCommand) return;
 
-            addCommandToHistory(fullCommand);
-
             if (fullCommand.startsWith(":")) {
                 const command = fullCommand
                     .substring(1)
@@ -117,12 +111,6 @@ export function CommandBar() {
         }
     }
 
-    function addCommandToHistory(command: string) {
-        if (history.length === 0 || history[0] !== command) {
-            setHistory((prev) => [command, ...prev].slice(0, 50));
-        }
-    }
-
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
@@ -151,6 +139,8 @@ export function CommandBar() {
     function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
         if (suggestions.length === 0) return;
 
+        event.preventDefault();
+
         const updateSelectedSuggestion = (direction: "up" | "down") => {
             const newIndex =
                 direction === "up"
@@ -164,17 +154,14 @@ export function CommandBar() {
 
         switch (event.key) {
             case "Tab":
-                event.preventDefault();
                 updateSelectedSuggestion(event.shiftKey ? "up" : "down");
                 break;
 
             case "ArrowUp":
-                event.preventDefault();
                 updateSelectedSuggestion("up");
                 break;
 
             case "ArrowDown":
-                event.preventDefault();
                 updateSelectedSuggestion("down");
                 break;
         }
