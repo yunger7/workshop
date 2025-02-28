@@ -39,7 +39,7 @@ export function Layout({
                             {IconComponent && (
                                 <IconComponent className="size-6" />
                             )}
-                            {title}
+                            <span>{title}</span>
                         </h1>
                     </BackButton>
                     <div className="flex items-center gap-2">

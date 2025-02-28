@@ -95,3 +95,11 @@ html {
         @apply bg-background text-foreground;
     }
 }
+
+.search-highlight {
+    @apply bg-primary text-primary-foreground rounded-sm px-0.5 -mx-0.5;
+}
+
+.search-highlight-active {
+    @apply bg-nord-yellow text-primary-foreground;
+}

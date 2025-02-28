@@ -7,8 +7,8 @@ export function TopLoader() {
     const { theme } = useTheme();
 
     const ThemeColorMap: Record<string, string> = {
-        "light": "#2e3440",
-        "dark": "#eceff4",
+        light: "#2e3440",
+        dark: "#eceff4",
     };
 
     const color = !!theme ? ThemeColorMap[theme] : "#5e81ac";

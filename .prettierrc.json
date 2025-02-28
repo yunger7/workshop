@@ -2,7 +2,7 @@
     "$schema": "https://json.schemastore.org/prettierrc",
     "plugins": ["prettier-plugin-tailwindcss"],
     "singleQuote": false,
-    "quoteProps": "preserve",
+    "quoteProps": "consistent",
     "tabWidth": 4,
     "semi": true,
     "useTabs": false,

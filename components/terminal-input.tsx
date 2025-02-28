@@ -65,7 +65,7 @@ export const TerminalInput = forwardRef<HTMLInputElement, TerminalInputProps>(
                 );
 
             const actions: Record<string, () => void> = {
-                ArrowLeft: () => {
+                "ArrowLeft": () => {
                     if (ctrlKey) {
                         setCursorPosition(
                             moveCursorToPreviousWord(
@@ -77,7 +77,7 @@ export const TerminalInput = forwardRef<HTMLInputElement, TerminalInputProps>(
                         cursorMove(cursorPosition - 1);
                     }
                 },
-                ArrowRight: () => {
+                "ArrowRight": () => {
                     if (ctrlKey) {
                         setCursorPosition(
                             moveCursorToNextWord(cursorPosition, internalValue),
@@ -86,7 +86,7 @@ export const TerminalInput = forwardRef<HTMLInputElement, TerminalInputProps>(
                         cursorMove(cursorPosition + 1);
                     }
                 },
-                Backspace: () => {
+                "Backspace": () => {
                     if (cursorPosition > 0) {
                         const newPos = ctrlKey
                             ? moveCursorToPreviousWord(
@@ -109,7 +109,7 @@ export const TerminalInput = forwardRef<HTMLInputElement, TerminalInputProps>(
                         }
                     }
                 },
-                Delete: () => {
+                "Delete": () => {
                     if (cursorPosition < internalValue.length) {
                         const newPos = ctrlKey
                             ? moveCursorToNextWord(
@@ -131,10 +131,10 @@ export const TerminalInput = forwardRef<HTMLInputElement, TerminalInputProps>(
                         }
                     }
                 },
-                Home: () => {
+                "Home": () => {
                     setCursorPosition(0);
                 },
-                End: () => {
+                "End": () => {
                     setCursorPosition(internalValue.length);
                 },
                 " ": () => {

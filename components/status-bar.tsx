@@ -57,7 +57,7 @@ export function StatusBar() {
     const paths = pathname === "/" ? [""] : pathname.split("/");
 
     return (
-        <div className="fixed bottom-0 left-0 right-0 flex h-6 items-center justify-between bg-card">
+        <div className="unsearchable fixed bottom-0 left-0 right-0 flex h-6 items-center justify-between bg-card">
             <StatusBarSection>
                 <Breadcrumb className="h-full">
                     <BreadcrumbList className="h-full">

@@ -81,7 +81,7 @@ export function Menu() {
                 >
                     <span className="flex w-full items-center gap-2">
                         <IconComponent className="size-4" />
-                        {name}
+                        <span>{name}</span>
                     </span>
                     <span className="ml-4">{shortcut}</span>
                 </MenuItem>
