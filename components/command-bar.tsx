@@ -1,6 +1,6 @@
 "use client";
 
-import { resolve } from "node:path";
+import { resolve } from "path";
 import { usePathname } from "next/navigation";
 import { useRef, useEffect } from "react";
 import { cn, removeTrailingSlash } from "@/lib/utils";

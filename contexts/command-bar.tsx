@@ -1,10 +1,10 @@
 "use client";
 
-import { resolve } from "node:path";
+import { resolve } from "path";
 import { usePathname } from "next/navigation";
 import React, { createContext, useState, useCallback, useEffect } from "react";
 import { useRouter } from "nextjs-toploader/app";
-import { Path, PathType, basePaths } from "@/types/path";
+import { Path, basePaths } from "@/types/path";
 import { removeTrailingSlash } from "@/lib/utils";
 import { useGlobalKeyboardShortcuts } from "@/contexts/global-keyboard-shortcuts";
 import { useViewsContext } from "@/contexts/views";
