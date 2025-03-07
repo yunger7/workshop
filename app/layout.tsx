@@ -69,7 +69,7 @@ export default async function RootLayout({
     return (
         <html lang="en" className="min-h-screen">
             <body
-                className={`${jetBrainsMono.variable} font-mono text-sm antialiased`}
+                className={`${jetBrainsMono.variable} font-mono text-sm antialiased selection:bg-[#81a1c19f] selection:text-nord-polar-1 dark:selection:bg-[#88c0d080] dark:selection:text-nord-snow-3`}
             >
                 <ThemeProvider
                     disableTransitionOnChange
