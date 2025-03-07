@@ -1,18 +1,23 @@
 "use client";
 
+import { resolve } from "node:path";
+import { usePathname } from "next/navigation";
 import { useRef, useEffect } from "react";
-import { cn } from "@/lib/utils";
+import { cn, removeTrailingSlash } from "@/lib/utils";
 import { useViewsContext } from "@/contexts/views";
 import { useCommandBarContext } from "@/contexts/command-bar";
 import { TerminalInput } from "@/components/terminal-input";
 
 export function CommandBar() {
+    const pathname = usePathname();
+
     const inputRef = useRef<HTMLInputElement>(null);
     const commandBarRef = useRef<HTMLDivElement>(null);
 
     const { isCommandBarOpen } = useViewsContext();
     const {
         availableCommands,
+        pathSuggestions,
         commandType,
         commandValue,
         setCommandValue,
@@ -40,10 +45,42 @@ export function CommandBar() {
         setCommandValue(value);
 
         if (commandType === ":" && value.length > 0) {
-            const filtered = availableCommands.filter((cmd) =>
-                cmd.startsWith(value),
-            );
-            setSuggestions(filtered);
+            let filteredSuggestions: string[] = [];
+
+            if (value.startsWith("!cd ")) {
+                const pathValue = value.replaceAll("!cd ", "") ?? "/";
+
+                const formatPathSuggestion = (
+                    path: string,
+                    pathValue: string,
+                ): string => {
+                    if (pathValue.startsWith("~")) {
+                        return path === "/home"
+                            ? "~/"
+                            : path.replace("/home", "~");
+                    }
+
+                    if (pathValue.startsWith(".")) {
+                        return path.replace(
+                            resolve(`/home${pathname}`, pathValue),
+                            removeTrailingSlash(pathValue),
+                        );
+                    }
+
+                    return path;
+                };
+
+                filteredSuggestions = pathSuggestions
+                    .map((path) => formatPathSuggestion(path, pathValue))
+                    .filter((path) => path.startsWith(pathValue))
+                    .map((path) => `!cd ${path}`);
+            } else {
+                filteredSuggestions = availableCommands.filter((cmd) =>
+                    cmd.startsWith(value),
+                );
+            }
+
+            setSuggestions(filteredSuggestions);
             setSelectedSuggestionIndex(-1);
         } else {
             setSuggestions([]);
@@ -107,7 +144,7 @@ export function CommandBar() {
 
     const showSuggestions =
         commandType === ":" &&
-        commandValue.length > 0 &&
+        commandValue.replaceAll("!", "").length > 0 &&
         suggestions.length > 0 &&
         (suggestions.length !== 1 || suggestions[0] !== commandValue);
 
@@ -130,22 +167,27 @@ export function CommandBar() {
                     />
                     {showSuggestions && (
                         <ul className="absolute bottom-full border bg-background p-2">
-                            {suggestions.map((suggestion, index) => (
-                                <li
-                                    key={suggestion}
-                                    className={cn("p-1", {
-                                        "bg-accent text-accent-foreground":
-                                            index === selectedSuggestionIndex,
-                                    })}
-                                >
-                                    {suggestion}
-                                </li>
-                            ))}
+                            {suggestions
+                                .slice(0, 6)
+                                .map((suggestion, index) => (
+                                    <li
+                                        key={suggestion}
+                                        className={cn("p-1", {
+                                            "bg-accent text-accent-foreground":
+                                                index ===
+                                                selectedSuggestionIndex,
+                                        })}
+                                    >
+                                        {suggestion
+                                            .replaceAll("!cd ", "")
+                                            .replaceAll("!", "")}
+                                    </li>
+                                ))}
                         </ul>
                     )}
                 </form>
             ) : (
-                <div className="p-2">{commandOutput}</div>
+                <pre className="p-2">{commandOutput}</pre>
             )}
         </div>
     );

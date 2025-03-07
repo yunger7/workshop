@@ -1,7 +1,11 @@
 "use client";
 
+import { resolve } from "node:path";
 import { usePathname } from "next/navigation";
 import React, { createContext, useState, useCallback, useEffect } from "react";
+import { useRouter } from "nextjs-toploader/app";
+import { Path, PathType, basePaths } from "@/types/path";
+import { removeTrailingSlash } from "@/lib/utils";
 import { useGlobalKeyboardShortcuts } from "@/contexts/global-keyboard-shortcuts";
 import { useViewsContext } from "@/contexts/views";
 import { useTheme } from "@/hooks/use-theme";
@@ -11,6 +15,7 @@ export type CommandType = ":" | "/" | "?" | "";
 
 type CommandBarContextType = {
     availableCommands: string[];
+    pathSuggestions: string[];
     commandType: CommandType;
     setCommandType: React.Dispatch<React.SetStateAction<CommandType>>;
     commandValue: string;
@@ -44,14 +49,20 @@ export function useCommandBarContext() {
 
 type CommandBarProviderProps = {
     children: React.ReactNode;
+    paths: Path[];
 };
 
-export function CommandBarProvider({ children }: CommandBarProviderProps) {
+export function CommandBarProvider({
+    paths,
+    children,
+}: CommandBarProviderProps) {
     const pathname = usePathname();
+    const router = useRouter();
 
     const { goBack } = useGlobalKeyboardShortcuts();
     const { theme, setTheme, toggleTheme } = useTheme();
-    const { isCommandBarOpen, setIsCommandBarOpen } = useViewsContext();
+    const { isCommandBarOpen, setIsCommandBarOpen, setIsHelpDialogOpen } =
+        useViewsContext();
 
     const [commandValue, setCommandValue] = useState("");
     const [commandType, setCommandType] = useState<CommandType>("");
@@ -89,6 +100,7 @@ export function CommandBarProvider({ children }: CommandBarProviderProps) {
             setCommandType("");
             setSuggestions([]);
             setSelectedSuggestionIndex(-1);
+
             if (clearOutput) {
                 setCommandOutput(null);
             }
@@ -96,7 +108,9 @@ export function CommandBarProvider({ children }: CommandBarProviderProps) {
         [setIsCommandBarOpen],
     );
 
-    const commands: Record<string, () => string | void> = {
+    const workingDirectory = pathname === "/" ? "/home" : `/home${pathname}`;
+
+    const commands: Record<string, (...args: string[]) => string | void> = {
         "toggle theme": () => {
             toggleTheme();
             return `${theme === "dark" ? "Light" : "Dark"} mode enabled`;
@@ -112,7 +126,52 @@ export function CommandBarProvider({ children }: CommandBarProviderProps) {
         "q": quit,
         "wq": quit,
         "x": quit,
+        "help": () => setIsHelpDialogOpen(true),
+        "!pwd": () => workingDirectory,
+        "!clear": () => "",
+        "!ls": () => {
+            const filteredPaths = paths.filter((path) =>
+                path.href.startsWith(pathname),
+            );
+            return filteredPaths.map((path) => path.href).join("\n");
+        },
+        "!cd": (inputPath: string) => {
+            let resolvedPath = inputPath;
+
+            if (!inputPath || removeTrailingSlash(inputPath) === "~") {
+                resolvedPath = "/";
+            } else if (inputPath.startsWith("~/")) {
+                resolvedPath = inputPath.replace("~/", "/home/");
+            } else if (inputPath.startsWith(".")) {
+                resolvedPath = resolve(`/home${pathname}`, inputPath);
+            }
+
+            const validPaths = new Set([
+                ...pathSuggestions,
+                ...basePaths,
+                ...paths
+                    .filter(({ href }) => !href.startsWith("http"))
+                    .map(({ href }) => href),
+            ]);
+
+            if (!validPaths.has(resolvedPath)) {
+                return `No such file or directory: ${inputPath}`;
+            }
+
+            const applicationPath = resolvedPath.startsWith("/home")
+                ? resolvedPath.replace("/home", "") || "/"
+                : resolvedPath;
+
+            router.push(applicationPath);
+        },
     };
+
+    const pathSuggestions = new Set([
+        ...basePaths.map((path) => removeTrailingSlash(`/home${path}`)),
+        ...paths
+            .filter((path) => !path.href.startsWith("http"))
+            .map((path) => removeTrailingSlash(`/home${path.href}`)),
+    ]);
 
     const availableCommands = Object.keys(commands);
 
@@ -132,21 +191,33 @@ export function CommandBarProvider({ children }: CommandBarProviderProps) {
             if (!fullCommand) return;
 
             if (fullCommand.startsWith(":")) {
-                const command = fullCommand
-                    .substring(1)
-                    .trim()
-                    .replaceAll("!", "");
+                const command = fullCommand.substring(1).trim();
 
-                if (command in commands) {
-                    const output = commands[command]();
-                    setCommandOutput(output ?? null);
+                if (!command) {
+                    resetCommand(true);
+                    return;
                 }
-            }
-            // else if (fullCommand.startsWith(":!")) {
-            //     const command = fullCommand.substring(2).trim()
-            //     executeShellCommand(command);
-            // }
-            else if (fullCommand.startsWith("/")) {
+
+                let output = null;
+
+                if (command.startsWith("!")) {
+                    const [cmd, ...args] = command.split(" ");
+
+                    if (cmd in commands) {
+                        output = commands[cmd](...args);
+                    } else {
+                        output = `Command not found: ${command.replaceAll("!", "")}`;
+                    }
+                } else {
+                    if (command in commands) {
+                        output = commands[command]();
+                    } else {
+                        output = `Command not found: ${command.replaceAll("!", "")}`;
+                    }
+                }
+
+                setCommandOutput(output ?? null);
+            } else if (fullCommand.startsWith("/")) {
                 setLastSearchCommand("/");
                 executeSearch(fullCommand.substring(1).trim(), "forward");
             } else if (fullCommand.startsWith("?")) {
@@ -337,6 +408,7 @@ export function CommandBarProvider({ children }: CommandBarProviderProps) {
         <CommandBarContext.Provider
             value={{
                 availableCommands,
+                pathSuggestions: Array.from(pathSuggestions),
                 commandType,
                 setCommandType,
                 commandValue,

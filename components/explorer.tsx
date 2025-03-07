@@ -133,10 +133,10 @@ export function Explorer({ paths, children }: ExplorerProps) {
                 .filter((path) => path.type === PathType.Writing)
                 .map((path) => formatPath(path)),
             projects: paths
-                .filter((path) => path.type === PathType.Project)
+                .filter((path) => path.type === PathType.Projects)
                 .map((path) => formatPath(path)),
             tools: paths
-                .filter((path) => path.type === PathType.Tool)
+                .filter((path) => path.type === PathType.Tools)
                 .map((path) => formatPath(path)),
         };
     }, [paths]);

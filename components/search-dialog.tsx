@@ -60,14 +60,16 @@ export function SearchDialog({ paths }: { paths: Path[] }) {
                 <CommandList>
                     <CommandEmpty>No results found</CommandEmpty>
                     {paths.map(({ type, alt, href }) => {
-                        const Icon = PathIconMap[type];
+                        const IconComponent = PathIconMap[type];
 
                         return (
                             <CommandItem
                                 key={alt}
                                 onSelect={() => openPath(href)}
                             >
-                                <Icon className="!size-4" />
+                                {IconComponent && (
+                                    <IconComponent className="!size-4" />
+                                )}
                                 <Highlighter
                                     autoEscape
                                     searchWords={value?.trim()?.split(" ")}

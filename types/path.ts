@@ -1,11 +1,29 @@
-import { IconPencil, IconTool, IconPackage } from "@tabler/icons-react";
+import {
+    IconHome,
+    IconPencil,
+    IconTool,
+    IconPackage,
+    IconUser,
+    IconSettings,
+} from "@tabler/icons-react";
 import { Icon } from "@/types/icon";
 
 export enum PathType {
+    Home = "home",
     Writing = "writing",
-    Tool = "tool",
-    Project = "project",
+    Projects = "projects",
+    Tools = "tools",
+    About = "about",
+    Settings = "settings",
 }
+
+export const basePaths = Object.values(PathType).map((path) => {
+    if (path === PathType.Home) {
+        return "/";
+    }
+
+    return `/${path}`;
+});
 
 export type Path = {
     type: PathType;
@@ -14,7 +32,10 @@ export type Path = {
 };
 
 export const PathIconMap: Record<PathType, Icon> = {
+    [PathType.Home]: IconHome,
     [PathType.Writing]: IconPencil,
-    [PathType.Tool]: IconTool,
-    [PathType.Project]: IconPackage,
+    [PathType.Projects]: IconPackage,
+    [PathType.Tools]: IconTool,
+    [PathType.About]: IconUser,
+    [PathType.Settings]: IconSettings,
 };

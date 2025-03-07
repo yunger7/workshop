@@ -29,7 +29,7 @@ const getSearchPaths = unstable_cache(
     async () => {
         const paths: Path[] = [
             ...listPosts({ sorted: true }).map((post) => ({
-                type: "writing" as PathType,
+                type: PathType.Writing,
                 alt: post.slug,
                 href: `/writing/${post.slug}`,
             })),
@@ -39,7 +39,7 @@ const getSearchPaths = unstable_cache(
                     project.links[0];
 
                 return {
-                    type: "project" as PathType,
+                    type: PathType.Projects,
                     alt: project.title,
                     href: primaryLink.url,
                 };
@@ -47,7 +47,7 @@ const getSearchPaths = unstable_cache(
             ...getTools()
                 .filter((tool) => !tool.unreleased)
                 .map((tool) => ({
-                    type: "tool" as PathType,
+                    type: PathType.Tools,
                     alt: tool.slug,
                     href: `/tools/${tool.slug}`,
                 })),
@@ -81,7 +81,7 @@ export default async function RootLayout({
                     <SettingsProvider>
                         <ViewsProvider>
                             <GlobalKeyboardShortcutsProvider>
-                                <CommandBarProvider>
+                                <CommandBarProvider paths={paths}>
                                     <TooltipProvider>
                                         <Explorer paths={paths}>
                                             {children}
