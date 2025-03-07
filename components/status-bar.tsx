@@ -8,9 +8,12 @@ import {
     IconHelp,
     IconHome,
     IconLoader,
+    IconSun,
+    IconMoon,
 } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 import { getEnvironment } from "@/lib/environment";
+import { useTheme } from "@/hooks/use-theme";
 import { useScrollPercentage } from "@/hooks/use-scroll-percentage";
 import { useViewsContext } from "@/contexts/views";
 import { useSettingsContext } from "@/contexts/settings";
@@ -36,7 +39,7 @@ function StatusBarItem({ children, className }: StatusBarItemProps) {
     return (
         <span
             className={cn(
-                "flex h-full select-none items-center gap-2 px-2",
+                "flex h-full select-none items-center gap-1 px-1 sm:gap-2 sm:px-2",
                 className,
             )}
         >
@@ -49,6 +52,7 @@ export function StatusBar() {
     const pathname = usePathname();
     const router = useRouter();
     const scrollPercentage = useScrollPercentage();
+    const { theme, toggleTheme } = useTheme();
     const { setIsHelpDialogOpen } = useViewsContext();
     const { enableStatusBar } = useSettingsContext();
 
@@ -107,12 +111,25 @@ export function StatusBar() {
                 </Breadcrumb>
             </StatusBarSection>
             <StatusBarSection>
-                {scrollPercentage !== null && (
-                    <StatusBarItem>
-                        <IconLoader className="size-4" />
-                        {scrollPercentage}%
-                    </StatusBarItem>
-                )}
+                {scrollPercentage !== null &&
+                    pathname.includes("/writing/") && (
+                        <StatusBarItem>
+                            <IconLoader className="size-4" />
+                            {scrollPercentage}%
+                        </StatusBarItem>
+                    )}
+                <Button
+                    variant="ghost"
+                    className="h-full rounded-none px-2 py-0"
+                    onClick={() => toggleTheme()}
+                >
+                    {theme === "dark" ? (
+                        <IconMoon className="size-4" />
+                    ) : (
+                        <IconSun className="size-4" />
+                    )}
+                    {theme}
+                </Button>
                 <StatusBarItem>
                     <IconGitBranch className="size-4" />
                     {getEnvironment()}
