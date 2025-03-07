@@ -13,6 +13,8 @@ type ViewsContextType = {
     setIsExplorerOpen: React.Dispatch<React.SetStateAction<boolean>>;
     isCommandBarOpen: boolean;
     setIsCommandBarOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    is404: boolean;
+    setIs404: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const ViewsContext = createContext<ViewsContextType | null>(null);
@@ -38,6 +40,7 @@ export function ViewsProvider({ children }: ViewsProviderProps) {
         React.useState(false);
     const [isExplorerOpen, setIsExplorerOpen] = React.useState(false);
     const [isCommandBarOpen, setIsCommandBarOpen] = React.useState(false);
+    const [is404, setIs404] = React.useState(false);
 
     return (
         <ViewsContext.Provider
@@ -52,6 +55,8 @@ export function ViewsProvider({ children }: ViewsProviderProps) {
                 setIsExplorerOpen,
                 isCommandBarOpen,
                 setIsCommandBarOpen,
+                is404,
+                setIs404,
             }}
         >
             {children}

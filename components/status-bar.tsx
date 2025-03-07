@@ -53,7 +53,7 @@ export function StatusBar() {
     const router = useRouter();
     const scrollPercentage = useScrollPercentage();
     const { theme, toggleTheme } = useTheme();
-    const { setIsHelpDialogOpen } = useViewsContext();
+    const { setIsHelpDialogOpen, is404 } = useViewsContext();
     const { enableStatusBar } = useSettingsContext();
 
     if (!enableStatusBar) return null;
@@ -70,6 +70,25 @@ export function StatusBar() {
                                 paths.slice(0, index + 1).join("/") || "/";
 
                             const isHome = href === "/";
+                            const isLastItem = index === paths.length - 1;
+                            const shouldShowSeparator =
+                                !isLastItem && (!is404 || index === 0);
+
+                            if (is404 && index > 1) {
+                                return null;
+                            }
+
+                            const renderPath = () => {
+                                if (isHome) {
+                                    return <IconHome className="size-4" />;
+                                }
+
+                                if (is404) {
+                                    return "404";
+                                }
+
+                                return path;
+                            };
 
                             return (
                                 <Fragment key={index}>
@@ -89,15 +108,11 @@ export function StatusBar() {
                                                     router.push(href)
                                                 }
                                             >
-                                                {isHome ? (
-                                                    <IconHome className="size-4" />
-                                                ) : (
-                                                    path
-                                                )}
+                                                {renderPath()}
                                             </Button>
                                         </BreadcrumbLink>
                                     </BreadcrumbItem>
-                                    {index !== paths.length - 1 && (
+                                    {shouldShowSeparator && (
                                         <BreadcrumbSeparator
                                             className={cn({
                                                 "hidden sm:flex": index >= 1,
