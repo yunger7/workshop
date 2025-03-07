@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 export const jetBrainsMono = localFont({
     display: "swap",
     variable: "--font-jet-brains-mono",
+    fallback: ["Menlo", "Monaco", "Consolas", "monospace"],
     src: [
         {
             path: "../public/fonts/JetBrainsMonoNerdFont-Thin.ttf",
