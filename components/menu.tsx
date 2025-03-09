@@ -35,7 +35,12 @@ type MenuListProps = React.ComponentPropsWithoutRef<"div"> & {
     isExplorer?: boolean;
 };
 
-export function MenuList({ children, isExplorer, ...props }: MenuListProps) {
+export function MenuList({
+    children,
+    className,
+    isExplorer,
+    ...props
+}: MenuListProps) {
     const { goBack } = useGlobalKeyboardShortcuts();
     const { isExplorerOpen } = useViewsContext();
     const [selectedIndex, setSelectedIndex] = useState(0);
@@ -136,7 +141,16 @@ export function MenuList({ children, isExplorer, ...props }: MenuListProps) {
                 isDisabled,
             }}
         >
-            <div {...props}>{children}</div>
+            <div
+                className={cn(
+                    "menu-list",
+                    { "menu-explorer": isExplorer },
+                    className,
+                )}
+                {...props}
+            >
+                {children}
+            </div>
         </MenuContext.Provider>
     );
 }
@@ -209,7 +223,7 @@ export function MenuItem({
     return (
         <div
             className={cn(
-                "relative flex w-full items-center justify-between focus:outline-none",
+                "menu-item relative flex w-full items-center justify-between focus:outline-none",
                 disableClick ? "cursor-default" : "cursor-pointer",
                 className,
             )}

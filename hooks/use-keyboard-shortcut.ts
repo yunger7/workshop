@@ -7,6 +7,7 @@ type Options = {
     routesBlacklist?: Array<string>;
     allowInInput?: boolean;
     allowInDialog?: boolean;
+    triggerCondition?: () => boolean;
 };
 
 const shortcuts = new Map<
@@ -60,6 +61,13 @@ function handleGlobalKeyPress(event: KeyboardEvent) {
             });
 
             if (isShortcutPressed) {
+                if (
+                    typeof options?.triggerCondition === "function" &&
+                    !options.triggerCondition()
+                ) {
+                    return;
+                }
+
                 if (isDialogOpen && options?.allowInDialog) {
                     matches.push({ callback, specificity: keys.length });
                 } else if (!isDialogOpen && !options?.allowInDialog) {

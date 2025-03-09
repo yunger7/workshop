@@ -79,9 +79,15 @@ export function GlobalKeyboardShortcutsProvider({
     };
 
     useKeyboardShortcut(["Backspace"], goBack);
-    useKeyboardShortcut(["h"], goBack);
-    useKeyboardShortcut(["ArrowLeft"], goBack);
     useKeyboardShortcut(["Escape"], goBack);
+    useKeyboardShortcut(["h"], goBack, {
+        triggerCondition: () =>
+            !document.querySelector(".menu-list:not(.menu-explorer)"),
+    });
+    useKeyboardShortcut(["ArrowLeft"], goBack, {
+        triggerCondition: () =>
+            !document.querySelector(".menu-list:not(.menu-explorer)"),
+    });
 
     return (
         <GlobalKeyboardShortcutsContext.Provider
