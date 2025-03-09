@@ -24,6 +24,8 @@ export default function LoremIpsum() {
     const [linesCount, setLinesCount] = useState(DEFAULT_LINES);
     const [paragraphsCount, setParagraphsCount] = useState(DEFAULT_PARAGRAPHS);
 
+    let index = 0;
+
     const generateText = useCallback(() => {
         return Array.from({ length: paragraphsCount })
             .map(() => faker.lorem.sentences(linesCount))
@@ -79,7 +81,7 @@ export default function LoremIpsum() {
         <div>
             <MenuList className="flex flex-col gap-8">
                 <MenuItem
-                    index={0}
+                    index={index++}
                     action={() => {
                         regenerate();
 
@@ -105,7 +107,7 @@ export default function LoremIpsum() {
                     </ViewBox>
                 </MenuItem>
                 <MenuItem
-                    index={1}
+                    index={index++}
                     action={() => copyButtonRef.current?.copy()}
                     className="-mt-2"
                 >
@@ -117,7 +119,7 @@ export default function LoremIpsum() {
                 </MenuItem>
                 <MenuItem
                     disableClick
-                    index={2}
+                    index={index++}
                     action={increaseParagraphsCount}
                     prevAction={decreaseParagraphsCount}
                     className="mb-2"
@@ -143,7 +145,7 @@ export default function LoremIpsum() {
                 </MenuItem>
                 <MenuItem
                     disableClick
-                    index={3}
+                    index={index++}
                     action={increaseLinesCount}
                     prevAction={decreaseLinesCount}
                     className="mb-4"

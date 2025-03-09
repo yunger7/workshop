@@ -14,6 +14,8 @@ export default function UUID() {
     const [uuid, setUuid] = useState(uuidv4());
     const [firstLoad, setFirstLoad] = useState(true);
 
+    let index = 0;
+
     useEffect(() => {
         const controls = viewBoxRef?.current?.controls;
 
@@ -36,7 +38,7 @@ export default function UUID() {
         <div>
             <MenuList className="flex flex-col gap-6">
                 <MenuItem
-                    index={0}
+                    index={index++}
                     action={() => {
                         regenerate();
 
@@ -62,7 +64,7 @@ export default function UUID() {
                     </ViewBox>
                 </MenuItem>
                 <MenuItem
-                    index={1}
+                    index={index++}
                     action={() => copyButtonRef?.current?.copy()}
                 >
                     <CopyButton

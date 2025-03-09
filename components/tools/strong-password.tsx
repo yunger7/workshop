@@ -26,6 +26,8 @@ export default function StrongPassword() {
     const [includeNumbers, setIncludeNumbers] = useState(true);
     const [includeSymbols, setIncludeSymbols] = useState(false);
 
+    let index = 0;
+
     const generatePassword = useCallback(() => {
         const uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         const lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
@@ -130,7 +132,7 @@ export default function StrongPassword() {
         <div>
             <MenuList className="flex flex-col gap-6">
                 <MenuItem
-                    index={0}
+                    index={index++}
                     action={() => {
                         regenerate();
 
@@ -154,7 +156,7 @@ export default function StrongPassword() {
                     </ViewBox>
                 </MenuItem>
                 <MenuItem
-                    index={1}
+                    index={index++}
                     action={() => copyButtonRef.current?.copy()}
                 >
                     <CopyButton
@@ -165,7 +167,7 @@ export default function StrongPassword() {
                 </MenuItem>
                 <MenuItem
                     disableClick
-                    index={2}
+                    index={index++}
                     action={increaseLength}
                     prevAction={decreaseLength}
                 >
@@ -184,7 +186,7 @@ export default function StrongPassword() {
                 </MenuItem>
                 <MenuItem
                     disableClick
-                    index={3}
+                    index={index++}
                     action={() =>
                         handleToggleChange(
                             !includeUppercase,
@@ -210,7 +212,7 @@ export default function StrongPassword() {
                 </MenuItem>
                 <MenuItem
                     disableClick
-                    index={4}
+                    index={index++}
                     action={() =>
                         handleToggleChange(
                             !includeLowercase,
@@ -236,7 +238,7 @@ export default function StrongPassword() {
                 </MenuItem>
                 <MenuItem
                     disableClick
-                    index={5}
+                    index={index++}
                     action={() =>
                         handleToggleChange(!includeNumbers, setIncludeNumbers)
                     }
@@ -256,7 +258,7 @@ export default function StrongPassword() {
                 </MenuItem>
                 <MenuItem
                     disableClick
-                    index={6}
+                    index={index++}
                     action={() =>
                         handleToggleChange(!includeSymbols, setIncludeSymbols)
                     }

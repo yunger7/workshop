@@ -32,6 +32,8 @@ export default function Base64() {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const convertButtonRef = useRef<ConvertButtonHandle>(null);
 
+    let index = 0;
+
     const form = useForm({
         resolver: zodResolver(base64Schema),
         defaultValues: {
@@ -83,7 +85,7 @@ export default function Base64() {
                 <MenuList className="flex flex-col gap-6">
                     <MenuItem
                         disableClick
-                        index={0}
+                        index={index++}
                         selectAction={() => textareaRef?.current?.focus()}
                         unselectAction={() => textareaRef?.current?.blur()}
                     >
@@ -118,7 +120,7 @@ export default function Base64() {
                             )}
                         />
                     </MenuItem>
-                    <MenuItem disableClick index={1} action={convert}>
+                    <MenuItem disableClick index={index++} action={convert}>
                         <ConvertButton
                             ref={convertButtonRef}
                             type="submit"
