@@ -4,7 +4,7 @@ import { useSettingsContext } from "@/contexts/settings";
 type ShortcutHandler = () => void;
 
 type Options = {
-    routesBlacklist?: Array<string>;
+    routesBlacklist?: string[];
     allowInInput?: boolean;
     allowInDialog?: boolean;
     triggerCondition?: () => boolean;
@@ -15,22 +15,49 @@ const shortcuts = new Map<
     Array<{ callback: ShortcutHandler; options?: Options }>
 >();
 
+const MODIFIER_KEYS = ["mod", "cmd", "ctrl", "alt", "shift"];
+
+function isKeyMatch(event: KeyboardEvent, key: string, os: string): boolean {
+    const lowerKey = key.toLowerCase();
+
+    if (MODIFIER_KEYS.includes(lowerKey)) {
+        switch (lowerKey) {
+            case "mod":
+                return os === "macos" ? event.metaKey : event.ctrlKey;
+            case "cmd":
+                return event.metaKey;
+            case "ctrl":
+                return event.ctrlKey;
+            case "alt":
+                return event.altKey;
+            case "shift":
+                return event.shiftKey;
+        }
+    }
+    if (lowerKey === "space") {
+        return event.key === " ";
+    }
+
+    return event.key.toLowerCase() === lowerKey;
+}
+
+function anyModifierActive(event: KeyboardEvent): boolean {
+    return event.ctrlKey || event.shiftKey || event.altKey || event.metaKey;
+}
+
 function handleGlobalKeyPress(event: KeyboardEvent) {
     const target = event.target as HTMLElement;
     const inInput =
         target.tagName === "INPUT" ||
         target.tagName === "TEXTAREA" ||
         target.isContentEditable;
-
     const isDialogOpen = document.activeElement?.closest('[role="dialog"]');
-
     const matches: Array<{ callback: ShortcutHandler; specificity: number }> =
         [];
     const pathname = window.location.pathname;
     const os = navigator.platform?.toLowerCase().includes("mac")
         ? "macos"
         : "windows";
-    const modKey = os === "macos" ? event.metaKey : event.ctrlKey;
 
     shortcuts.forEach((handlers, keyCombination) => {
         handlers.forEach(({ callback, options }) => {
@@ -39,28 +66,19 @@ function handleGlobalKeyPress(event: KeyboardEvent) {
             if (isDialogOpen && !options?.allowInDialog) return;
 
             const keys = keyCombination.split("+");
-            const isShortcutPressed = keys.every((key) => {
-                switch (key.toLowerCase()) {
-                    case "mod":
-                        return modKey;
-                    case "cmd":
-                        return event.metaKey;
-                    case "ctrl":
-                        return event.ctrlKey;
-                    case "alt":
-                        return event.altKey;
-                    case "shift":
-                        return event.shiftKey;
-                    default:
-                        if (key.toLowerCase() === "space") {
-                            return event.key === " ";
-                        }
-
-                        return event.key.toLowerCase() === key.toLowerCase();
-                }
-            });
+            const isShortcutPressed = keys.every((key) =>
+                isKeyMatch(event, key, os),
+            );
 
             if (isShortcutPressed) {
+                const requiresModifier = keys.some((key) =>
+                    MODIFIER_KEYS.includes(key.toLowerCase()),
+                );
+
+                if (!requiresModifier && anyModifierActive(event)) {
+                    return;
+                }
+
                 if (
                     typeof options?.triggerCondition === "function" &&
                     !options.triggerCondition()
@@ -96,7 +114,6 @@ export function useKeyboardShortcut(
     options?: Options,
 ) {
     const key = keyCombination.join("+");
-
     const { enableKeyboardShortcuts } = useSettingsContext();
 
     useEffect(() => {
