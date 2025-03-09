@@ -92,7 +92,7 @@ export function Menu() {
                     <IconBrandGithub className="!size-6" />
                     <div className="flex flex-col gap-1 text-left">
                         <span>View source</span>
-                        <span className="text-xs text-muted-foreground">
+                        <span className="text-wrap text-xs text-muted-foreground">
                             The source code of this workshop is available on
                             GitHub
                         </span>
