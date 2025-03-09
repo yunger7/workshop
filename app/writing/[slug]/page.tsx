@@ -1,7 +1,6 @@
 import readingTime from "reading-time";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import { Separator } from "@/components/ui/separator";
 import { Layout } from "@/components/layout";
 import { Article } from "@/components/article";
 import { listPosts, getPostBySlug } from "@/lib/data/writing";
@@ -36,7 +35,6 @@ export default async function PostPage({
             title={post.metadata.title}
             description={`${formatDate(post.metadata.publishedAt)} · ${readingTimeStats.text}`}
         >
-            <Separator className="my-4" />
             <Article>
                 <MDXRemote source={post.content} />
             </Article>

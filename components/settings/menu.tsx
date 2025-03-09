@@ -15,6 +15,8 @@ export function Menu() {
         toggleKeyboardShortcuts,
         enableStatusBar,
         toggleStatusBar,
+        enableGridBackground,
+        toggleGridBackground,
     } = useSettingsContext();
     const { theme, toggleTheme } = useTheme();
 
@@ -79,6 +81,19 @@ export function Menu() {
                 />
             </MenuItem>
             <MenuItem
+                disableClick
+                index={index++}
+                action={toggleGridBackground}
+                prevAction={toggleGridBackground}
+            >
+                <Switch
+                    id="grid-background"
+                    label="Grid background"
+                    checked={enableGridBackground}
+                    onCheckedChange={toggleGridBackground}
+                />
+            </MenuItem>
+            <MenuItem
                 index={index++}
                 className="mt-2"
                 action={() =>
@@ -87,7 +102,7 @@ export function Menu() {
             >
                 <Button
                     variant="outline"
-                    className="h-fit w-full justify-start"
+                    className="h-fit w-full justify-start border-dashed"
                 >
                     <IconBrandGithub className="!size-6" />
                     <div className="flex flex-col gap-1 text-left">

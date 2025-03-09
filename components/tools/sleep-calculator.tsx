@@ -59,7 +59,7 @@ export default function SleepCalculator() {
                 Sleep cycles usually last around 90 minutes. Waking up at the
                 end of a cycle will help you feel more refreshed.
             </p>
-            <Table className="text-nowrap">
+            <Table className="text-nowrap border border-dashed border-input bg-background">
                 <TableHeader>
                     <TableRow>
                         <TableHead>Suggested Wake-Up Time</TableHead>

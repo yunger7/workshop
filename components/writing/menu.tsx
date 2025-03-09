@@ -22,7 +22,6 @@ export function Menu({ posts }: MenuProps) {
                     action={() => router.push(`/writing/${post.slug}`)}
                 >
                     <h2 className="text-md text-left">{post.title}</h2>
-                    <div className="h-[1px] min-w-12 flex-grow border-b border-input" />
                     <div className="whitespace-nowrap">{post.date}</div>
                 </MenuItem>
             ))}

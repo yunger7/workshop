@@ -184,7 +184,7 @@ export function Explorer({ paths, children }: ExplorerProps) {
         <ResizablePanelGroup direction="horizontal" className="min-h-screen">
             <ResizablePanel
                 defaultSize={15}
-                className={cn("p-4", { hidden: !isExplorerOpen })}
+                className={cn("bg-background p-4", { hidden: !isExplorerOpen })}
             >
                 <div className="flex items-center justify-between gap-2">
                     <span>Explorer</span>

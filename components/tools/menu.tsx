@@ -5,7 +5,7 @@ import { Fragment } from "react";
 import { useRouter } from "nextjs-toploader/app";
 import { getTools } from "@/lib/data/tools";
 import { Tool } from "@/types/tool";
-import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { MenuList, MenuItem } from "@/components/menu";
 
@@ -22,7 +22,7 @@ export function Menu() {
     }
 
     return (
-        <MenuList className="flex flex-col">
+        <MenuList className="flex flex-col gap-6">
             {tools.map((tool, index) => {
                 const Icon = tool.icon;
 
@@ -31,30 +31,33 @@ export function Menu() {
                         <MenuItem
                             key={tool.name}
                             index={index}
-                            className="justify-between py-2"
                             action={() => openTool(tool)}
                         >
-                            <div className="flex gap-3">
-                                <div className="flex items-center gap-2">
-                                    <span className="sr-only">{tool.name}</span>
-                                    <Icon className="size-6" />
+                            <Button
+                                variant="card"
+                                className="flex h-fit justify-between p-3"
+                            >
+                                <div className="flex gap-3">
+                                    <div className="flex items-center gap-2">
+                                        <span className="sr-only">
+                                            {tool.name}
+                                        </span>
+                                        <Icon className="!size-6" />
+                                    </div>
+                                    <div>
+                                        <h2 className="text-md text-left">
+                                            {tool.name}
+                                        </h2>
+                                        <p className="text-pretty text-left text-muted-foreground">
+                                            {tool.description}
+                                        </p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h2 className="text-md text-left">
-                                        {tool.name}
-                                    </h2>
-                                    <p className="text-pretty text-left text-muted-foreground">
-                                        {tool.description}
-                                    </p>
-                                </div>
-                            </div>
-                            {!!tool.unreleased && (
-                                <Badge variant="secondary">Soon</Badge>
-                            )}
+                                {!!tool.unreleased && (
+                                    <Badge variant="secondary">Soon</Badge>
+                                )}
+                            </Button>
                         </MenuItem>
-                        {index !== tools.length - 1 && (
-                            <Separator className="my-2" />
-                        )}
                     </Fragment>
                 );
             })}

@@ -1,6 +1,7 @@
 "use client";
 
-import React, { createContext } from "react";
+import React, { createContext, useState } from "react";
+import { useSettingsContext } from "@/contexts/settings";
 
 type ViewsContextType = {
     isHelpDialogOpen: boolean;
@@ -34,13 +35,14 @@ type ViewsProviderProps = {
 };
 
 export function ViewsProvider({ children }: ViewsProviderProps) {
-    const [isHelpDialogOpen, setIsHelpDialogOpen] = React.useState(false);
-    const [isSearchDialogOpen, setIsSearchDialogOpen] = React.useState(false);
-    const [isShortcutsDialogOpen, setIsShortcutsDialogOpen] =
-        React.useState(false);
-    const [isExplorerOpen, setIsExplorerOpen] = React.useState(false);
-    const [isCommandBarOpen, setIsCommandBarOpen] = React.useState(false);
-    const [is404, setIs404] = React.useState(false);
+    const { enableGridBackground } = useSettingsContext();
+
+    const [isHelpDialogOpen, setIsHelpDialogOpen] = useState(false);
+    const [isSearchDialogOpen, setIsSearchDialogOpen] = useState(false);
+    const [isShortcutsDialogOpen, setIsShortcutsDialogOpen] = useState(false);
+    const [isExplorerOpen, setIsExplorerOpen] = useState(false);
+    const [isCommandBarOpen, setIsCommandBarOpen] = useState(false);
+    const [is404, setIs404] = useState(false);
 
     return (
         <ViewsContext.Provider
@@ -59,6 +61,9 @@ export function ViewsProvider({ children }: ViewsProviderProps) {
                 setIs404,
             }}
         >
+            {enableGridBackground && (
+                <div className="absolute inset-0 -z-10 h-full w-full bg-background bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
+            )}
             {children}
         </ViewsContext.Provider>
     );

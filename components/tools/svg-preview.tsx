@@ -48,7 +48,7 @@ export default function SvgPreview() {
             </div>
             <div
                 id="preview"
-                className="unsearchable flex min-h-24 flex-col items-center justify-center rounded-md border border-dashed p-4"
+                className="unsearchable flex min-h-24 flex-col items-center justify-center rounded-md border border-dashed bg-background p-4"
             >
                 {objectUrl ? (
                     <>

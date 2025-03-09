@@ -84,7 +84,7 @@ export function Note() {
                             <FormLabel>Leave a note</FormLabel>
                             <FormControl>
                                 <Textarea
-                                    className="min-h-48"
+                                    className="min-h-48 border-dashed"
                                     disabled={isSubmitting}
                                     {...field}
                                 />
