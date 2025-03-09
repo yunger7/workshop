@@ -1,7 +1,6 @@
 "use client";
 
 import React, { createContext, useState } from "react";
-import { useSettingsContext } from "@/contexts/settings";
 
 type ViewsContextType = {
     isHelpDialogOpen: boolean;
@@ -35,8 +34,6 @@ type ViewsProviderProps = {
 };
 
 export function ViewsProvider({ children }: ViewsProviderProps) {
-    const { enableGridBackground } = useSettingsContext();
-
     const [isHelpDialogOpen, setIsHelpDialogOpen] = useState(false);
     const [isSearchDialogOpen, setIsSearchDialogOpen] = useState(false);
     const [isShortcutsDialogOpen, setIsShortcutsDialogOpen] = useState(false);
@@ -61,9 +58,6 @@ export function ViewsProvider({ children }: ViewsProviderProps) {
                 setIs404,
             }}
         >
-            {enableGridBackground && (
-                <div className="absolute inset-0 -z-10 h-full w-full bg-background bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
-            )}
             {children}
         </ViewsContext.Provider>
     );

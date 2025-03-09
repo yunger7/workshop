@@ -8,7 +8,6 @@ export type SettingsContextType = Settings & {
     toggleAnimations: () => void;
     toggleKeyboardShortcuts: () => void;
     toggleStatusBar: () => void;
-    toggleGridBackground: () => void;
 };
 
 export const SettingsContext = createContext<SettingsContextType | null>(null);
@@ -30,7 +29,6 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
         enableAnimations: true,
         enableKeyboardShortcuts: true,
         enableStatusBar: true,
-        enableGridBackground: true,
     });
 
     function toggleAnimations() {
@@ -54,13 +52,6 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
         }));
     }
 
-    function toggleGridBackground() {
-        setSettings((prev) => ({
-            ...prev,
-            enableGridBackground: !prev.enableGridBackground,
-        }));
-    }
-
     return (
         <SettingsContext.Provider
             value={{
@@ -70,8 +61,6 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
                 toggleKeyboardShortcuts,
                 enableStatusBar: settings.enableStatusBar,
                 toggleStatusBar,
-                enableGridBackground: settings.enableGridBackground,
-                toggleGridBackground,
             }}
         >
             {children}

@@ -15,8 +15,6 @@ export function Menu() {
         toggleKeyboardShortcuts,
         enableStatusBar,
         toggleStatusBar,
-        enableGridBackground,
-        toggleGridBackground,
     } = useSettingsContext();
     const { theme, toggleTheme } = useTheme();
 
@@ -78,19 +76,6 @@ export function Menu() {
                     label="Status bar"
                     checked={enableStatusBar}
                     onCheckedChange={toggleStatusBar}
-                />
-            </MenuItem>
-            <MenuItem
-                disableClick
-                index={index++}
-                action={toggleGridBackground}
-                prevAction={toggleGridBackground}
-            >
-                <Switch
-                    id="grid-background"
-                    label="Grid background"
-                    checked={enableGridBackground}
-                    onCheckedChange={toggleGridBackground}
                 />
             </MenuItem>
             <MenuItem
