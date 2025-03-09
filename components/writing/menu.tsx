@@ -2,6 +2,7 @@
 
 import { useRouter } from "nextjs-toploader/app";
 import { MenuList, MenuItem } from "@/components/menu";
+import { Button } from "@/components/ui/button";
 
 type Post = { title: string; date: string; slug: string };
 
@@ -13,16 +14,24 @@ export function Menu({ posts }: MenuProps) {
     const router = useRouter();
 
     return (
-        <MenuList className="flex flex-col">
+        <MenuList className="flex flex-col gap-6 sm:gap-0">
             {posts.map((post, index) => (
                 <MenuItem
                     key={post.title}
                     index={index}
-                    className="gap-3 py-2"
                     action={() => router.push(`/writing/${post.slug}`)}
                 >
-                    <h2 className="text-md text-left">{post.title}</h2>
-                    <div className="whitespace-nowrap">{post.date}</div>
+                    <Button
+                        variant="card"
+                        className="flex h-fit flex-col items-start gap-3 p-3 font-normal sm:flex-row sm:items-center sm:justify-between sm:border-none sm:bg-transparent sm:p-0 sm:py-3"
+                    >
+                        <h2 className="text-md text-wrap text-left">
+                            {post.title}
+                        </h2>
+                        <div className="whitespace-nowrap text-muted-foreground sm:text-foreground">
+                            {post.date}
+                        </div>
+                    </Button>
                 </MenuItem>
             ))}
         </MenuList>
