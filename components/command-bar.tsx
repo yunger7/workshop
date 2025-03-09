@@ -5,11 +5,13 @@ import { usePathname } from "next/navigation";
 import { useRef, useEffect } from "react";
 import { cn, removeTrailingSlash } from "@/lib/utils";
 import { useViewsContext } from "@/contexts/views";
+import { useSettingsContext } from "@/contexts/settings";
 import { useCommandBarContext } from "@/contexts/command-bar";
 import { TerminalInput } from "@/components/terminal-input";
 
 export function CommandBar() {
     const pathname = usePathname();
+    const { enableStatusBar } = useSettingsContext();
 
     const inputRef = useRef<HTMLInputElement>(null);
     const commandBarRef = useRef<HTMLDivElement>(null);
@@ -151,7 +153,10 @@ export function CommandBar() {
     return (
         <div
             ref={commandBarRef}
-            className="fixed bottom-6 left-0 right-0 select-none bg-background"
+            className={cn(
+                "fixed left-0 right-0 select-none bg-background",
+                enableStatusBar ? "bottom-6" : "bottom-0",
+            )}
         >
             {isCommandBarOpen ? (
                 <form
