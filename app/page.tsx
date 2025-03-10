@@ -11,7 +11,7 @@ export default async function HomePage() {
         <main className="mb-16 flex flex-col items-center justify-center gap-8 px-8">
             <AsciiLogo />
             <Menu />
-            <div className="flex flex-col items-center gap-2 text-center text-nord-polar-2 dark:text-nord-snow-2">
+            <div className="-mt-2 flex flex-col items-center gap-2 text-center text-nord-polar-2 dark:text-nord-snow-2">
                 <span>yunger.dev</span>
                 <a
                     href="https://github.com/yunger7/workshop"
