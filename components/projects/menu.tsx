@@ -46,7 +46,7 @@ export function Menu({ projects }: MenuProps) {
                             }
                         >
                             <Button variant="card" className="h-fit p-5">
-                                <div className="flex w-full items-center justify-between gap-2">
+                                <div className="mb-1.5 flex w-full items-center justify-between gap-2">
                                     <h2 className="text-md -mt-0.5 inline-flex text-left">
                                         <a
                                             href={primaryLink.url}
