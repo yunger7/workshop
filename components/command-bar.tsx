@@ -154,7 +154,7 @@ export function CommandBar() {
         <div
             ref={commandBarRef}
             className={cn(
-                "fixed left-0 right-0 select-none bg-background",
+                "fixed left-0 right-0 select-none bg-transparent",
                 enableStatusBar ? "bottom-6" : "bottom-0",
             )}
         >
