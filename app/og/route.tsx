@@ -14,23 +14,22 @@ export async function GET(request: NextRequest) {
     return new ImageResponse(
         (
             <div
-                tw="flex flex-col w-full h-full items-center justify-center bg-[#eceff4] text-[#2e3440] text-center"
+                tw="flex flex-col w-full h-full items-center justify-center bg-[#2e3440] text-[#eceff4] text-center"
                 style={{
-                    backgroundImage:
-                        "linear-gradient(to right, #2e344020 1px, transparent 1px), linear-gradient(to bottom, #2e344020 1px, transparent 1px)",
-                    backgroundSize: "48px 48px",
+                    backgroundColor: "#2e3440",
+                    backgroundImage: `
+          linear-gradient(#5E81AC44 1px, transparent 1px),
+          linear-gradient(90deg, #5E81AC44 1px, transparent 1px),
+          linear-gradient(#5E81AC22 1px, transparent 1px),
+          linear-gradient(90deg, #5E81AC22 1px, transparent 1px)
+        `,
+                    backgroundSize:
+                        "150px 150px, 150px 150px, 30px 30px, 30px 30px",
+                    backgroundPosition:
+                        "-1px -1px, -1px -1px, -1px -1px, -1px -1px",
                 }}
             >
-                <div
-                    tw="w-full h-full bg-[#eceff4] absolute"
-                    style={{
-                        maskImage:
-                            "radial-gradient(50vw circle at center, #eceff4, transparent)",
-                        WebkitMaskImage:
-                            "radial-gradient(50vw circle at center, #eceff4, transparent)",
-                    }}
-                />
-                {title && <span tw="text-3xl text-[#7C89A2]">yunger.dev</span>}
+                {title && <span tw="text-3xl text-[#ABB9CF]">yunger.dev</span>}
                 <h1 tw="text-6xl tracking-tight">{title || "yunger.dev"}</h1>
             </div>
         ),
