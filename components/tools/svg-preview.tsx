@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useRef, useLayoutEffect } from "react";
 import { Label } from "@/components/ui/label";
 import { CodeEditor } from "@/components/code-editor";
 
 export default function SvgPreview() {
     const [content, setContent] = useState("");
     const [objectUrl, setObjectUrl] = useState<string | null>(null);
+    const prevUrlRef = useRef<string | null>(null);
 
     function isValidSvg(content: string): boolean {
         try {
@@ -18,23 +19,23 @@ export default function SvgPreview() {
         }
     }
 
-    useEffect(() => {
-        let url: string | null = null;
+    useLayoutEffect(() => {
+        if (prevUrlRef.current) {
+            URL.revokeObjectURL(prevUrlRef.current);
+        }
 
         if (content && isValidSvg(content)) {
             const blob = new Blob([content], { type: "image/svg+xml" });
-            url = URL.createObjectURL(blob);
-            setObjectUrl(url);
+            const newUrl = URL.createObjectURL(blob);
+            setObjectUrl(newUrl);
+            prevUrlRef.current = newUrl;
         } else {
             setObjectUrl(null);
+            prevUrlRef.current = null;
         }
-
-        return () => {
-            if (url) {
-                URL.revokeObjectURL(url);
-            }
-        };
     }, [content]);
+
+    const isValid = content && isValidSvg(content);
 
     return (
         <div className="flex flex-col gap-4">
@@ -50,11 +51,17 @@ export default function SvgPreview() {
                 id="preview"
                 className="unsearchable flex min-h-24 flex-col items-center justify-center rounded-md border border-dashed bg-background p-4"
             >
-                {objectUrl ? (
-                    <>
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={objectUrl} alt="SVG preview" />
-                    </>
+                {isValid ? (
+                    objectUrl ? (
+                        <>
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                                src={objectUrl}
+                                alt="SVG preview"
+                                className="duration-500 animate-in fade-in"
+                            />
+                        </>
+                    ) : null
                 ) : (
                     <p className="text-muted-foreground">
                         {content ? "Invalid SVG content" : "Nothing to preview"}
