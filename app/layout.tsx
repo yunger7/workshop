@@ -71,16 +71,16 @@ export default async function RootLayout({
             <body
                 className={`${jetBrainsMono.variable} font-mono text-sm antialiased selection:bg-[#81a1c19f] selection:text-nord-polar-1 dark:selection:bg-[#88c0d080] dark:selection:text-nord-snow-3`}
             >
-                <div
-                    id="grid-background"
-                    className="fixed inset-0 -z-10 h-full w-full bg-background bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"
-                />
                 <ThemeProvider
                     disableTransitionOnChange
                     enableSystem={false}
                     attribute="class"
                     defaultTheme="dark"
                 >
+                    <div
+                        id="grid-background"
+                        className="fixed inset-0 -z-10 h-full w-full bg-background bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"
+                    />
                     <TopLoader />
                     <SettingsProvider>
                         <ViewsProvider>
