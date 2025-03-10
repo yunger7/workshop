@@ -6,21 +6,6 @@ export const jetBrainsMono = localFont({
     fallback: ["Menlo", "Monaco", "Consolas", "monospace"],
     src: [
         {
-            path: "../public/fonts/JetBrainsMonoNerdFont-Thin.ttf",
-            weight: "100",
-            style: "normal",
-        },
-        {
-            path: "../public/fonts/JetBrainsMonoNerdFont-ExtraLight.ttf",
-            weight: "200",
-            style: "normal",
-        },
-        {
-            path: "../public/fonts/JetBrainsMonoNerdFont-Light.ttf",
-            weight: "300",
-            style: "normal",
-        },
-        {
             path: "../public/fonts/JetBrainsMonoNerdFont-Regular.ttf",
             weight: "400",
             style: "normal",
@@ -41,26 +26,6 @@ export const jetBrainsMono = localFont({
             style: "normal",
         },
         {
-            path: "../public/fonts/JetBrainsMonoNerdFont-ExtraBold.ttf",
-            weight: "800",
-            style: "normal",
-        },
-        {
-            path: "../public/fonts/JetBrainsMonoNerdFont-ThinItalic.ttf",
-            weight: "100",
-            style: "italic",
-        },
-        {
-            path: "../public/fonts/JetBrainsMonoNerdFont-ExtraLightItalic.ttf",
-            weight: "200",
-            style: "italic",
-        },
-        {
-            path: "../public/fonts/JetBrainsMonoNerdFont-LightItalic.ttf",
-            weight: "300",
-            style: "italic",
-        },
-        {
             path: "../public/fonts/JetBrainsMonoNerdFont-Italic.ttf",
             weight: "400",
             style: "italic",
@@ -78,11 +43,6 @@ export const jetBrainsMono = localFont({
         {
             path: "../public/fonts/JetBrainsMonoNerdFont-BoldItalic.ttf",
             weight: "700",
-            style: "italic",
-        },
-        {
-            path: "../public/fonts/JetBrainsMonoNerdFont-ExtraBoldItalic.ttf",
-            weight: "800",
             style: "italic",
         },
     ],
