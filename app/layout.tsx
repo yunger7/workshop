@@ -82,7 +82,7 @@ export default async function RootLayout({
                     attribute="class"
                     defaultTheme="dark"
                 >
-                    <div className="fixed inset-0 -z-10 h-full w-full bg-background before:absolute before:inset-0 before:bg-[linear-gradient(#5E81AC22_1px,transparent_1px),linear-gradient(90deg,#5E81AC22_1px,transparent_1px),linear-gradient(#5E81AC11_1px,transparent_1px),linear-gradient(90deg,#5E81AC11_1px,transparent_1px)] before:bg-[100px_100px,100px_100px,20px_20px,20px_20px] before:bg-left before:content-['']" />
+                    <div className="fixed inset-0 -z-10 h-full w-full bg-background before:absolute before:inset-0 before:bg-[linear-gradient(#5E81AC22_1px,transparent_1px),linear-gradient(90deg,#5E81AC22_1px,transparent_1px),linear-gradient(#5E81AC11_1px,transparent_1px),linear-gradient(90deg,#5E81AC11_1px,transparent_1px)] before:bg-[125px_125px,125px_125px,25px_25px,25px_25px] before:bg-left before:content-['']" />
                     <TopLoader />
                     <SettingsProvider>
                         <ViewsProvider>
