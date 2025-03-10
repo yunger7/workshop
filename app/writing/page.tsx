@@ -1,8 +1,13 @@
+import type { Metadata } from "next";
 import { IconRss } from "@tabler/icons-react";
 import { Layout } from "@/components/layout";
 import { Menu } from "@/components/writing/menu";
 import { listPosts } from "@/lib/data/writing";
 import { formatDate } from "@/lib/dates";
+
+export const metadata: Metadata = {
+    title: "Writing",
+};
 
 function getPosts() {
     const posts = listPosts({ sorted: true });

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+    <!-- Grid Pattern -->
+    <defs>
+        <pattern id="smallGrid" width="15" height="15" patternUnits="userSpaceOnUse">
+            <path d="M 15 0 L 0 0 0 15" fill="none" stroke="#4C566A" stroke-width="0.5"
+                opacity="0.3" />
+        </pattern>
+        <pattern id="grid" width="75" height="75" patternUnits="userSpaceOnUse">
+            <rect width="75" height="75" fill="url(#smallGrid)" />
+            <path d="M 75 0 L 0 0 0 75" fill="none" stroke="#4C566A" stroke-width="1" opacity="0.5" />
+        </pattern>
+        <!-- Templates -->
+        <circle id="circleTemplate" cx="0" cy="0" r="15" fill="none" stroke="#88C0D0"
+            stroke-width="1.5" />
+        <path id="cornerDecoration" d="M 0 0 L 30 0 A 30 30 0 0 1 0 30 Z" fill="none"
+            stroke="#81A1C1" stroke-width="1.5" />
+    </defs>
+
+    <!-- Background -->
+    <rect width="1200" height="630" fill="#2E3440" />
+    <rect width="1200" height="630" fill="url(#grid)" />
+
+    <!-- Decorative Elements -->
+    <g opacity="0.6">
+        <!-- Left Side Drawing -->
+        <g transform="translate(180 157)">
+            <rect x="-30" y="-30" width="60" height="60" fill="none" stroke="#88C0D0"
+                stroke-width="1.5" />
+            <circle cx="0" cy="0" r="19" fill="none" stroke="#88C0D0" stroke-width="1.5" />
+            <line x1="-30" y1="-30" x2="30" y2="30" stroke="#88C0D0" stroke-width="1"
+                stroke-dasharray="4,4" />
+            <text x="34" y="0" fill="#88C0D0" font-size="9" opacity="0.8">R19</text>
+        </g>
+
+        <!-- Right Side Drawing -->
+        <g transform="translate(1020 473)">
+            <rect x="-30" y="-30" width="60" height="60" fill="none" stroke="#88C0D0"
+                stroke-width="1.5" />
+            <circle cx="0" cy="0" r="19" fill="none" stroke="#88C0D0" stroke-width="1.5" />
+            <line x1="-30" y1="-30" x2="30" y2="30" stroke="#88C0D0" stroke-width="1"
+                stroke-dasharray="4,4" />
+            <text x="34" y="0" fill="#88C0D0" font-size="9" opacity="0.8">R19</text>
+        </g>
+
+        <!-- Top Left Corner -->
+        <g transform="translate(160 100)">
+            <circle cx="0" cy="0" r="45" fill="none" stroke="#5E81AC" stroke-width="1.5" />
+            <line x1="-45" y1="0" x2="45" y2="0" stroke="#5E81AC" stroke-width="1.5" />
+            <line x1="0" y1="-45" x2="0" y2="45" stroke="#5E81AC" stroke-width="1.5" />
+        </g>
+
+        <!-- Bottom Right Corner -->
+        <g transform="translate(1040 530)">
+            <circle cx="0" cy="0" r="45" fill="none" stroke="#5E81AC" stroke-width="1.5" />
+            <line x1="-45" y1="0" x2="45" y2="0" stroke="#5E81AC" stroke-width="1.5" />
+            <line x1="0" y1="-45" x2="0" y2="45" stroke="#5E81AC" stroke-width="1.5" />
+        </g>
+
+        <!-- Corner Decorations -->
+        <use href="#cornerDecoration" transform="translate(1160 40) rotate(90)" />
+        <use href="#cornerDecoration" transform="translate(40 590) rotate(-90)" />
+        <use href="#cornerDecoration" transform="translate(1160 590) rotate(180)" />
+        <use href="#cornerDecoration" transform="translate(40 40)" />
+
+        <!-- Distributed Technical Circles -->
+        <use href="#circleTemplate" transform="translate(300 80)" />
+        <use href="#circleTemplate" transform="translate(900 80)" />
+        <use href="#circleTemplate" transform="translate(300 550)" />
+        <use href="#circleTemplate" transform="translate(900 550)" />
+
+        <!-- Additional Decorative Lines -->
+        <path d="M 160 473 L 220 473 L 220 533" fill="none" stroke="#81A1C1" stroke-width="1.5" />
+        <path d="M 1040 157 L 980 157 L 980 97" fill="none" stroke="#81A1C1" stroke-width="1.5" />
+    </g>
+
+    <!-- Measurement Lines -->
+    <g stroke="#88C0D0" stroke-width="1" opacity="0.4">
+        <!-- Left Side -->
+        <line x1="180" y1="240" x2="180" y2="390" stroke-dasharray="5,5" />
+        <line x1="168" y1="240" x2="192" y2="240" />
+        <line x1="168" y1="390" x2="192" y2="390" />
+
+        <!-- Right Side -->
+        <line x1="1020" y1="240" x2="1020" y2="390" stroke-dasharray="5,5" />
+        <line x1="1008" y1="240" x2="1032" y2="240" />
+        <line x1="1008" y1="390" x2="1032" y2="390" />
+    </g>
+</svg>

@@ -1,9 +1,14 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { IconBrandGithub, IconBrandLinkedin } from "@tabler/icons-react";
 import { Layout } from "@/components/layout";
 import { RefererSentence } from "@/components/about/referer-sentence";
 import { GreetingSentence } from "@/components/about/greeting-sentence";
 import { Note } from "@/components/about/note";
+
+export const metadata: Metadata = {
+    title: "About",
+};
 
 export default async function AboutPage() {
     return (

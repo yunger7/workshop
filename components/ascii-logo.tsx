@@ -1,7 +1,4 @@
-export function AsciiLogo() {
-    return (
-        <pre className="text-xs text-nord-frost-4 dark:text-nord-frost-3">
-            {`
+export const asciiArt = `
                                           
                  ++++++++                 
               +++++++++++++++             
@@ -24,7 +21,12 @@ export function AsciiLogo() {
           +++++++*#*++*#*+++++++          
               +++++++++++++++             
                  ++++++++                 
-                `}
+                `;
+
+export function AsciiLogo() {
+    return (
+        <pre className="text-xs text-nord-frost-4 dark:text-nord-frost-3">
+            {asciiArt}
         </pre>
     );
 }

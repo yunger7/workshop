@@ -22,7 +22,12 @@ import { ShortcutsDialog } from "@/components/shortcuts-dialog";
 import "./globals.css";
 
 export const metadata: Metadata = {
-    title: "yunger.dev",
+    title: {
+        default: "yunger.dev",
+        template: "%s | yunger.dev",
+    },
+    description:
+        "A digital craftsman's workshop — a cozy place filled with tools, projects, writing, and more.",
 };
 
 const getSearchPaths = unstable_cache(

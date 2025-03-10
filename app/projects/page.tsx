@@ -1,6 +1,11 @@
+import type { Metadata } from "next";
 import { getProjects } from "@/lib/data/projects";
 import { Layout } from "@/components/layout";
 import { Menu } from "@/components/projects/menu";
+
+export const metadata: Metadata = {
+    title: "Projects",
+};
 
 async function getProjectsData() {
     const projects = getProjects();
