@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { Layout } from "@/components/layout";
 import { Article } from "@/components/article";
+import { GoToTopButton } from "@/components/go-to-top-button";
 import { listPosts, getPostBySlug } from "@/lib/data/writing";
 import { formatDate } from "@/lib/dates";
 import { getURL } from "@/lib/utils";
@@ -76,6 +77,7 @@ export default async function PostPage({ params }: { params: Params }) {
             <Article>
                 <MDXRemote source={post.content} />
             </Article>
+            <GoToTopButton />
         </Layout>
     );
 }
