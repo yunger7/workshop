@@ -66,5 +66,9 @@ export function RouteTransitionsContainer({
 }) {
     const { ref } = useRouteTransitionsContext();
 
-    return <div ref={ref}>{children}</div>;
+    return (
+        <div className="h-full w-full" ref={ref}>
+            {children}
+        </div>
+    );
 }
