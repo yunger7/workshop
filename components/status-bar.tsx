@@ -2,7 +2,7 @@
 
 import React, { Fragment } from "react";
 import { usePathname } from "next/navigation";
-import { useRouter } from "nextjs-toploader/app";
+import { useTransitionRouter } from "next-transition-router";
 import {
     IconGitBranch,
     IconHelp,
@@ -50,7 +50,7 @@ function StatusBarItem({ children, className }: StatusBarItemProps) {
 
 export function StatusBar() {
     const pathname = usePathname();
-    const router = useRouter();
+    const router = useTransitionRouter();
     const scrollPercentage = useScrollPercentage();
     const { theme, toggleTheme } = useTheme();
     const { setIsHelpDialogOpen, is404 } = useViewsContext();

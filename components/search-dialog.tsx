@@ -3,7 +3,7 @@
 import Highlighter from "react-highlight-words";
 import React, { useState } from "react";
 import { useCommandState } from "cmdk";
-import { useRouter } from "nextjs-toploader/app";
+import { useTransitionRouter } from "next-transition-router";
 import { Path, PathIconMap } from "@/types/path";
 import { useViewsContext } from "@/contexts/views";
 import {
@@ -26,7 +26,7 @@ function FilterState({ total }: { total: number }) {
 }
 
 export function SearchDialog({ paths }: { paths: Path[] }) {
-    const router = useRouter();
+    const router = useTransitionRouter();
     const { isSearchDialogOpen, setIsSearchDialogOpen } = useViewsContext();
 
     const [value, setValue] = useState("");

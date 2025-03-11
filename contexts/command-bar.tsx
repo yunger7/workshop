@@ -3,7 +3,7 @@
 import { resolve } from "path";
 import { usePathname } from "next/navigation";
 import React, { createContext, useState, useCallback, useEffect } from "react";
-import { useRouter } from "nextjs-toploader/app";
+import { useTransitionRouter } from "next-transition-router";
 import { Path, basePaths } from "@/types/path";
 import { removeTrailingSlash } from "@/lib/utils";
 import { useGlobalKeyboardShortcuts } from "@/contexts/global-keyboard-shortcuts";
@@ -57,7 +57,7 @@ export function CommandBarProvider({
     children,
 }: CommandBarProviderProps) {
     const pathname = usePathname();
-    const router = useRouter();
+    const router = useTransitionRouter();
 
     const { goBack } = useGlobalKeyboardShortcuts();
     const { theme, setTheme, toggleTheme } = useTheme();

@@ -2,7 +2,7 @@
 
 import { createContext, useContext } from "react";
 import { usePathname } from "next/navigation";
-import { useRouter } from "nextjs-toploader/app";
+import { useTransitionRouter } from "next-transition-router";
 
 import { useKeyboardShortcut } from "@/hooks/use-keyboard-shortcut";
 import { useViewsContext } from "@/contexts/views";
@@ -32,7 +32,7 @@ export function GlobalKeyboardShortcutsProvider({
 }: {
     children: React.ReactNode;
 }) {
-    const router = useRouter();
+    const router = useTransitionRouter();
     const pathname = usePathname();
     const {
         setIsSearchDialogOpen,

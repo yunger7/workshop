@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "nextjs-toploader/app";
+import { useTransitionRouter } from "next-transition-router";
 import { MenuList, MenuItem } from "@/components/menu";
 import { Button } from "@/components/ui/button";
 
@@ -11,7 +11,7 @@ type MenuProps = {
 };
 
 export function Menu({ posts }: MenuProps) {
-    const router = useRouter();
+    const router = useTransitionRouter();
 
     return (
         <MenuList className="flex flex-col gap-6 sm:gap-0">

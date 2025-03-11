@@ -6,11 +6,14 @@ import { GlobalKeyboardShortcutsProvider } from "@/contexts/global-keyboard-shor
 import { ViewsProvider } from "@/contexts/views";
 import { SettingsProvider } from "@/contexts/settings";
 import { CommandBarProvider } from "@/contexts/command-bar";
+import {
+    RouteTransitionsProvider,
+    RouteTransitionsContainer,
+} from "@/contexts/route-transitions";
 import { Path, PathType } from "@/types/path";
 import { listPosts } from "@/lib/data/writing";
 import { getProjects } from "@/lib/data/projects";
 import { getTools } from "@/lib/data/tools";
-import { TopLoader } from "@/components/top-loader";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/toaster";
 import { StatusBar } from "@/components/status-bar";
@@ -83,26 +86,29 @@ export default async function RootLayout({
                     defaultTheme="dark"
                 >
                     <div className="fixed inset-0 -z-10 h-full w-full bg-background before:absolute before:inset-0 before:bg-[linear-gradient(#5E81AC22_1px,transparent_1px),linear-gradient(90deg,#5E81AC22_1px,transparent_1px),linear-gradient(#5E81AC11_1px,transparent_1px),linear-gradient(90deg,#5E81AC11_1px,transparent_1px)] before:bg-[125px_125px,125px_125px,25px_25px,25px_25px] before:bg-left before:content-['']" />
-                    <TopLoader />
-                    <SettingsProvider>
-                        <ViewsProvider>
-                            <GlobalKeyboardShortcutsProvider>
-                                <CommandBarProvider paths={paths}>
-                                    <TooltipProvider>
-                                        <Explorer paths={paths}>
-                                            {children}
-                                        </Explorer>
-                                        <CommandBar />
-                                        <StatusBar />
-                                        <SearchDialog paths={paths} />
-                                        <HelpDialog />
-                                        <ShortcutsDialog />
-                                    </TooltipProvider>
-                                </CommandBarProvider>
-                            </GlobalKeyboardShortcutsProvider>
-                        </ViewsProvider>
-                        <Toaster />
-                    </SettingsProvider>
+                    <RouteTransitionsProvider>
+                        <SettingsProvider>
+                            <ViewsProvider>
+                                <GlobalKeyboardShortcutsProvider>
+                                    <CommandBarProvider paths={paths}>
+                                        <TooltipProvider>
+                                            <Explorer paths={paths}>
+                                                <RouteTransitionsContainer>
+                                                    {children}
+                                                </RouteTransitionsContainer>
+                                            </Explorer>
+                                            <CommandBar />
+                                            <StatusBar />
+                                            <SearchDialog paths={paths} />
+                                            <HelpDialog />
+                                            <ShortcutsDialog />
+                                        </TooltipProvider>
+                                    </CommandBarProvider>
+                                </GlobalKeyboardShortcutsProvider>
+                            </ViewsProvider>
+                            <Toaster />
+                        </SettingsProvider>
+                    </RouteTransitionsProvider>
                 </ThemeProvider>
             </body>
         </html>

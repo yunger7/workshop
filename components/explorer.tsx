@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo, useState, useEffect } from "react";
-import { useRouter } from "nextjs-toploader/app";
+import { useTransitionRouter } from "next-transition-router";
 import {
     IconFolder,
     IconFolderOpen,
@@ -113,7 +113,7 @@ type ExplorerPath = {
 };
 
 export function Explorer({ paths, children }: ExplorerProps) {
-    const router = useRouter();
+    const router = useTransitionRouter();
     const [openedFolders, setOpenedFolders] = useState<string[]>([]);
     const { isExplorerOpen, setIsExplorerOpen } = useViewsContext();
 
