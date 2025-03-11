@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useContext } from "react";
 
 type ViewsContextType = {
     isHelpDialogOpen: boolean;
@@ -20,7 +20,7 @@ type ViewsContextType = {
 export const ViewsContext = createContext<ViewsContextType | null>(null);
 
 export function useViewsContext() {
-    const context = React.useContext(ViewsContext);
+    const context = useContext(ViewsContext);
 
     if (!context) {
         throw new Error("useViewsContext must be used within a ViewsProvider");

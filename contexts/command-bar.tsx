@@ -2,7 +2,13 @@
 
 import { resolve } from "path";
 import { usePathname } from "next/navigation";
-import React, { createContext, useState, useCallback, useEffect } from "react";
+import React, {
+    createContext,
+    useState,
+    useCallback,
+    useEffect,
+    useContext,
+} from "react";
 import { useTransitionRouter } from "next-transition-router";
 import { Path, basePaths } from "@/types/path";
 import { removeTrailingSlash } from "@/lib/utils";
@@ -36,7 +42,7 @@ export const CommandBarContext = createContext<CommandBarContextType | null>(
 );
 
 export function useCommandBarContext() {
-    const context = React.useContext(CommandBarContext);
+    const context = useContext(CommandBarContext);
 
     if (!context) {
         throw new Error(
