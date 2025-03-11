@@ -127,9 +127,25 @@ export function MenuList({
     useKeyboardShortcut(["Enter"], runAction);
     useKeyboardShortcut(["ArrowRight"], runAction);
     useKeyboardShortcut(["l"], runAction);
+    useKeyboardShortcut(
+        ["Tab"],
+        () => {
+            if (!isExplorer) return;
+            runAction();
+        },
+        { triggerCondition: () => isExplorerOpen },
+    );
 
     useKeyboardShortcut(["ArrowLeft"], runPrevAction);
     useKeyboardShortcut(["h"], runPrevAction);
+    useKeyboardShortcut(
+        ["Shift", "Tab"],
+        () => {
+            if (!isExplorer) return;
+            runPrevAction();
+        },
+        { triggerCondition: () => isExplorerOpen },
+    );
 
     return (
         <MenuContext.Provider
