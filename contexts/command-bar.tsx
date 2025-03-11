@@ -377,7 +377,7 @@ export function CommandBarProvider({
 
     useKeyboardShortcut(["Shift", ":"], () => openCommandBar(":"));
     useKeyboardShortcut(["/"], () => openCommandBar("/"));
-    useKeyboardShortcut(["?"], () => openCommandBar("?"));
+    useKeyboardShortcut(["Shift", "?"], () => openCommandBar("?"));
     useKeyboardShortcut(["n"], () =>
         navigateSearchResults(lastSearchCommand === "?" ? "previous" : "next"),
     );
