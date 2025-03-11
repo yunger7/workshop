@@ -17,13 +17,15 @@ export enum PathType {
     Settings = "settings",
 }
 
-export const basePaths = Object.values(PathType).map((path) => {
+export function getBasePath(path: PathType): string {
     if (path === PathType.Home) {
         return "/";
     }
 
     return `/${path}`;
-});
+}
+
+export const basePaths = Object.values(PathType).map(getBasePath);
 
 export type Path = {
     type: PathType;

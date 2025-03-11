@@ -2,17 +2,10 @@
 
 import React, { useMemo, useState, useEffect } from "react";
 import { useTransitionRouter } from "next-transition-router";
-import {
-    IconFolder,
-    IconFolderOpen,
-    IconSettings,
-    IconUser,
-    IconHome,
-    IconX,
-} from "@tabler/icons-react";
-import { cn } from "@/lib/utils";
+import { IconFolder, IconFolderOpen, IconX } from "@tabler/icons-react";
+import { capitalize, cn } from "@/lib/utils";
 import { Icon } from "@/types/icon";
-import { Path, PathIconMap, PathType } from "@/types/path";
+import { Path, PathIconMap, PathType, getBasePath } from "@/types/path";
 import { useViewsContext } from "@/contexts/views";
 import { MenuList, MenuItem } from "@/components/menu";
 import { Button } from "@/components/ui/button";
@@ -39,6 +32,7 @@ type NodeProps = {
     action?: () => void;
     icon?: Icon;
     isChild?: boolean;
+    className?: string;
 };
 
 function Node({
@@ -48,6 +42,7 @@ function Node({
     label,
     action,
     prevAction,
+    className,
 }: NodeProps) {
     function renderIcon() {
         if (IconComponent) {
@@ -71,6 +66,7 @@ function Node({
                 {
                     "ml-4": isChild,
                 },
+                className,
             )}
         >
             {renderIcon()}
@@ -119,8 +115,8 @@ export function Explorer({ paths, children }: ExplorerProps) {
 
     let index = 0;
 
-    const { posts, projects, tools } = useMemo(() => {
-        function formatPath(path: Path): ExplorerPath {
+    const nodes = useMemo(() => {
+        function formatChildPath(path: Path): ExplorerPath {
             return {
                 label: path.alt,
                 href: path.href,
@@ -128,17 +124,16 @@ export function Explorer({ paths, children }: ExplorerProps) {
             };
         }
 
-        return {
-            posts: paths
-                .filter((path) => path.type === PathType.Writing)
-                .map((path) => formatPath(path)),
-            projects: paths
-                .filter((path) => path.type === PathType.Projects)
-                .map((path) => formatPath(path)),
-            tools: paths
-                .filter((path) => path.type === PathType.Tools)
-                .map((path) => formatPath(path)),
-        };
+        return Object.values(PathType).map((pathType) => {
+            return {
+                label: capitalize(pathType),
+                href: getBasePath(pathType),
+                icon: PathIconMap[pathType],
+                children: paths
+                    .filter((path) => path.type === pathType)
+                    .map((path) => formatChildPath(path)),
+            };
+        });
     }, [paths]);
 
     function handleOpenChange(isOpen: boolean, name: string) {
@@ -161,19 +156,6 @@ export function Explorer({ paths, children }: ExplorerProps) {
         }
 
         setIsExplorerOpen(false);
-    }
-
-    function renderNode(path: ExplorerPath) {
-        return (
-            <Node
-                isChild
-                key={path.href}
-                label={path.label}
-                index={index++}
-                icon={path.icon}
-                action={() => openPath(path.href)}
-            />
-        );
     }
 
     useEffect(() => {
@@ -199,58 +181,53 @@ export function Explorer({ paths, children }: ExplorerProps) {
                     </Button>
                 </div>
                 <MenuList isExplorer className="flex flex-col p-2">
-                    <Node
-                        label="Home"
-                        index={index++}
-                        action={() => openPath("/")}
-                        icon={IconHome}
-                    />
                     <div className="ml-4 flex flex-col">
-                        <Folder
-                            label="Writing"
-                            open={openedFolders.includes("writing")}
-                            index={index++}
-                            onOpenChange={(open) =>
-                                handleOpenChange(open, "writing")
+                        {nodes.map((node) => {
+                            const hasChildren =
+                                Array.isArray(node.children) &&
+                                node.children.length > 0;
+
+                            if (hasChildren) {
+                                return (
+                                    <Folder
+                                        key={node.href}
+                                        label={node.label}
+                                        open={openedFolders.includes(node.href)}
+                                        index={index++}
+                                        onOpenChange={(open) =>
+                                            handleOpenChange(open, node.href)
+                                        }
+                                    >
+                                        {openedFolders.includes(node.href) &&
+                                            node.children.map((child) => (
+                                                <Node
+                                                    isChild
+                                                    key={child.href}
+                                                    label={child.label}
+                                                    index={index++}
+                                                    icon={child.icon}
+                                                    action={() =>
+                                                        openPath(child.href)
+                                                    }
+                                                />
+                                            ))}
+                                    </Folder>
+                                );
                             }
-                        >
-                            {openedFolders.includes("writing") &&
-                                posts.map((path) => renderNode(path))}
-                        </Folder>
-                        <Folder
-                            label="Projects"
-                            open={openedFolders.includes("projects")}
-                            index={index++}
-                            onOpenChange={(open) =>
-                                handleOpenChange(open, "projects")
-                            }
-                        >
-                            {openedFolders.includes("projects") &&
-                                projects.map((path) => renderNode(path))}
-                        </Folder>
-                        <Folder
-                            label="Tools"
-                            open={openedFolders.includes("tools")}
-                            index={index++}
-                            onOpenChange={(open) =>
-                                handleOpenChange(open, "tools")
-                            }
-                        >
-                            {openedFolders.includes("tools") &&
-                                tools.map((path) => renderNode(path))}
-                        </Folder>
-                        <Node
-                            label="About"
-                            index={index++}
-                            action={() => openPath("/about")}
-                            icon={IconUser}
-                        />
-                        <Node
-                            label="Settings"
-                            index={index++}
-                            action={() => openPath("/settings")}
-                            icon={IconSettings}
-                        />
+
+                            return (
+                                <Node
+                                    key={node.href}
+                                    label={node.label}
+                                    index={index++}
+                                    action={() => openPath(node.href)}
+                                    icon={node.icon}
+                                    className={cn({
+                                        "-ml-4": node.label === "Home",
+                                    })}
+                                />
+                            );
+                        })}
                     </div>
                 </MenuList>
             </ResizablePanel>
