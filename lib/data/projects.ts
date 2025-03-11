@@ -21,7 +21,7 @@ export function getProjects(): Project[] {
         {
             title: "yunger.dev",
             description:
-                "My workshop. A cozy place where I keep my tools, projects, notes and more",
+                "My workshop. A cozy place where I keep my tools, projects, writing and more",
             links: [
                 {
                     type: "github",
