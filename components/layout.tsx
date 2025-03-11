@@ -13,6 +13,7 @@ type Action = {
     label: string;
     icon: Icon;
     href: string;
+    disableTransition?: boolean;
 };
 
 type LayoutProps = Omit<React.ComponentPropsWithoutRef<"main">, "children"> & {
@@ -43,41 +44,56 @@ export function Layout({
                         </h1>
                     </BackButton>
                     <div className="flex items-center gap-2">
-                        {actions.map(({ label, icon: IconComponent, href }) => {
-                            const isExternal = href.startsWith("http");
+                        {actions.map(
+                            ({
+                                label,
+                                icon: IconComponent,
+                                href,
+                                disableTransition,
+                            }) => {
+                                const isExternal = href.startsWith("http");
 
-                            const content = (
-                                <>
-                                    <span className="sr-only">{label}</span>
-                                    <IconComponent className="size-6" />
-                                </>
-                            );
+                                const content = (
+                                    <>
+                                        <span className="sr-only">{label}</span>
+                                        <IconComponent className="size-6" />
+                                    </>
+                                );
 
-                            return (
-                                <Tooltip key={label}>
-                                    <TooltipTrigger asChild>
-                                        <Button
-                                            asChild
-                                            size="icon"
-                                            variant="outline"
-                                        >
-                                            {isExternal ? (
-                                                <a href={href} target="_blank">
-                                                    {content}
-                                                </a>
-                                            ) : (
-                                                <Link href={href}>
-                                                    {content}
-                                                </Link>
-                                            )}
-                                        </Button>
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                        <p>{label}</p>
-                                    </TooltipContent>
-                                </Tooltip>
-                            );
-                        })}
+                                return (
+                                    <Tooltip key={label}>
+                                        <TooltipTrigger asChild>
+                                            <Button
+                                                asChild
+                                                size="icon"
+                                                variant="outline"
+                                            >
+                                                {isExternal ? (
+                                                    <a
+                                                        href={href}
+                                                        target="_blank"
+                                                    >
+                                                        {content}
+                                                    </a>
+                                                ) : (
+                                                    <Link
+                                                        data-transition-ignore={
+                                                            disableTransition
+                                                        }
+                                                        href={href}
+                                                    >
+                                                        {content}
+                                                    </Link>
+                                                )}
+                                            </Button>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                            <p>{label}</p>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                );
+                            },
+                        )}
                     </div>
                 </div>
                 {description && (

@@ -30,6 +30,7 @@ export default function WritingPage() {
                     label: "RSS Feed",
                     icon: IconRss,
                     href: "/rss",
+                    disableTransition: true,
                 },
             ]}
         >
