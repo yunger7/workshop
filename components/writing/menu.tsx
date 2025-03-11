@@ -23,7 +23,7 @@ export function Menu({ posts }: MenuProps) {
                 >
                     <Button
                         variant="card"
-                        className="flex h-fit flex-col items-start gap-3 p-3 font-normal sm:flex-row sm:items-center sm:justify-between sm:border-none sm:bg-transparent sm:p-0 sm:py-3"
+                        className="flex h-fit flex-col items-start gap-3 p-3 font-normal sm:flex-row sm:items-center sm:justify-between sm:border-none sm:bg-transparent sm:p-0 sm:py-2.5"
                     >
                         <h2 className="text-md text-wrap text-left">
                             {post.title}
