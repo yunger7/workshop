@@ -74,7 +74,7 @@ function Node({
             )}
         >
             {renderIcon()}
-            {label}
+            <span>{label}</span>
         </MenuItem>
     );
 }
