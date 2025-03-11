@@ -90,7 +90,7 @@ type FolderProps = {
 function Folder({ label, index, open, onOpenChange, children }: FolderProps) {
     return (
         <Collapsible open={open} onOpenChange={onOpenChange}>
-            <CollapsibleTrigger className="w-full">
+            <CollapsibleTrigger tabIndex={-1} className="w-full">
                 <Node
                     label={label}
                     index={index}
@@ -254,7 +254,10 @@ export function Explorer({ paths, children }: ExplorerProps) {
                     </div>
                 </MenuList>
             </ResizablePanel>
-            <ResizableHandle className={cn({ hidden: !isExplorerOpen })} />
+            <ResizableHandle
+                tabIndex={-1}
+                className={cn({ hidden: !isExplorerOpen })}
+            />
             <ResizablePanel>{children}</ResizablePanel>
         </ResizablePanelGroup>
     );
