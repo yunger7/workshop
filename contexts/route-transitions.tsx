@@ -33,7 +33,11 @@ export function RouteTransitionsProvider({ children }: RouteTranistionProps) {
     return (
         <TransitionRouter
             auto
-            leave={(next) => {
+            leave={(next, from, to) => {
+                if (from === to) {
+                    return next();
+                }
+
                 animate(
                     ref.current,
                     { opacity: [1, 0] },
