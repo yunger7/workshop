@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useRouter } from "nextjs-toploader/app";
+import { useTransitionRouter } from "next-transition-router";
 import {
     IconSettings,
     IconSearch,
@@ -24,7 +24,7 @@ type Option = {
 };
 
 export function Menu() {
-    const router = useRouter();
+    const router = useTransitionRouter();
     const { setIsSearchDialogOpen } = useViewsContext();
 
     const actions = {

@@ -2,7 +2,7 @@
 
 import slugify from "slugify";
 import { Fragment } from "react";
-import { useRouter } from "nextjs-toploader/app";
+import { useTransitionRouter } from "next-transition-router";
 import { getTools } from "@/lib/data/tools";
 import { Tool } from "@/types/tool";
 import { Button } from "@/components/ui/button";
@@ -11,7 +11,7 @@ import { MenuList, MenuItem } from "@/components/menu";
 
 export function Menu() {
     const tools = getTools();
-    const router = useRouter();
+    const router = useTransitionRouter();
 
     function openTool(tool: Tool) {
         if (tool.unreleased) return;

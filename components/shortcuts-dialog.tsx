@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "nextjs-toploader/app";
+import { useTransitionRouter } from "next-transition-router";
 import { IconArrowRight } from "@tabler/icons-react";
 import { useViewsContext } from "@/contexts/views";
 import { useCommandBarContext } from "@/contexts/command-bar";
@@ -16,7 +16,7 @@ type Shortcut = {
 };
 
 export function ShortcutsDialog() {
-    const router = useRouter();
+    const router = useTransitionRouter();
     const { toggleTheme } = useTheme();
     const { clearSearchHighlights } = useCommandBarContext();
     const {
