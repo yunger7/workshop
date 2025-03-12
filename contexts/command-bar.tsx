@@ -277,6 +277,7 @@ export function CommandBarProvider({
                     ".hidden",
                     ".invisible",
                     "[data-state='closed']",
+                    ".sr-only",
                 ];
 
                 return (
