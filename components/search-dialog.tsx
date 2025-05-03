@@ -80,7 +80,7 @@ export function SearchDialog({ paths }: { paths: Path[] }) {
                                     <Highlighter
                                         autoEscape
                                         searchWords={value?.trim()?.split(" ")}
-                                        textToHighlight={`/home/${type === "writing" ? type : `${type}s`}`}
+                                        textToHighlight={`/home/${type}`}
                                         highlightClassName="bg-primary"
                                     />
                                 </span>
